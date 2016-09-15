@@ -1,2 +1,2 @@
 # Diplomarbeit 
-#### GPS-Tracker Mayerhofer/Praschk
+#### GPS-Tracker by Mayerhofer & Praschk
