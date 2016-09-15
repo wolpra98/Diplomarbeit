@@ -19,7 +19,7 @@ namespace GPS_Tracker
 
     private void OnFormLoad(object sender, EventArgs e)
     {
-      gMap.MapProvider = GMap.NET.MapProviders.BingMapProvider.Instance;
+      gMap.MapProvider = GMap.NET.MapProviders.GoogleMapProvider.Instance;
       GMap.NET.GMaps.Instance.Mode = GMap.NET.AccessMode.ServerOnly;
       gMap.SetPositionByKeywords("Graz, Austria");
     }

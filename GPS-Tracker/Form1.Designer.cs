@@ -54,7 +54,7 @@
       this.gMap.ShowTileGridLines = false;
       this.gMap.Size = new System.Drawing.Size(430, 430);
       this.gMap.TabIndex = 0;
-      this.gMap.Zoom = 6D;
+      this.gMap.Zoom = 7D;
       // 
       // Form1
       // 
