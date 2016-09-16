@@ -29,10 +29,14 @@
     private void InitializeComponent()
     {
       this.gMap = new GMap.NET.WindowsForms.GMapControl();
+      this.btnSetRoute = new System.Windows.Forms.Button();
       this.SuspendLayout();
       // 
       // gMap
       // 
+      this.gMap.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
       this.gMap.Bearing = 0F;
       this.gMap.CanDragMap = true;
       this.gMap.EmptyTileColor = System.Drawing.Color.White;
@@ -54,13 +58,24 @@
       this.gMap.ShowTileGridLines = false;
       this.gMap.Size = new System.Drawing.Size(430, 430);
       this.gMap.TabIndex = 0;
-      this.gMap.Zoom = 7D;
+      this.gMap.Zoom = 16D;
+      // 
+      // btnSetRoute
+      // 
+      this.btnSetRoute.Location = new System.Drawing.Point(448, 12);
+      this.btnSetRoute.Name = "btnSetRoute";
+      this.btnSetRoute.Size = new System.Drawing.Size(133, 52);
+      this.btnSetRoute.TabIndex = 1;
+      this.btnSetRoute.Text = "Set Route";
+      this.btnSetRoute.UseVisualStyleBackColor = true;
+      this.btnSetRoute.Click += new System.EventHandler(this.OnBtnSetRouteClick);
       // 
       // Form1
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-      this.ClientSize = new System.Drawing.Size(774, 454);
+      this.ClientSize = new System.Drawing.Size(593, 454);
+      this.Controls.Add(this.btnSetRoute);
       this.Controls.Add(this.gMap);
       this.Name = "Form1";
       this.Text = "Form1";
@@ -72,6 +87,7 @@
     #endregion
 
     private GMap.NET.WindowsForms.GMapControl gMap;
+    private System.Windows.Forms.Button btnSetRoute;
   }
 }
 
