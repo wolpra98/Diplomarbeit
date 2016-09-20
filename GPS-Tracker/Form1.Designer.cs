@@ -46,7 +46,7 @@
       this.gMap.Location = new System.Drawing.Point(12, 12);
       this.gMap.MarkersEnabled = true;
       this.gMap.MaxZoom = 18;
-      this.gMap.MinZoom = 0;
+      this.gMap.MinZoom = 1;
       this.gMap.MouseWheelZoomType = GMap.NET.MouseWheelZoomType.MousePositionAndCenter;
       this.gMap.Name = "gMap";
       this.gMap.NegativeMode = false;
@@ -62,6 +62,7 @@
       // 
       // btnSetRoute
       // 
+      this.btnSetRoute.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
       this.btnSetRoute.Location = new System.Drawing.Point(448, 12);
       this.btnSetRoute.Name = "btnSetRoute";
       this.btnSetRoute.Size = new System.Drawing.Size(133, 52);
