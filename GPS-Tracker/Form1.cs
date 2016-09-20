@@ -7,14 +7,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using GMap.NET;
+using GMap.NET.WindowsForms;
+using GMap.NET.WindowsForms.Markers;
 
 namespace GPS_Tracker
 {
   public partial class Form1 : Form
   {
-    GMap.NET.WindowsForms.GMapOverlay markers;
-    GMap.NET.WindowsForms.GMapMarker marker;
-    GMap.NET.PointLatLng pos;
+    GMapOverlay overlay;
+    GMapMarker marker;
+    GMapRoute route;
+    PointLatLng pos;
 
     public Form1()
     {
@@ -24,19 +28,22 @@ namespace GPS_Tracker
     private void OnFormLoad(object sender, EventArgs e)
     {
       gMap.MapProvider = GMap.NET.MapProviders.GoogleMapProvider.Instance;
-      GMap.NET.GMaps.Instance.Mode = GMap.NET.AccessMode.ServerOnly;
-      gMap.Position = new GMap.NET.PointLatLng(47.092240, 15.402685);
+      GMaps.Instance.Mode = AccessMode.ServerOnly;
+      gMap.Position = new PointLatLng(47.092240, 15.402685);
       gMap.ShowCenter = false;
-      markers = new GMap.NET.WindowsForms.GMapOverlay("markers");
-      gMap.Overlays.Add(markers);
+      overlay = new GMapOverlay("markers");
+      gMap.Overlays.Add(overlay);
+      route = new GMapRoute("route");
     }
 
     private void OnBtnSetRouteClick(object sender, EventArgs e)
     {
       pos.Lat = Convert.ToDouble(numLat.Value);
       pos.Lng = Convert.ToDouble(numLng.Value);
-      marker = new GMap.NET.WindowsForms.Markers.GMarkerGoogle(pos, GMap.NET.WindowsForms.Markers.GMarkerGoogleType.pink_pushpin);
-      markers.Markers.Add(marker);
+      marker = new GMarkerGoogle(pos, GMarkerGoogleType.black_small);
+      route.Points.Add(pos);
+      overlay.Markers.Add(marker);
+      overlay.Routes.Add(route);
     }
   }
 }

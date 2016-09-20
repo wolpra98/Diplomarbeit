@@ -102,6 +102,11 @@
       this.numLat.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
       this.numLat.DecimalPlaces = 6;
       this.numLat.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+      this.numLat.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            196608});
       this.numLat.Location = new System.Drawing.Point(448, 87);
       this.numLat.Maximum = new decimal(new int[] {
             90,
@@ -127,6 +132,11 @@
       this.numLng.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
       this.numLng.DecimalPlaces = 6;
       this.numLng.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+      this.numLng.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            196608});
       this.numLng.Location = new System.Drawing.Point(448, 146);
       this.numLng.Maximum = new decimal(new int[] {
             180,
