@@ -13,6 +13,8 @@ namespace GPS_Tracker
   public partial class Form1 : Form
   {
     GMap.NET.WindowsForms.GMapOverlay markers;
+    GMap.NET.WindowsForms.GMapMarker marker;
+    GMap.NET.PointLatLng pos;
 
     public Form1()
     {
@@ -26,16 +28,15 @@ namespace GPS_Tracker
       gMap.Position = new GMap.NET.PointLatLng(47.092240, 15.402685);
       gMap.ShowCenter = false;
       markers = new GMap.NET.WindowsForms.GMapOverlay("markers");
+      gMap.Overlays.Add(markers);
     }
 
     private void OnBtnSetRouteClick(object sender, EventArgs e)
     {
-      GMap.NET.WindowsForms.GMapMarker marker =
-          new GMap.NET.WindowsForms.Markers.GMarkerGoogle(
-              new GMap.NET.PointLatLng(47.092240, 15.402685),
-              GMap.NET.WindowsForms.Markers.GMarkerGoogleType.arrow);
+      pos.Lat = Convert.ToDouble(numLat.Value);
+      pos.Lng = Convert.ToDouble(numLng.Value);
+      marker = new GMap.NET.WindowsForms.Markers.GMarkerGoogle(pos, GMap.NET.WindowsForms.Markers.GMarkerGoogleType.pink_pushpin);
       markers.Markers.Add(marker);
-      gMap.Overlays.Add(markers);
     }
   }
 }
