@@ -31,7 +31,7 @@ namespace GPS_Tracker
       GMaps.Instance.Mode = AccessMode.ServerOnly;
       gMap.Position = new PointLatLng(47.092240, 15.402685);
       gMap.ShowCenter = false;
-      overlay = new GMapOverlay("markers");
+      overlay = new GMapOverlay("overlay");
       gMap.Overlays.Add(overlay);
       route = new GMapRoute("route");
     }
@@ -43,6 +43,7 @@ namespace GPS_Tracker
       marker = new GMarkerGoogle(pos, GMarkerGoogleType.black_small);
       route.Points.Add(pos);
       overlay.Markers.Add(marker);
+      overlay.Routes.Clear();
       overlay.Routes.Add(route);
     }
   }
