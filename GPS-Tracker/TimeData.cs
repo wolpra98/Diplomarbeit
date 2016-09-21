@@ -9,6 +9,7 @@ namespace GPS_Tracker
   class TimeData
   {
     float _timeHours = 0;
+    string _timeString;
 
     public float TimeHours
     {
@@ -50,7 +51,8 @@ namespace GPS_Tracker
 
     public override string ToString()
     {
-      return "{0}:{1}:{2}";
+      _timeString = _timeHours.ToString("00") + ":" + (_timeHours * 60 % 60).ToString("00") + ":" + (_timeHours * 3600 % 60).ToString("00");
+      return _timeString;
     }
   }
 }
