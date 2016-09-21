@@ -19,6 +19,7 @@ namespace GPS_Tracker
     GMapMarker marker;
     GMapRoute route;
     PointLatLng pos;
+    
 
     public Form1()
     {
@@ -45,6 +46,17 @@ namespace GPS_Tracker
       overlay.Markers.Add(marker);
       overlay.Routes.Clear();
       overlay.Routes.Add(route);
+    }
+
+    private void OnPanelPaint(object sender, PaintEventArgs e)
+    {
+      
+    }
+
+    private void OnButtonHeightClick(object sender, EventArgs e)
+    {
+      TimeData time = new TimeData(1,2,3);
+      label3.Text = time.ToString();
     }
   }
 }

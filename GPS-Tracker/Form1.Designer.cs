@@ -37,10 +37,19 @@
       this.tabCtrl = new System.Windows.Forms.TabControl();
       this.tabMap = new System.Windows.Forms.TabPage();
       this.tabHigh = new System.Windows.Forms.TabPage();
+      this.panelHeightprofile = new System.Windows.Forms.Panel();
+      this.btnHigh = new System.Windows.Forms.Button();
+      this.numHeight = new System.Windows.Forms.NumericUpDown();
+      this.numTimeDif = new System.Windows.Forms.NumericUpDown();
+      this.label3 = new System.Windows.Forms.Label();
+      this.label4 = new System.Windows.Forms.Label();
       ((System.ComponentModel.ISupportInitialize)(this.numLat)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.numLng)).BeginInit();
       this.tabCtrl.SuspendLayout();
       this.tabMap.SuspendLayout();
+      this.tabHigh.SuspendLayout();
+      ((System.ComponentModel.ISupportInitialize)(this.numHeight)).BeginInit();
+      ((System.ComponentModel.ISupportInitialize)(this.numTimeDif)).BeginInit();
       this.SuspendLayout();
       // 
       // gMap
@@ -193,6 +202,12 @@
       // 
       // tabHigh
       // 
+      this.tabHigh.Controls.Add(this.label4);
+      this.tabHigh.Controls.Add(this.label3);
+      this.tabHigh.Controls.Add(this.numTimeDif);
+      this.tabHigh.Controls.Add(this.numHeight);
+      this.tabHigh.Controls.Add(this.btnHigh);
+      this.tabHigh.Controls.Add(this.panelHeightprofile);
       this.tabHigh.Location = new System.Drawing.Point(4, 22);
       this.tabHigh.Name = "tabHigh";
       this.tabHigh.Padding = new System.Windows.Forms.Padding(3);
@@ -200,6 +215,81 @@
       this.tabHigh.TabIndex = 1;
       this.tabHigh.Text = "Höhenprofil";
       this.tabHigh.UseVisualStyleBackColor = true;
+      // 
+      // panelHeightprofile
+      // 
+      this.panelHeightprofile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+      this.panelHeightprofile.Location = new System.Drawing.Point(0, 0);
+      this.panelHeightprofile.Name = "panelHeightprofile";
+      this.panelHeightprofile.Size = new System.Drawing.Size(430, 430);
+      this.panelHeightprofile.TabIndex = 0;
+      this.panelHeightprofile.Paint += new System.Windows.Forms.PaintEventHandler(this.OnPanelPaint);
+      // 
+      // btnHigh
+      // 
+      this.btnHigh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+      this.btnHigh.Location = new System.Drawing.Point(436, 6);
+      this.btnHigh.Name = "btnHigh";
+      this.btnHigh.Size = new System.Drawing.Size(145, 53);
+      this.btnHigh.TabIndex = 1;
+      this.btnHigh.Text = "Höhe hinzufügen";
+      this.btnHigh.UseVisualStyleBackColor = true;
+      this.btnHigh.Click += new System.EventHandler(this.OnButtonHeightClick);
+      // 
+      // numHeight
+      // 
+      this.numHeight.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+      this.numHeight.Location = new System.Drawing.Point(437, 91);
+      this.numHeight.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+      this.numHeight.Name = "numHeight";
+      this.numHeight.Size = new System.Drawing.Size(140, 20);
+      this.numHeight.TabIndex = 2;
+      this.numHeight.Value = new decimal(new int[] {
+            500,
+            0,
+            0,
+            0});
+      // 
+      // numTimeDif
+      // 
+      this.numTimeDif.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+      this.numTimeDif.Location = new System.Drawing.Point(437, 150);
+      this.numTimeDif.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+      this.numTimeDif.Name = "numTimeDif";
+      this.numTimeDif.Size = new System.Drawing.Size(140, 20);
+      this.numTimeDif.TabIndex = 3;
+      this.numTimeDif.Value = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+      // 
+      // label3
+      // 
+      this.label3.AutoSize = true;
+      this.label3.Location = new System.Drawing.Point(436, 75);
+      this.label3.Name = "label3";
+      this.label3.Size = new System.Drawing.Size(33, 13);
+      this.label3.TabIndex = 4;
+      this.label3.Text = "Höhe";
+      // 
+      // label4
+      // 
+      this.label4.AutoSize = true;
+      this.label4.Location = new System.Drawing.Point(436, 134);
+      this.label4.Name = "label4";
+      this.label4.Size = new System.Drawing.Size(65, 13);
+      this.label4.TabIndex = 5;
+      this.label4.Text = "Zeitdifferenz";
       // 
       // Form1
       // 
@@ -215,6 +305,10 @@
       this.tabCtrl.ResumeLayout(false);
       this.tabMap.ResumeLayout(false);
       this.tabMap.PerformLayout();
+      this.tabHigh.ResumeLayout(false);
+      this.tabHigh.PerformLayout();
+      ((System.ComponentModel.ISupportInitialize)(this.numHeight)).EndInit();
+      ((System.ComponentModel.ISupportInitialize)(this.numTimeDif)).EndInit();
       this.ResumeLayout(false);
 
     }
@@ -230,6 +324,12 @@
     private System.Windows.Forms.TabControl tabCtrl;
     private System.Windows.Forms.TabPage tabMap;
     private System.Windows.Forms.TabPage tabHigh;
+    private System.Windows.Forms.Label label4;
+    private System.Windows.Forms.Label label3;
+    private System.Windows.Forms.NumericUpDown numTimeDif;
+    private System.Windows.Forms.NumericUpDown numHeight;
+    private System.Windows.Forms.Button btnHigh;
+    private System.Windows.Forms.Panel panelHeightprofile;
   }
 }
 
