@@ -19,7 +19,7 @@ namespace GPS_Tracker
     GMapMarker marker;
     GMapRoute route;
     PointLatLng pos;
-    
+    List<HeightData> heights;
 
     public Form1()
     {
@@ -28,6 +28,7 @@ namespace GPS_Tracker
 
     private void OnFormLoad(object sender, EventArgs e)
     {
+      this.MinimumSize = new Size(500, 300);
       gMap.MapProvider = GMap.NET.MapProviders.GoogleMapProvider.Instance;
       GMaps.Instance.Mode = AccessMode.ServerOnly;
       gMap.Position = new PointLatLng(47.092240, 15.402685);
