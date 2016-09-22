@@ -285,8 +285,10 @@
       // 
       // panelHeightprofile
       // 
-      this.panelHeightprofile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
+      this.panelHeightprofile.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+      this.panelHeightprofile.BackColor = System.Drawing.Color.Transparent;
       this.panelHeightprofile.Location = new System.Drawing.Point(0, 0);
       this.panelHeightprofile.Name = "panelHeightprofile";
       this.panelHeightprofile.Size = new System.Drawing.Size(430, 430);

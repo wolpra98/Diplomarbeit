@@ -20,6 +20,7 @@ namespace GPS_Tracker
     GMapRoute route;
     PointLatLng pos;
     List<HeightData> heights;
+    HeightGraph heightGraph;
 
     public Form1()
     {
@@ -36,6 +37,10 @@ namespace GPS_Tracker
       overlay = new GMapOverlay("overlay");
       gMap.Overlays.Add(overlay);
       route = new GMapRoute("route");
+      heightGraph = new HeightGraph();
+      heights = new List<HeightData>();
+      heights.Add(new HeightData(513f, new TimeData(1.1f)));
+      heights.Add(new HeightData(913f, new TimeData(1.2f)));
     }
 
     private void OnBtnSetRouteClick(object sender, EventArgs e)
@@ -51,7 +56,7 @@ namespace GPS_Tracker
 
     private void OnPanelPaint(object sender, PaintEventArgs e)
     {
-      
+      heightGraph.DrawGraph(panelHeightprofile.CreateGraphics(), panelHeightprofile.Size, heights);
     }
 
     private void OnButtonHeightClick(object sender, EventArgs e)
