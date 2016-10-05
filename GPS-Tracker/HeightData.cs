@@ -6,46 +6,15 @@ using System.Threading.Tasks;
 
 namespace GPS_Tracker
 {
-  class HeightData
+  struct HeightData
   {
-    float _height;
-    TimeData _time;
+    public float Height;
+    public TimeSpan Time;
 
-    public HeightData() { }
-
-    public HeightData(float parHeight = 0f, TimeData parTime = null)
+    public HeightData(float parHeight, TimeSpan parTime)
     {
-      Height = parHeight;
       Time = parTime;
-    }
-
-    public float Height
-    {
-      get
-      {
-        return _height;
-      }
-
-      set
-      {
-        _height = value;
-      }
-    }
-
-    public TimeData Time
-    {
-      get
-      {
-        return _time;
-      }
-
-      set
-      {
-        if (value == null)
-          _time = new TimeData(0);
-        else
-          _time = value;
-      }
+      Height = parHeight;
     }
   }
 }

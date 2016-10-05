@@ -38,9 +38,6 @@ namespace GPS_Tracker
       gMap.Overlays.Add(overlay);
       route = new GMapRoute("route");
       heightGraph = new HeightGraph();
-      heights = new List<HeightData>();
-      heights.Add(new HeightData(513f, new TimeData(1.1f)));
-      heights.Add(new HeightData(913f, new TimeData(1.2f)));
     }
 
     private void OnBtnSetRouteClick(object sender, EventArgs e)
@@ -61,8 +58,25 @@ namespace GPS_Tracker
 
     private void OnButtonHeightClick(object sender, EventArgs e)
     {
-      TimeData time = new TimeData(1,2,3);
-      label3.Text = time.ToString();
+      heights = demoHeights();
+      panelHeightprofile.Invalidate();
+    }
+
+    private List<HeightData> demoHeights()
+    {
+      List<HeightData> demoData = new List<HeightData>();
+      demoData.Add(new HeightData(229f, new TimeSpan(12, 0, 0)));
+      demoData.Add(new HeightData(270f, new TimeSpan(12, 10, 0)));
+      demoData.Add(new HeightData(252f, new TimeSpan(12, 20, 0)));
+      demoData.Add(new HeightData(343f, new TimeSpan(12, 30, 0)));
+      demoData.Add(new HeightData(529f, new TimeSpan(12, 40, 0)));
+      demoData.Add(new HeightData(472f, new TimeSpan(12, 45, 0)));
+      demoData.Add(new HeightData(279f, new TimeSpan(12, 50, 0)));
+      demoData.Add(new HeightData(271.4f, new TimeSpan(12, 52, 0)));
+      demoData.Add(new HeightData(523f, new TimeSpan(12, 55, 0)));
+      demoData.Add(new HeightData(287f, new TimeSpan(12, 57, 0)));
+      demoData.Add(new HeightData(333f, new TimeSpan(13, 0, 0)));
+      return demoData;
     }
   }
 }
