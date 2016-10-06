@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace GPS_Tracker
 {
@@ -11,7 +12,10 @@ namespace GPS_Tracker
     List<string> _inLine;
     string[] _splitLine;
     float _Lng, _Lat;
-    TimeSpan _Time= new TimeSpan();
+    int _timeH, _timeM, _timeS;
+    float _veloKmh;
+    int _dateY, _dateM, _dateD;
+    TimeSpan _Time;
 
     public ImportManager() { }
 
@@ -31,7 +35,20 @@ namespace GPS_Tracker
           switch (_splitLine[0])
           {
             case "$GPRMC":
-              // _Time. = (int)(Convert.ToInt32(_splitLine[1]) / 10000);
+              if (_splitLine[2] == "V")
+                break;
+              GetTime(_splitLine[1]);
+              Debug.WriteLine("Time = {0}:{1}:{2}", _timeH, _timeM, _timeS);
+
+              GetGPS(_splitLine[3], _splitLine[4], _splitLine[5], _splitLine[6]);
+              Debug.WriteLine("Lng = {0}", _Lng);
+              Debug.WriteLine("Lat = {0}", _Lat);
+
+              _veloKmh = Convert.ToSingle(_splitLine[7]) / 10 * 1.852f;
+              Debug.WriteLine("Velo = {0}", _veloKmh);
+
+              GetDate(_splitLine[9]);
+              Debug.WriteLine("Date = {0}.{1}.{2}", _dateD, _dateM, _dateY);
 
               break;
 
@@ -42,6 +59,29 @@ namespace GPS_Tracker
       }
     }
 
+    private void GetDate(string parDate)
+    {
+      _dateD = (int)(Convert.ToInt32(parDate) / 10000);
+      _dateM = (int)((Convert.ToInt32(parDate) % 10000) / 100);
+      _dateY = Convert.ToInt32(parDate) % 100;
+    }
+
+    private void GetGPS(string parLng, string parNS, string parLat, string parWE)
+    {
+      _Lng = Convert.ToSingle(parLng) / 100000;
+      if (parNS == "S")
+        _Lng = -_Lng;
+      _Lat = Convert.ToSingle(parLat) / 100000;
+      if (parWE == "W")
+        _Lat = -_Lat;
+    }
+
+    private void GetTime(string parTime)
+    {
+      _timeH = (int)(Convert.ToInt32(parTime) / 10000);
+      _timeM = (int)((Convert.ToInt32(parTime) % 10000) / 100);
+      _timeS = Convert.ToInt32(parTime) % 100;
+    }
 
   }
 }

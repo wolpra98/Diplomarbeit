@@ -42,6 +42,7 @@
       this.numTimeDif = new System.Windows.Forms.NumericUpDown();
       this.numHeight = new System.Windows.Forms.NumericUpDown();
       this.btnHigh = new System.Windows.Forms.Button();
+      this.button1 = new System.Windows.Forms.Button();
       this.panelHeightprofile = new GraphPanel();
       ((System.ComponentModel.ISupportInitialize)(this.numLat)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.numLng)).BeginInit();
@@ -186,6 +187,7 @@
       // 
       // tabMap
       // 
+      this.tabMap.Controls.Add(this.button1);
       this.tabMap.Controls.Add(this.gMap);
       this.tabMap.Controls.Add(this.label2);
       this.tabMap.Controls.Add(this.numLng);
@@ -294,6 +296,16 @@
       this.panelHeightprofile.Size = new System.Drawing.Size(693, 519);
       this.panelHeightprofile.TabIndex = 0;
       // 
+      // button1
+      // 
+      this.button1.Location = new System.Drawing.Point(732, 210);
+      this.button1.Name = "button1";
+      this.button1.Size = new System.Drawing.Size(75, 23);
+      this.button1.TabIndex = 8;
+      this.button1.Text = "test";
+      this.button1.UseVisualStyleBackColor = true;
+      this.button1.Click += new System.EventHandler(this.OnTestButtonClick);
+      // 
       // Form1
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -332,6 +344,7 @@
     private System.Windows.Forms.NumericUpDown numTimeDif;
     private System.Windows.Forms.NumericUpDown numHeight;
     private System.Windows.Forms.Button btnHigh;
+    private System.Windows.Forms.Button button1;
     private GraphPanel panelHeightprofile;
   }
 }
