@@ -79,11 +79,8 @@ namespace GPS_Tracker
       return demoData;
     }
 
-    private void OnPanelPoitionPaint(object sender, PaintEventArgs e)
-    {
 
-    }
-
+  
     private void OnTestButtonClick(object sender, EventArgs e)
     {
       List<string> TestLine=new List<string>();
