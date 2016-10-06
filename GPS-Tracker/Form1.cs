@@ -83,5 +83,13 @@ namespace GPS_Tracker
     {
 
     }
+
+    private void OnTestButtonClick(object sender, EventArgs e)
+    {
+      List<string> TestLine=new List<string>();
+      TestLine.Add("$GPRMC,123519,A,4807.038,S,01131.000,E,022.4,084.4,230394,003.1,W*6A");
+      ImportManager test = new ImportManager(TestLine);
+      test.ImportGPS();
+    }
   }
 }
