@@ -78,10 +78,5 @@ namespace GPS_Tracker
       demoData.Add(new HeightData(333f, new TimeSpan(13, 1, 0)));
       return demoData;
     }
-
-    private void OnPanelPoitionPaint(object sender, PaintEventArgs e)
-    {
-
-    }
   }
 }

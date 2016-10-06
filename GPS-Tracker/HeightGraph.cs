@@ -15,6 +15,8 @@ namespace GPS_Tracker
     Size _size;
     PointF _pZero;
     Pen _pen;
+    Font _font;
+    StringFormat _formatVertical;
     int _multWidth, _multHeight;
     float _maxHeight, _minHeight, _scaleHeight, _scaleMinHeight, _scaleMaxHeight, _scaleWidth;
     TimeSpan _minTime, _maxTime, _scaleMaxTime, _scaleMinTime;
@@ -22,7 +24,9 @@ namespace GPS_Tracker
 
     public HeightGraph()
     {
-
+      _pen = new Pen(Color.Black, 2f);
+      _font = new Font("Calibri", 12);
+      _formatVertical = new StringFormat(StringFormatFlags.DirectionVertical);
     }
 
     public void DrawGraph(Graphics parGfx, Size parSize, List<HeightData> parData)
@@ -36,13 +40,15 @@ namespace GPS_Tracker
 
     void drawAxes()
     {
+      _pen.Color = Color.Black;
+      _pen.Width = 2f;
       _pZero = new PointF(PADL, _size.Height - PADB);
-      _pen = new Pen(Color.Black, 2f);
       _gfx.DrawLine(_pen, _pZero, new PointF(PADL, PADT));
       _gfx.DrawLine(_pen, _pZero, new PointF(_size.Width - PADR, _pZero.Y));
       _pen.Width = 1f;
       if (_dataList != null)
       {
+
         // Y Axe
         _maxHeight = _dataList.Max(h => h.Height);
         _minHeight = _dataList.Min(h => h.Height);
@@ -63,7 +69,7 @@ namespace GPS_Tracker
         for (int i = 0; _scaleMinHeight + i * _multHeight <= _scaleMaxHeight; i++)
         {
           _gfx.DrawLine(_pen, PADL - SCAL / 2, _pZero.Y - i * _scaleHeight, PADL, _pZero.Y - i * _scaleHeight);
-          _gfx.DrawString((_scaleMinHeight + i * _multHeight).ToString("0"), new Font("Calibri", 12), Brushes.Black, 15, _pZero.Y - i * _scaleHeight - 10);
+          _gfx.DrawString((_scaleMinHeight + i * _multHeight).ToString("0"), _font, Brushes.Black, 15, _pZero.Y - i * _scaleHeight - 10);
         }
 
         // X Axe
@@ -86,7 +92,7 @@ namespace GPS_Tracker
         for (int i = 0; _scaleMinTime.TotalMinutes + i * _multWidth <= _scaleMaxTime.TotalMinutes; i++)
         {
           _gfx.DrawLine(_pen, _pZero.X + i * _scaleWidth, _pZero.Y, _pZero.X + i * _scaleWidth, _pZero.Y + SCAL / 2);
-          _gfx.DrawString(new TimeSpan(_scaleMinTime.Ticks + i * _multWidth * TimeSpan.TicksPerMinute).ToString(@"hh\:mm"), new Font("Calibri", 12), Brushes.Black, _pZero.X + i * _scaleWidth - 10, _pZero.Y + 10, new StringFormat(StringFormatFlags.DirectionVertical));
+          _gfx.DrawString(new TimeSpan(_scaleMinTime.Ticks + i * _multWidth * TimeSpan.TicksPerMinute).ToString(@"hh\:mm"), _font, Brushes.Black, _pZero.X + i * _scaleWidth - 10, _pZero.Y + 10, _formatVertical);
         }
       }
     }
