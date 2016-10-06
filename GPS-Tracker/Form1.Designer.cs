@@ -36,14 +36,14 @@
       this.numLng = new System.Windows.Forms.NumericUpDown();
       this.tabCtrl = new System.Windows.Forms.TabControl();
       this.tabMap = new System.Windows.Forms.TabPage();
+      this.button1 = new System.Windows.Forms.Button();
       this.tabHigh = new System.Windows.Forms.TabPage();
       this.label4 = new System.Windows.Forms.Label();
       this.label3 = new System.Windows.Forms.Label();
       this.numTimeDif = new System.Windows.Forms.NumericUpDown();
       this.numHeight = new System.Windows.Forms.NumericUpDown();
       this.btnHigh = new System.Windows.Forms.Button();
-      this.button1 = new System.Windows.Forms.Button();
-      this.panelHeightprofile = new GraphPanel();
+      this.panelHeightprofile = new GPS_Tracker.GraphPanel();
       ((System.ComponentModel.ISupportInitialize)(this.numLat)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.numLng)).BeginInit();
       this.tabCtrl.SuspendLayout();
@@ -202,6 +202,17 @@
       this.tabMap.Text = "Map";
       this.tabMap.UseVisualStyleBackColor = true;
       // 
+      // button1
+      // 
+      this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+      this.button1.Location = new System.Drawing.Point(766, 152);
+      this.button1.Name = "button1";
+      this.button1.Size = new System.Drawing.Size(75, 23);
+      this.button1.TabIndex = 8;
+      this.button1.Text = "test";
+      this.button1.UseVisualStyleBackColor = true;
+      this.button1.Click += new System.EventHandler(this.OnTestButtonClick);
+      // 
       // tabHigh
       // 
       this.tabHigh.Controls.Add(this.label4);
@@ -295,16 +306,6 @@
       this.panelHeightprofile.Name = "panelHeightprofile";
       this.panelHeightprofile.Size = new System.Drawing.Size(693, 519);
       this.panelHeightprofile.TabIndex = 0;
-      // 
-      // button1
-      // 
-      this.button1.Location = new System.Drawing.Point(732, 210);
-      this.button1.Name = "button1";
-      this.button1.Size = new System.Drawing.Size(75, 23);
-      this.button1.TabIndex = 8;
-      this.button1.Text = "test";
-      this.button1.UseVisualStyleBackColor = true;
-      this.button1.Click += new System.EventHandler(this.OnTestButtonClick);
       // 
       // Form1
       // 
