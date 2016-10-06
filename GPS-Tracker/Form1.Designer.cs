@@ -42,7 +42,7 @@
       this.numTimeDif = new System.Windows.Forms.NumericUpDown();
       this.numHeight = new System.Windows.Forms.NumericUpDown();
       this.btnHigh = new System.Windows.Forms.Button();
-      this.panelHeightprofile = new System.Windows.Forms.Panel();
+      this.panelHeightprofile = new GraphPanel();
       ((System.ComponentModel.ISupportInitialize)(this.numLat)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.numLng)).BeginInit();
       this.tabCtrl.SuspendLayout();
@@ -293,7 +293,6 @@
       this.panelHeightprofile.Name = "panelHeightprofile";
       this.panelHeightprofile.Size = new System.Drawing.Size(693, 519);
       this.panelHeightprofile.TabIndex = 0;
-      this.panelHeightprofile.Paint += new System.Windows.Forms.PaintEventHandler(this.OnPanelPaint);
       // 
       // Form1
       // 
@@ -333,7 +332,7 @@
     private System.Windows.Forms.NumericUpDown numTimeDif;
     private System.Windows.Forms.NumericUpDown numHeight;
     private System.Windows.Forms.Button btnHigh;
-    private System.Windows.Forms.Panel panelHeightprofile;
+    private GraphPanel panelHeightprofile;
   }
 }
 

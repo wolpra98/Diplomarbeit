@@ -31,7 +31,8 @@ namespace GPS_Tracker
 
     public void DrawGraph(Graphics parGfx, Size parSize, List<HeightData> parData)
     {
-      _dataList = parData;
+      if (parData != null)
+        _dataList = parData;
       _gfx = parGfx;
       _size = parSize;
       drawAxes();
@@ -103,6 +104,7 @@ namespace GPS_Tracker
       _pen.Width = 5;
       if (_dataList != null)
       {
+        _dataList = _dataList.OrderBy(o => o.Time).ToList();
         if (_dataPoints == null)
           _dataPoints = new List<PointF>();
         _dataPoints.Clear();
@@ -112,6 +114,11 @@ namespace GPS_Tracker
         }
         _gfx.DrawLines(_pen, _dataPoints.ToArray());
       }
+    }
+
+    public void UpdateData(List<HeightData> parData)
+    {
+      _dataList = parData;
     }
   }
 }

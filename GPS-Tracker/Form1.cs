@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using GMap.NET;
 using GMap.NET.WindowsForms;
 using GMap.NET.WindowsForms.Markers;
+using System.Reflection;
 
 namespace GPS_Tracker
 {
@@ -20,7 +21,6 @@ namespace GPS_Tracker
     GMapRoute route;
     PointLatLng pos;
     List<HeightData> heights;
-    HeightGraph heightGraph;
 
     public Form1()
     {
@@ -29,7 +29,7 @@ namespace GPS_Tracker
 
     private void OnFormLoad(object sender, EventArgs e)
     {
-      this.MinimumSize = new Size(500, 300);
+      MinimumSize = new Size(500, 300);
       gMap.MapProvider = GMap.NET.MapProviders.GoogleMapProvider.Instance;
       GMaps.Instance.Mode = AccessMode.ServerOnly;
       gMap.Position = new PointLatLng(47.092240, 15.402685);
@@ -37,7 +37,7 @@ namespace GPS_Tracker
       overlay = new GMapOverlay("overlay");
       gMap.Overlays.Add(overlay);
       route = new GMapRoute("route");
-      heightGraph = new HeightGraph();
+      panelHeightprofile.Init();
     }
 
     private void OnBtnSetRouteClick(object sender, EventArgs e)
@@ -51,15 +51,10 @@ namespace GPS_Tracker
       overlay.Routes.Add(route);
     }
 
-    private void OnPanelPaint(object sender, PaintEventArgs e)
-    {
-      heightGraph.DrawGraph(panelHeightprofile.CreateGraphics(), panelHeightprofile.Size, heights);
-    }
-
     private void OnButtonHeightClick(object sender, EventArgs e)
     {
       heights = demoHeights();
-      panelHeightprofile.Invalidate();
+      panelHeightprofile.UpdateData(heights);
     }
 
     private List<HeightData> demoHeights()
@@ -74,7 +69,7 @@ namespace GPS_Tracker
       demoData.Add(new HeightData(279f, new TimeSpan(12, 50, 0)));
       demoData.Add(new HeightData(271.4f, new TimeSpan(12, 52, 0)));
       demoData.Add(new HeightData(523f, new TimeSpan(12, 55, 0)));
-      demoData.Add(new HeightData(287f, new TimeSpan(12, 57, 0)));
+      demoData.Add(new HeightData(287f, new TimeSpan(11, 57, 0)));
       demoData.Add(new HeightData(333f, new TimeSpan(13, 1, 0)));
       return demoData;
     }

@@ -59,6 +59,9 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="GPSData.cs" />
+    <Compile Include="GraphPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="HeightData.cs" />
     <Compile Include="HeightGraph.cs" />
     <Compile Include="ImportManager.cs" />
