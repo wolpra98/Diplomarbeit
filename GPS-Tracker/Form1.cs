@@ -21,6 +21,7 @@ namespace GPS_Tracker
     GMapRoute route;
     PointLatLng pos;
     List<HeightData> heights;
+    HeightGraph heightGraph;
 
     public Form1()
     {
@@ -37,6 +38,7 @@ namespace GPS_Tracker
       overlay = new GMapOverlay("overlay");
       gMap.Overlays.Add(overlay);
       route = new GMapRoute("route");
+      heightGraph = new HeightGraph();
       panelHeightprofile.Init();
     }
 
@@ -54,7 +56,8 @@ namespace GPS_Tracker
     private void OnButtonHeightClick(object sender, EventArgs e)
     {
       heights = demoHeights();
-      panelHeightprofile.UpdateData(heights);
+      heightGraph.UpdateData(heights);
+      panelHeightprofile.Invalidate();
     }
 
     private List<HeightData> demoHeights()
@@ -74,14 +77,22 @@ namespace GPS_Tracker
       return demoData;
     }
 
-
-  
     private void OnTestButtonClick(object sender, EventArgs e)
     {
       List<string> TestLine=new List<string>();
       TestLine.Add("$GPRMC,123519,A,4807.038,S,01131.000,E,022.4,084.4,230394,003.1,W*6A");
       ImportManager test = new ImportManager(TestLine);
       test.ImportGPS();
+    }
+
+    private void OnGraphPanelMouseMove(object sender, MouseEventArgs e)
+    {
+      heightGraph.DrawPosData(e.Location,panelHeightprofile.CreateGraphics());
+    }
+
+    private void OnGraphPanelPaint(object sender, PaintEventArgs e)
+    {
+      heightGraph.DrawGraph(e.Graphics, panelHeightprofile.Size);
     }
   }
 }

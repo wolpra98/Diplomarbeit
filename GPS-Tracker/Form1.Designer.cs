@@ -306,6 +306,8 @@
       this.panelHeightprofile.Name = "panelHeightprofile";
       this.panelHeightprofile.Size = new System.Drawing.Size(693, 519);
       this.panelHeightprofile.TabIndex = 0;
+      this.panelHeightprofile.Paint += new System.Windows.Forms.PaintEventHandler(this.OnGraphPanelPaint);
+      this.panelHeightprofile.MouseMove += new System.Windows.Forms.MouseEventHandler(this.OnGraphPanelMouseMove);
       // 
       // Form1
       // 

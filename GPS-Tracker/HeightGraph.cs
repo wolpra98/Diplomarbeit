@@ -13,14 +13,14 @@ namespace GPS_Tracker
     List<PointF> _dataPoints;
     Graphics _gfx;
     Size _size;
-    PointF _pZero;
+    PointF _pZero, _mPos;
     Pen _pen;
     Font _font;
     StringFormat _formatVertical;
-    int _multWidth, _multHeight;
+    int _multWidth, _multHeight, _nearestPoint;
     float _maxHeight, _minHeight, _scaleHeight, _scaleMinHeight, _scaleMaxHeight, _scaleWidth;
     TimeSpan _minTime, _maxTime, _scaleMaxTime, _scaleMinTime;
-    const float PADT = 15f, PADB = 60f, PADL = 50f, PADR = 15f, SCAL = 15;
+    const float PADT = 30f, PADB = 60f, PADL = 50f, PADR = 15f, SCAL = 15f;
 
     public HeightGraph()
     {
@@ -29,10 +29,8 @@ namespace GPS_Tracker
       _formatVertical = new StringFormat(StringFormatFlags.DirectionVertical);
     }
 
-    public void DrawGraph(Graphics parGfx, Size parSize, List<HeightData> parData)
+    public void DrawGraph(Graphics parGfx, Size parSize)
     {
-      if (parData != null)
-        _dataList = parData;
       _gfx = parGfx;
       _size = parSize;
       drawAxes();
@@ -119,6 +117,35 @@ namespace GPS_Tracker
     public void UpdateData(List<HeightData> parData)
     {
       _dataList = parData;
+    }
+
+    bool hitData()
+    {
+      if (_dataPoints != null)
+      {
+        for (_nearestPoint = 0; _mPos.X > _dataPoints.ElementAt(_nearestPoint).X; _nearestPoint++)
+        {
+          if (_nearestPoint == _dataPoints.Count - 1)
+            break;
+        }
+        if (_nearestPoint > 0 && (_mPos.X - _dataPoints.ElementAt(_nearestPoint - 1).X < _dataPoints.ElementAt(_nearestPoint).X - _mPos.X))
+        {
+          _nearestPoint--;
+        }
+        return true;
+      }
+      return false;
+    }
+
+    public void DrawPosData(PointF parMPos, Graphics parGfx)
+    {
+      _mPos = parMPos;
+      if (hitData())
+      {
+        _pen.Color = Color.Red;
+        _pen.Width = 1f;
+        parGfx.DrawLine(_pen, _dataPoints.ElementAt(_nearestPoint).X, PADT, _dataPoints.ElementAt(_nearestPoint).X, _size.Height - PADB);
+      }
     }
   }
 }
