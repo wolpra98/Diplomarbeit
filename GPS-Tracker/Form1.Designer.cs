@@ -118,10 +118,10 @@
       this.numLat.DecimalPlaces = 6;
       this.numLat.ImeMode = System.Windows.Forms.ImeMode.NoControl;
       this.numLat.Increment = new decimal(new int[] {
-            1,
+            7,
             0,
             0,
-            196608});
+            262144});
       this.numLat.Location = new System.Drawing.Point(699, 81);
       this.numLat.Maximum = new decimal(new int[] {
             90,

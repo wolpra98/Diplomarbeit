@@ -4,37 +4,54 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 
 namespace GPS_Tracker
 {
   class HeightGraph
   {
+    const float PADT = 30f, PADB = 60f, PADL = 50f, PADR = 15f, SCAL = 15f;
+    #region MemberVariables
     List<HeightData> _dataList;
     List<PointF> _dataPoints;
     Graphics _gfx;
+    GraphicsPath _path;
+    Matrix _move;
     Size _size;
     PointF _pZero, _mPos;
     Pen _pen;
     Font _font;
     StringFormat _formatVertical;
-    int _multWidth, _multHeight, _nearestPoint;
+    int _multWidth, _multHeight, _nearestPoint, _oldPoint;
     float _maxHeight, _minHeight, _scaleHeight, _scaleMinHeight, _scaleMaxHeight, _scaleWidth;
     TimeSpan _minTime, _maxTime, _scaleMaxTime, _scaleMinTime;
-    const float PADT = 30f, PADB = 60f, PADL = 50f, PADR = 15f, SCAL = 15f;
+    bool _refresh;
+    #endregion
 
     public HeightGraph()
     {
       _pen = new Pen(Color.Black, 2f);
       _font = new Font("Calibri", 12);
       _formatVertical = new StringFormat(StringFormatFlags.DirectionVertical);
+      _refresh = true;
+      _path = new GraphicsPath();
+      _move = new Matrix();
     }
 
     public void DrawGraph(Graphics parGfx, Size parSize)
     {
+      if (_size != parSize)
+      {
+        _size = parSize;
+        _refresh = true;
+      }
       _gfx = parGfx;
-      _size = parSize;
       drawAxes();
-      drawData();
+      if (_dataList != null)
+      {
+        drawData();
+        drawPosData();
+      }
     }
 
     void drawAxes()
@@ -100,18 +117,15 @@ namespace GPS_Tracker
     {
       _pen.Color = Color.Blue;
       _pen.Width = 5;
-      if (_dataList != null)
+      _dataList = _dataList.OrderBy(o => o.Time).ToList();
+      if (_dataPoints == null)
+        _dataPoints = new List<PointF>();
+      _dataPoints.Clear();
+      foreach (HeightData data in _dataList)
       {
-        _dataList = _dataList.OrderBy(o => o.Time).ToList();
-        if (_dataPoints == null)
-          _dataPoints = new List<PointF>();
-        _dataPoints.Clear();
-        foreach (HeightData data in _dataList)
-        {
-          _dataPoints.Add(new PointF(Convert.ToSingle(data.Time.Subtract(_scaleMinTime).TotalMinutes * _scaleWidth / _multWidth) + _pZero.X, _pZero.Y - (data.Height - _scaleMinHeight) * _scaleHeight / _multHeight));
-        }
-        _gfx.DrawLines(_pen, _dataPoints.ToArray());
+        _dataPoints.Add(new PointF(Convert.ToSingle(data.Time.Subtract(_scaleMinTime).TotalMinutes * _scaleWidth / _multWidth) + _pZero.X, _pZero.Y - (data.Height - _scaleMinHeight) * _scaleHeight / _multHeight));
       }
+      _gfx.DrawLines(_pen, _dataPoints.ToArray());
     }
 
     public void UpdateData(List<HeightData> parData)
@@ -137,14 +151,29 @@ namespace GPS_Tracker
       return false;
     }
 
-    public void DrawPosData(PointF parMPos, Graphics parGfx)
+    void drawPosData()
+    {
+      _pen.Color = Color.Red;
+      _pen.Width = 1f;
+      if (_refresh)
+      {
+        _path.Reset();
+        _oldPoint = _dataPoints.Count - 1;
+        _path.AddLine(_dataPoints.ElementAt(_oldPoint).X, PADT, _dataPoints.ElementAt(_oldPoint).X, _size.Height - PADB);
+        _refresh = false;
+      }
+      _gfx.DrawPath(_pen, _path);
+    }
+
+    public void MovePosData(PointF parMPos)
     {
       _mPos = parMPos;
       if (hitData())
       {
-        _pen.Color = Color.Red;
-        _pen.Width = 1f;
-        parGfx.DrawLine(_pen, _dataPoints.ElementAt(_nearestPoint).X, PADT, _dataPoints.ElementAt(_nearestPoint).X, _size.Height - PADB);
+        _move.Reset();
+        _move.Translate(_dataPoints.ElementAt(_nearestPoint).X - _dataPoints.ElementAt(_oldPoint).X, 0);
+        _oldPoint = _nearestPoint;
+        _path.Transform(_move);
       }
     }
   }

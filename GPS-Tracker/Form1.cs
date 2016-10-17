@@ -46,9 +46,9 @@ namespace GPS_Tracker
     {
       pos.Lat = Convert.ToDouble(numLat.Value);
       pos.Lng = Convert.ToDouble(numLng.Value);
-      marker = new GMarkerGoogle(pos, GMarkerGoogleType.black_small);
+      //marker = new GMarkerGoogle(pos, GMarkerGoogleType.black_small);
       route.Points.Add(pos);
-      overlay.Markers.Add(marker);
+      //overlay.Markers.Add(marker);
       overlay.Routes.Clear();
       overlay.Routes.Add(route);
     }
@@ -87,7 +87,8 @@ namespace GPS_Tracker
 
     private void OnGraphPanelMouseMove(object sender, MouseEventArgs e)
     {
-      heightGraph.DrawPosData(e.Location,panelHeightprofile.CreateGraphics());
+      heightGraph.MovePosData(e.Location);
+      panelHeightprofile.Invalidate();
     }
 
     private void OnGraphPanelPaint(object sender, PaintEventArgs e)
