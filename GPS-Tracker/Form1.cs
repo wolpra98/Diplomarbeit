@@ -17,11 +17,13 @@ namespace GPS_Tracker
   public partial class Form1 : Form
   {
     GMapOverlay overlay;
-    GMapMarker marker;
+    //GMapMarker marker;
     GMapRoute route;
     PointLatLng pos;
     List<HeightData> heights;
     HeightGraph heightGraph;
+    PointF pOffset;
+    HeightData pData;
 
     public Form1()
     {
@@ -79,7 +81,7 @@ namespace GPS_Tracker
 
     private void OnTestButtonClick(object sender, EventArgs e)
     {
-      List<string> TestLine=new List<string>();
+      List<string> TestLine = new List<string>();
       TestLine.Add("$GPRMC,123519,A,4807.038,S,01131.000,E,022.4,084.4,230394,003.1,W*6A");
       ImportManager test = new ImportManager(TestLine);
       test.ImportGPS();
@@ -88,12 +90,33 @@ namespace GPS_Tracker
     private void OnGraphPanelMouseMove(object sender, MouseEventArgs e)
     {
       heightGraph.MovePosData(e.Location);
+      RefreshPosData();
       panelHeightprofile.Invalidate();
     }
 
     private void OnGraphPanelPaint(object sender, PaintEventArgs e)
     {
       heightGraph.DrawGraph(e.Graphics, panelHeightprofile.Size);
+      RefreshPosData();
+    }
+
+    void RefreshPosData()
+    {
+      pOffset = heightGraph.ReturnOffset();
+      pData = heightGraph.ReturnData();
+      if (pOffset != PointF.Empty)
+      {
+        lblHeight.Text = pData.Height.ToString() + " m";
+        lblTime.Font = lblHeight.Font;
+        lblTime.Text = pData.Time.ToString(@"hh\:mm");
+        pOffset.Y = 11;
+        pOffset.X -= lblHeight.Width / 2.0f;
+        lblHeight.Location = panelHeightprofile.Location + (Size)Point.Round(pOffset);
+        pOffset = heightGraph.ReturnOffset();
+        pOffset.Y = panelHeightprofile.Height - 20;
+        pOffset.X -= lblTime.Width / 2.0f;
+        lblTime.Location = panelHeightprofile.Location + (Size)Point.Round(pOffset);
+      }
     }
   }
 }

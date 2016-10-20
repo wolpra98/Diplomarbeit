@@ -10,7 +10,7 @@ namespace GPS_Tracker
 {
   class HeightGraph
   {
-    const float PADT = 30f, PADB = 60f, PADL = 50f, PADR = 15f, SCAL = 15f;
+    const float PADT = 30f, PADB = 70f, PADL = 50f, PADR = 15f, SCAL = 15f;
     #region MemberVariables
     List<HeightData> _dataList;
     List<PointF> _dataPoints;
@@ -175,6 +175,20 @@ namespace GPS_Tracker
         _oldPoint = _nearestPoint;
         _path.Transform(_move);
       }
+    }
+
+    public PointF ReturnOffset()
+    {
+      if (_dataPoints != null)
+        return _dataPoints.ElementAt(_oldPoint);
+      return PointF.Empty;
+    }
+
+    public HeightData ReturnData()
+    {
+      if (_dataList != null)
+        return _dataList.ElementAt(_oldPoint);
+      return HeightData.Empty;
     }
   }
 }

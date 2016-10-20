@@ -44,6 +44,8 @@
       this.numHeight = new System.Windows.Forms.NumericUpDown();
       this.btnHigh = new System.Windows.Forms.Button();
       this.panelHeightprofile = new GPS_Tracker.GraphPanel();
+      this.lblTime = new System.Windows.Forms.Label();
+      this.lblHeight = new System.Windows.Forms.Label();
       ((System.ComponentModel.ISupportInitialize)(this.numLat)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.numLng)).BeginInit();
       this.tabCtrl.SuspendLayout();
@@ -51,6 +53,7 @@
       this.tabHigh.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.numTimeDif)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.numHeight)).BeginInit();
+      this.panelHeightprofile.SuspendLayout();
       this.SuspendLayout();
       // 
       // gMap
@@ -302,12 +305,34 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
       this.panelHeightprofile.BackColor = System.Drawing.Color.Transparent;
+      this.panelHeightprofile.Controls.Add(this.lblTime);
+      this.panelHeightprofile.Controls.Add(this.lblHeight);
       this.panelHeightprofile.Location = new System.Drawing.Point(0, 0);
       this.panelHeightprofile.Name = "panelHeightprofile";
       this.panelHeightprofile.Size = new System.Drawing.Size(693, 519);
       this.panelHeightprofile.TabIndex = 0;
       this.panelHeightprofile.Paint += new System.Windows.Forms.PaintEventHandler(this.OnGraphPanelPaint);
       this.panelHeightprofile.MouseMove += new System.Windows.Forms.MouseEventHandler(this.OnGraphPanelMouseMove);
+      // 
+      // lblTime
+      // 
+      this.lblTime.AutoSize = true;
+      this.lblTime.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+      this.lblTime.ForeColor = System.Drawing.Color.Red;
+      this.lblTime.Location = new System.Drawing.Point(346, 253);
+      this.lblTime.Name = "lblTime";
+      this.lblTime.Size = new System.Drawing.Size(0, 19);
+      this.lblTime.TabIndex = 1;
+      // 
+      // lblHeight
+      // 
+      this.lblHeight.AutoSize = true;
+      this.lblHeight.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+      this.lblHeight.ForeColor = System.Drawing.Color.Red;
+      this.lblHeight.Location = new System.Drawing.Point(437, 30);
+      this.lblHeight.Name = "lblHeight";
+      this.lblHeight.Size = new System.Drawing.Size(0, 19);
+      this.lblHeight.TabIndex = 0;
       // 
       // Form1
       // 
@@ -327,6 +352,8 @@
       this.tabHigh.PerformLayout();
       ((System.ComponentModel.ISupportInitialize)(this.numTimeDif)).EndInit();
       ((System.ComponentModel.ISupportInitialize)(this.numHeight)).EndInit();
+      this.panelHeightprofile.ResumeLayout(false);
+      this.panelHeightprofile.PerformLayout();
       this.ResumeLayout(false);
 
     }
@@ -349,6 +376,8 @@
     private System.Windows.Forms.Button btnHigh;
     private System.Windows.Forms.Button button1;
     private GraphPanel panelHeightprofile;
+    private System.Windows.Forms.Label lblTime;
+    private System.Windows.Forms.Label lblHeight;
   }
 }
 

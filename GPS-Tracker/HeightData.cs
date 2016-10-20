@@ -8,6 +8,7 @@ namespace GPS_Tracker
 {
   struct HeightData
   {
+    public static readonly HeightData Empty;
     public float Height;
     public TimeSpan Time;
 
