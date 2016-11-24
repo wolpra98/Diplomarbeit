@@ -34,7 +34,7 @@ namespace GPS_Tracker
     {
       MinimumSize = new Size(500, 300);
       gMap.MapProvider = GMap.NET.MapProviders.GoogleMapProvider.Instance;
-      GMaps.Instance.Mode = AccessMode.ServerOnly;
+      GMaps.Instance.Mode = AccessMode.ServerAndCache;
       gMap.Position = new PointLatLng(47.092240, 15.402685);
       gMap.ShowCenter = false;
       overlay = new GMapOverlay("overlay");
@@ -79,14 +79,6 @@ namespace GPS_Tracker
       return demoData;
     }
 
-    private void OnTestButtonClick(object sender, EventArgs e)
-    {
-      List<string> TestLine = new List<string>();
-      TestLine.Add("$GPRMC,123519,A,4807.038,S,01131.000,E,022.4,084.4,230394,003.1,W*6A");
-      ImportManager test = new ImportManager(TestLine);
-      test.ImportGPS();
-    }
-
     private void OnGraphPanelMouseMove(object sender, MouseEventArgs e)
     {
       heightGraph.MovePosData(e.Location);
@@ -117,6 +109,37 @@ namespace GPS_Tracker
         pOffset.X -= lblTime.Width / 2.0f;
         lblTime.Location = panelHeightprofile.Location + (Size)Point.Round(pOffset);
       }
+    }
+
+    private void OnBtnImportClick(object sender, EventArgs e)
+    {
+
+      string[] lines = System.IO.File.ReadAllLines(@"C:\Users\Noqq\Documents\Diplomarbeit\GPS-DATA.TXT");
+
+      foreach (string line in lines)
+      {
+        GPSData data = new GPSData(line);
+        pos.Lat = data.Lat;pos.Lng = data.Lng;
+        route.Points.Add(pos);
+      }
+      overlay.Routes.Clear();
+      overlay.Routes.Add(route);
+    }
+
+    private void OnBtnClearClick(object sender, EventArgs e)
+    {
+      route.Points.Clear();
+      overlay.Routes.Clear();
+    }
+
+    private void OnMapZoomChanged()
+    {
+      slider.Value = (int) gMap.Zoom;
+    }
+
+    private void OnValueChanged(object sender, EventArgs e)
+    {
+      gMap.Zoom = slider.Value;
     }
   }
 }

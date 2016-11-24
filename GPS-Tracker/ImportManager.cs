@@ -78,8 +78,8 @@ namespace GPS_Tracker
 
     private void GetTime(string parTime)
     {
-      _timeH = (int)(Convert.ToInt32(parTime) / 10000);
-      _timeM = (int)((Convert.ToInt32(parTime) % 10000) / 100);
+      _timeH = Convert.ToInt32(parTime) / 10000;
+      _timeM = (Convert.ToInt32(parTime) % 10000) / 100;
       _timeS = Convert.ToInt32(parTime) % 100;
     }
 
