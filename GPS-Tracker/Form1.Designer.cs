@@ -36,11 +36,17 @@
       this.numLng = new System.Windows.Forms.NumericUpDown();
       this.tabCtrl = new System.Windows.Forms.TabControl();
       this.tabMap = new System.Windows.Forms.TabPage();
+      this.slider = new System.Windows.Forms.TrackBar();
+      this.btnClear = new System.Windows.Forms.Button();
+      this.btnImport = new System.Windows.Forms.Button();
       this.tabHigh = new System.Windows.Forms.TabPage();
       this.btnHigh = new System.Windows.Forms.Button();
-      this.btnImport = new System.Windows.Forms.Button();
-      this.btnClear = new System.Windows.Forms.Button();
-      this.slider = new System.Windows.Forms.TrackBar();
+      this.tabImport = new System.Windows.Forms.TabPage();
+      this.btnRefresh = new System.Windows.Forms.Button();
+      this.cbxCOM = new System.Windows.Forms.ComboBox();
+      this.btnConnect = new System.Windows.Forms.Button();
+      this.cbxBaud = new System.Windows.Forms.ComboBox();
+      this.label3 = new System.Windows.Forms.Label();
       this.panelHeightprofile = new GPS_Tracker.GraphPanel();
       this.lblTime = new System.Windows.Forms.Label();
       this.lblHeight = new System.Windows.Forms.Label();
@@ -48,8 +54,9 @@
       ((System.ComponentModel.ISupportInitialize)(this.numLng)).BeginInit();
       this.tabCtrl.SuspendLayout();
       this.tabMap.SuspendLayout();
-      this.tabHigh.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.slider)).BeginInit();
+      this.tabHigh.SuspendLayout();
+      this.tabImport.SuspendLayout();
       this.panelHeightprofile.SuspendLayout();
       this.SuspendLayout();
       // 
@@ -180,6 +187,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
       this.tabCtrl.Controls.Add(this.tabMap);
       this.tabCtrl.Controls.Add(this.tabHigh);
+      this.tabCtrl.Controls.Add(this.tabImport);
       this.tabCtrl.Location = new System.Drawing.Point(0, 0);
       this.tabCtrl.Name = "tabCtrl";
       this.tabCtrl.SelectedIndex = 0;
@@ -205,6 +213,44 @@
       this.tabMap.Text = "Map";
       this.tabMap.UseVisualStyleBackColor = true;
       // 
+      // slider
+      // 
+      this.slider.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+      this.slider.LargeChange = 1;
+      this.slider.Location = new System.Drawing.Point(648, 0);
+      this.slider.Maximum = 20;
+      this.slider.Minimum = 1;
+      this.slider.Name = "slider";
+      this.slider.Orientation = System.Windows.Forms.Orientation.Vertical;
+      this.slider.Size = new System.Drawing.Size(45, 519);
+      this.slider.TabIndex = 10;
+      this.slider.TickStyle = System.Windows.Forms.TickStyle.Both;
+      this.slider.Value = 16;
+      this.slider.ValueChanged += new System.EventHandler(this.OnValueChanged);
+      // 
+      // btnClear
+      // 
+      this.btnClear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+      this.btnClear.Location = new System.Drawing.Point(699, 208);
+      this.btnClear.Name = "btnClear";
+      this.btnClear.Size = new System.Drawing.Size(145, 50);
+      this.btnClear.TabIndex = 9;
+      this.btnClear.Text = "Clear Route";
+      this.btnClear.UseVisualStyleBackColor = true;
+      this.btnClear.Click += new System.EventHandler(this.OnBtnClearClick);
+      // 
+      // btnImport
+      // 
+      this.btnImport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+      this.btnImport.Location = new System.Drawing.Point(699, 152);
+      this.btnImport.Name = "btnImport";
+      this.btnImport.Size = new System.Drawing.Size(145, 50);
+      this.btnImport.TabIndex = 8;
+      this.btnImport.Text = "Import Route";
+      this.btnImport.UseVisualStyleBackColor = true;
+      this.btnImport.Click += new System.EventHandler(this.OnBtnImportClick);
+      // 
       // tabHigh
       // 
       this.tabHigh.Controls.Add(this.btnHigh);
@@ -228,43 +274,83 @@
       this.btnHigh.UseVisualStyleBackColor = true;
       this.btnHigh.Click += new System.EventHandler(this.OnButtonHeightClick);
       // 
-      // btnImport
+      // tabImport
       // 
-      this.btnImport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-      this.btnImport.Location = new System.Drawing.Point(699, 152);
-      this.btnImport.Name = "btnImport";
-      this.btnImport.Size = new System.Drawing.Size(145, 50);
-      this.btnImport.TabIndex = 8;
-      this.btnImport.Text = "Import Route";
-      this.btnImport.UseVisualStyleBackColor = true;
-      this.btnImport.Click += new System.EventHandler(this.OnBtnImportClick);
+      this.tabImport.Controls.Add(this.label3);
+      this.tabImport.Controls.Add(this.cbxBaud);
+      this.tabImport.Controls.Add(this.btnConnect);
+      this.tabImport.Controls.Add(this.cbxCOM);
+      this.tabImport.Controls.Add(this.btnRefresh);
+      this.tabImport.Location = new System.Drawing.Point(4, 22);
+      this.tabImport.Name = "tabImport";
+      this.tabImport.Padding = new System.Windows.Forms.Padding(3);
+      this.tabImport.Size = new System.Drawing.Size(847, 519);
+      this.tabImport.TabIndex = 2;
+      this.tabImport.Text = "Import";
+      this.tabImport.UseVisualStyleBackColor = true;
       // 
-      // btnClear
+      // btnRefresh
       // 
-      this.btnClear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-      this.btnClear.Location = new System.Drawing.Point(699, 208);
-      this.btnClear.Name = "btnClear";
-      this.btnClear.Size = new System.Drawing.Size(145, 50);
-      this.btnClear.TabIndex = 9;
-      this.btnClear.Text = "Clear Route";
-      this.btnClear.UseVisualStyleBackColor = true;
-      this.btnClear.Click += new System.EventHandler(this.OnBtnClearClick);
+      this.btnRefresh.Location = new System.Drawing.Point(3, 6);
+      this.btnRefresh.Name = "btnRefresh";
+      this.btnRefresh.Size = new System.Drawing.Size(75, 23);
+      this.btnRefresh.TabIndex = 0;
+      this.btnRefresh.Text = "Refresh";
+      this.btnRefresh.UseVisualStyleBackColor = true;
+      this.btnRefresh.Click += new System.EventHandler(this.OnRefreshClick);
       // 
-      // slider
+      // cbxCOM
       // 
-      this.slider.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-      this.slider.LargeChange = 1;
-      this.slider.Location = new System.Drawing.Point(648, 0);
-      this.slider.Maximum = 20;
-      this.slider.Minimum = 1;
-      this.slider.Name = "slider";
-      this.slider.Orientation = System.Windows.Forms.Orientation.Vertical;
-      this.slider.Size = new System.Drawing.Size(45, 519);
-      this.slider.TabIndex = 10;
-      this.slider.TickStyle = System.Windows.Forms.TickStyle.Both;
-      this.slider.Value = 16;
-      this.slider.ValueChanged += new System.EventHandler(this.OnValueChanged);
+      this.cbxCOM.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+      this.cbxCOM.Location = new System.Drawing.Point(86, 8);
+      this.cbxCOM.Name = "cbxCOM";
+      this.cbxCOM.Size = new System.Drawing.Size(121, 21);
+      this.cbxCOM.Sorted = true;
+      this.cbxCOM.TabIndex = 1;
+      // 
+      // btnConnect
+      // 
+      this.btnConnect.Location = new System.Drawing.Point(213, 6);
+      this.btnConnect.Name = "btnConnect";
+      this.btnConnect.Size = new System.Drawing.Size(75, 23);
+      this.btnConnect.TabIndex = 2;
+      this.btnConnect.Text = "Connect";
+      this.btnConnect.UseVisualStyleBackColor = true;
+      this.btnConnect.Click += new System.EventHandler(this.OnConnectClick);
+      // 
+      // cbxBaud
+      // 
+      this.cbxBaud.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+      this.cbxBaud.Items.AddRange(new object[] {
+            "300",
+            "600",
+            "1200",
+            "2400",
+            "4800",
+            "9600",
+            "14400",
+            "19200",
+            "28800",
+            "38400",
+            "56000",
+            "57600",
+            "115200",
+            "128000",
+            "256000"});
+      this.cbxBaud.Location = new System.Drawing.Point(353, 8);
+      this.cbxBaud.Name = "cbxBaud";
+      this.cbxBaud.Size = new System.Drawing.Size(121, 21);
+      this.cbxBaud.TabIndex = 3;
+      this.cbxBaud.SelectedIndexChanged += new System.EventHandler(this.OnBaudChanged);
+      // 
+      // label3
+      // 
+      this.label3.AutoSize = true;
+      this.label3.Location = new System.Drawing.Point(294, 11);
+      this.label3.Name = "label3";
+      this.label3.Size = new System.Drawing.Size(53, 13);
+      this.label3.TabIndex = 4;
+      this.label3.Text = "Baudrate:";
       // 
       // panelHeightprofile
       // 
@@ -309,14 +395,17 @@
       this.Controls.Add(this.tabCtrl);
       this.Name = "Form1";
       this.Text = "GPS-Tracker";
+      this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.OnFormClosing);
       this.Load += new System.EventHandler(this.OnFormLoad);
       ((System.ComponentModel.ISupportInitialize)(this.numLat)).EndInit();
       ((System.ComponentModel.ISupportInitialize)(this.numLng)).EndInit();
       this.tabCtrl.ResumeLayout(false);
       this.tabMap.ResumeLayout(false);
       this.tabMap.PerformLayout();
-      this.tabHigh.ResumeLayout(false);
       ((System.ComponentModel.ISupportInitialize)(this.slider)).EndInit();
+      this.tabHigh.ResumeLayout(false);
+      this.tabImport.ResumeLayout(false);
+      this.tabImport.PerformLayout();
       this.panelHeightprofile.ResumeLayout(false);
       this.panelHeightprofile.PerformLayout();
       this.ResumeLayout(false);
@@ -341,6 +430,12 @@
     private System.Windows.Forms.Button btnClear;
     private System.Windows.Forms.Button btnImport;
     private System.Windows.Forms.TrackBar slider;
+    private System.Windows.Forms.TabPage tabImport;
+    private System.Windows.Forms.Button btnConnect;
+    private System.Windows.Forms.ComboBox cbxCOM;
+    private System.Windows.Forms.Button btnRefresh;
+    private System.Windows.Forms.Label label3;
+    private System.Windows.Forms.ComboBox cbxBaud;
   }
 }
 

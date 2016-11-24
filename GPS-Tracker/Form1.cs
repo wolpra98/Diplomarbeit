@@ -11,6 +11,8 @@ using GMap.NET;
 using GMap.NET.WindowsForms;
 using GMap.NET.WindowsForms.Markers;
 using System.Reflection;
+using System.IO.Ports;
+using System.Threading;
 
 namespace GPS_Tracker
 {
@@ -24,6 +26,8 @@ namespace GPS_Tracker
     HeightGraph heightGraph;
     PointF pOffset;
     HeightData pData;
+    SerialPort com;
+    Thread import;
 
     public Form1()
     {
@@ -42,6 +46,8 @@ namespace GPS_Tracker
       route = new GMapRoute("route");
       heightGraph = new HeightGraph();
       panelHeightprofile.Init();
+      com = new SerialPort();
+      import = new Thread(new ThreadStart(GetData));
     }
 
     private void OnBtnSetRouteClick(object sender, EventArgs e)
@@ -65,17 +71,17 @@ namespace GPS_Tracker
     private List<HeightData> demoHeights()
     {
       List<HeightData> demoData = new List<HeightData>();
-      demoData.Add(new HeightData(229f, new TimeSpan(11, 48, 0)));
-      demoData.Add(new HeightData(270f, new TimeSpan(12, 10, 0)));
-      demoData.Add(new HeightData(252f, new TimeSpan(12, 20, 0)));
+      demoData.Add(new HeightData(229f, new TimeSpan(12, 48, 0)));
+      demoData.Add(new HeightData(270f, new TimeSpan(12, 39, 0)));
+      demoData.Add(new HeightData(252f, new TimeSpan(12, 27, 0)));
       demoData.Add(new HeightData(343f, new TimeSpan(12, 30, 0)));
       demoData.Add(new HeightData(531f, new TimeSpan(12, 40, 0)));
       demoData.Add(new HeightData(472f, new TimeSpan(12, 45, 0)));
       demoData.Add(new HeightData(279f, new TimeSpan(12, 50, 0)));
       demoData.Add(new HeightData(271.4f, new TimeSpan(12, 52, 0)));
       demoData.Add(new HeightData(523f, new TimeSpan(12, 55, 0)));
-      demoData.Add(new HeightData(287f, new TimeSpan(11, 57, 0)));
-      demoData.Add(new HeightData(333f, new TimeSpan(13, 1, 0)));
+      demoData.Add(new HeightData(287f, new TimeSpan(12, 57, 0)));
+      demoData.Add(new HeightData(333f, new TimeSpan(12, 43, 0)));
       return demoData;
     }
 
@@ -140,6 +146,73 @@ namespace GPS_Tracker
     private void OnValueChanged(object sender, EventArgs e)
     {
       gMap.Zoom = slider.Value;
+    }
+
+    private void OnRefreshClick(object sender, EventArgs e)
+    {
+      cbxCOM.Items.Clear();
+      cbxCOM.Items.AddRange(SerialPort.GetPortNames());
+      cbxCOM.SelectedItem = cbxCOM.Items[0];
+    }
+
+    private void OnConnectClick(object sender, EventArgs e)
+    {
+      if (com.IsOpen)
+      {
+        com.Close();
+        btnConnect.Text = "Connect";
+        import.Abort();
+      }
+      else
+      {
+        try
+        {
+          com.PortName = cbxCOM.SelectedItem.ToString();
+          if (cbxBaud.SelectedItem != null)
+            com.BaudRate = Convert.ToInt32(cbxBaud.SelectedItem);
+          else
+            com.BaudRate = 115200;
+          com.Open();
+          btnConnect.Text = "Disconnect";
+          import.Start();
+        }
+        catch
+        {
+          MessageBox.Show("Failed to connect!");
+        }
+      }
+    }
+
+    private void OnBaudChanged(object sender, EventArgs e)
+    {
+      if (cbxBaud.SelectedItem != null)
+        com.BaudRate = Convert.ToInt32(cbxBaud.SelectedItem);
+    }
+
+    void GetData()
+    {
+      com.Write("s");
+      heights = new List<HeightData>();
+      while (true)
+      {
+        string[] rData = com.ReadLine().Split(';');
+        if (rData[0]!=null&&rData[1]!=null)
+        {
+          GPSData data = new GPSData(rData[0]);
+          pos.Lat = data.Lat; pos.Lng = data.Lng;
+          route.Points.Add(pos);
+          heights.Add(new HeightData(Convert.ToSingle(rData[1])/100.0f, data.Time));
+          heightGraph.UpdateData(heights);
+          panelHeightprofile.Invalidate();
+          overlay.Routes.Clear();
+          overlay.Routes.Add(route);
+        }
+      }
+    }
+
+    private void OnFormClosing(object sender, FormClosingEventArgs e)
+    {
+      import.Abort();
     }
   }
 }

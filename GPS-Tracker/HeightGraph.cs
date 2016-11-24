@@ -10,7 +10,7 @@ namespace GPS_Tracker
 {
   class HeightGraph
   {
-    const float PADT = 30f, PADB = 70f, PADL = 50f, PADR = 15f, SCAL = 15f;
+    const float PADT = 30f, PADB = 70f, PADL = 50f, PADR = 20, SCAL = 15f;
     #region MemberVariables
     List<HeightData> _dataList;
     List<PointF> _dataPoints;
@@ -95,7 +95,9 @@ namespace GPS_Tracker
         _multWidth = 0;
         while (_scaleWidth <= SCAL * 3)
         {
-          if (_multWidth < 15)
+          if (_multWidth < 5)
+            _multWidth += 1;
+          else if (_multWidth < 15)
             _multWidth += 5;
           else
             _multWidth *= 2;
