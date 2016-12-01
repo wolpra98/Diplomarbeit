@@ -26,12 +26,13 @@
         android:id="@+id/lstPaired"
         android:layout_weight="40" />
     <TextView
-        android:text="Small Text"
+        android:text="New Devices"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:id="@+id/textView1"
-        android:layout_weight="5" />
+        android:layout_weight="5"
+        android:gravity="center_vertical" />
     <ListView
         android:minWidth="25px"
         android:minHeight="25px"
