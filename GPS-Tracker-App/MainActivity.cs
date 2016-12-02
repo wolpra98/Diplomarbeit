@@ -13,26 +13,52 @@ namespace GPS_Tracker_App
   {
     private const int REQUEST_BLUETOOTH = 1;
 
-    BluetoothAdapter blue = null;
+    BluetoothAdapter blueAdpt = null;
+    BluetoothDevice blueDevice;
     Button btnScan;
+    ListView lstPaired, lstNew;
+    ArrayAdapter pairedAdpt, newAdpt;
 
     protected override void OnCreate(Bundle bundle)
     {
       base.OnCreate(bundle);
       SetContentView(Resource.Layout.Main);
 
-      blue = BluetoothAdapter.DefaultAdapter;
+      blueAdpt = BluetoothAdapter.DefaultAdapter;
       btnScan = FindViewById<Button>(Resource.Id.btnScan);
+      lstPaired = FindViewById<ListView>(Resource.Id.lstPaired);
+      lstNew = FindViewById<ListView>(Resource.Id.lstNew);
+
+      pairedAdpt = new ArrayAdapter(this, Android.Resource.Layout.SimpleListItem1);
+      newAdpt = new ArrayAdapter(this, Android.Resource.Layout.SimpleListItem1);
+
+      lstPaired.Adapter = newAdpt;
+      lstNew.Adapter = newAdpt;
 
       btnScan.Click += OnBtnScanClick;
+      lstPaired.ItemClick += OnLstDeviceClick;
+      lstNew.ItemClick += OnLstDeviceClick;
 
-      if (blue == null)
+      if (blueAdpt == null)
         Toast.MakeText(this, "Bluetooth is not available", ToastLength.Long).Show();
 
-      if (!blue.IsEnabled)
+      if (!blueAdpt.IsEnabled)
       {
         Intent enableIntent = new Intent(BluetoothAdapter.ActionRequestEnable);
         StartActivityForResult(enableIntent, REQUEST_BLUETOOTH);
+      }
+
+      if (blueAdpt.BondedDevices.Count > 0)
+      {
+        foreach (var device in blueAdpt.BondedDevices)
+        {
+          pairedAdpt.Add(device.Name + "\n" + device.Address);
+        }
+      }
+      else
+      {
+        string noDevices = Resources.GetText(Resource.String.NoPairedDevice);
+        pairedAdpt.Add(noDevices);
       }
     }
 
@@ -49,9 +75,26 @@ namespace GPS_Tracker_App
       }
     }
 
-    void OnBtnScanClick(object sender, EventArgs ea)
+    void OnBtnScanClick(object sender, EventArgs e)
     {
+      SetProgressBarIndeterminateVisibility(true);
+      if (blueAdpt.IsDiscovering)
+        blueAdpt.CancelDiscovery();
+      blueAdpt.StartDiscovery();
+    }
 
+    void OnLstDeviceClick(object sender, AdapterView.ItemClickEventArgs e)
+    {
+      blueAdpt.CancelDiscovery();
+      string address = (e.View as TextView).Text.ToString().Substring((e.View as TextView).Text.ToString().Length - 17);
+      blueDevice = blueAdpt.GetRemoteDevice(address);
+    }
+
+    protected override void OnDestroy()
+    {
+      base.OnDestroy();
+      if (blueAdpt != null)
+        blueAdpt.CancelDiscovery();
     }
   }
 }

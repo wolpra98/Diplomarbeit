@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="ApplicationName">GPS-Tracker-App</string>
+  <string name="ApplicationName">GPS-Tracker-App</string>
+  <string name="NoPairedDevice">No paired Devices</string>
+  <string name="NoNewDevice">No new Devices</string>
 </resources>
