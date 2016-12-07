@@ -1,10 +1,12 @@
-﻿using Android.App;
+﻿using System;
+using Android.App;
 using Android.Widget;
 using Android.OS;
 using Android.Bluetooth;
 using Android.Content;
 using Android.Runtime;
-using System;
+using Android.Util;
+using Android.Views;
 
 namespace GPS_Tracker_App
 {
@@ -12,12 +14,9 @@ namespace GPS_Tracker_App
   public class MainActivity : Activity
   {
     private const int REQUEST_BLUETOOTH = 1;
-
-    BluetoothAdapter blueAdpt = null;
-    BluetoothDevice blueDevice;
-    Button btnScan;
-    ListView lstPaired, lstNew;
-    ArrayAdapter pairedAdpt, newAdpt;
+    private const int REQUEST_CONNECT = 2;
+    BluetoothAdapter blueAdpt;
+    BluetoothSocket blueSocket;
 
     protected override void OnCreate(Bundle bundle)
     {
@@ -25,40 +24,18 @@ namespace GPS_Tracker_App
       SetContentView(Resource.Layout.Main);
 
       blueAdpt = BluetoothAdapter.DefaultAdapter;
-      btnScan = FindViewById<Button>(Resource.Id.btnScan);
-      lstPaired = FindViewById<ListView>(Resource.Id.lstPaired);
-      lstNew = FindViewById<ListView>(Resource.Id.lstNew);
-
-      pairedAdpt = new ArrayAdapter(this, Android.Resource.Layout.SimpleListItem1);
-      newAdpt = new ArrayAdapter(this, Android.Resource.Layout.SimpleListItem1);
-
-      lstPaired.Adapter = newAdpt;
-      lstNew.Adapter = newAdpt;
-
-      btnScan.Click += OnBtnScanClick;
-      lstPaired.ItemClick += OnLstDeviceClick;
-      lstNew.ItemClick += OnLstDeviceClick;
 
       if (blueAdpt == null)
+      {
         Toast.MakeText(this, "Bluetooth is not available", ToastLength.Long).Show();
+        Finish();
+        return;
+      }
 
       if (!blueAdpt.IsEnabled)
       {
-        Intent enableIntent = new Intent(BluetoothAdapter.ActionRequestEnable);
-        StartActivityForResult(enableIntent, REQUEST_BLUETOOTH);
-      }
-
-      if (blueAdpt.BondedDevices.Count > 0)
-      {
-        foreach (var device in blueAdpt.BondedDevices)
-        {
-          pairedAdpt.Add(device.Name + "\n" + device.Address);
-        }
-      }
-      else
-      {
-        string noDevices = Resources.GetText(Resource.String.NoPairedDevice);
-        pairedAdpt.Add(noDevices);
+        Intent enableBlue = new Intent(BluetoothAdapter.ActionRequestEnable);
+        StartActivityForResult(enableBlue, REQUEST_BLUETOOTH);
       }
     }
 
@@ -72,29 +49,35 @@ namespace GPS_Tracker_App
           else
             Toast.MakeText(this, "Bluetooth not enabled!", ToastLength.Short).Show();
           break;
+        case REQUEST_CONNECT:
+          if (resultCode == Result.Ok)
+          {
+            string address = data.Extras.GetString(ConnectDeviceActivity.EXTRA_DEVICE_ADDRESS);
+            BluetoothDevice device = blueAdpt.GetRemoteDevice(address);
+            if (device.BondState == Bond.None)
+              device.CreateBond();
+            //blueSocket = device.CreateRfcommSocketToServiceRecord();
+          }
+          break;
       }
     }
 
-    void OnBtnScanClick(object sender, EventArgs e)
+    public override bool OnCreateOptionsMenu(IMenu menu)
     {
-      SetProgressBarIndeterminateVisibility(true);
-      if (blueAdpt.IsDiscovering)
-        blueAdpt.CancelDiscovery();
-      blueAdpt.StartDiscovery();
+      MenuInflater.Inflate(Resource.Menu.OptionsMenu, menu);
+      return base.OnPrepareOptionsMenu(menu);
     }
 
-    void OnLstDeviceClick(object sender, AdapterView.ItemClickEventArgs e)
+    public override bool OnOptionsItemSelected(IMenuItem item)
     {
-      blueAdpt.CancelDiscovery();
-      string address = (e.View as TextView).Text.ToString().Substring((e.View as TextView).Text.ToString().Length - 17);
-      blueDevice = blueAdpt.GetRemoteDevice(address);
-    }
-
-    protected override void OnDestroy()
-    {
-      base.OnDestroy();
-      if (blueAdpt != null)
-        blueAdpt.CancelDiscovery();
+      switch (item.ItemId)
+      {
+        case Resource.Id.bluetooth:
+          Intent connectBlue = new Intent(this, typeof(ConnectDeviceActivity));
+          StartActivityForResult(connectBlue, REQUEST_CONNECT);
+          return true;
+      }
+      return false;
     }
   }
 }

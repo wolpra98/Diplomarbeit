@@ -60,17 +60,23 @@ namespace GPS_Tracker_App
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f050000
-			public const int btnScan = 2131034112;
+			// aapt resource value: 0x7f060005
+			public const int bluetooth = 2131099653;
 			
-			// aapt resource value: 0x7f050003
-			public const int lstNew = 2131034115;
+			// aapt resource value: 0x7f060003
+			public const int btnScan = 2131099651;
 			
-			// aapt resource value: 0x7f050002
-			public const int lstPaired = 2131034114;
+			// aapt resource value: 0x7f060004
+			public const int lstNew = 2131099652;
 			
-			// aapt resource value: 0x7f050001
-			public const int textView1 = 2131034113;
+			// aapt resource value: 0x7f060001
+			public const int lstPaired = 2131099649;
+			
+			// aapt resource value: 0x7f060000
+			public const int textView1 = 2131099648;
+			
+			// aapt resource value: 0x7f060002
+			public const int textView2 = 2131099650;
 			
 			static Id()
 			{
@@ -86,7 +92,13 @@ namespace GPS_Tracker_App
 		{
 			
 			// aapt resource value: 0x7f030000
-			public const int Main = 2130903040;
+			public const int Bluetooth = 2130903040;
+			
+			// aapt resource value: 0x7f030001
+			public const int DeviceList = 2130903041;
+			
+			// aapt resource value: 0x7f030002
+			public const int Main = 2130903042;
 			
 			static Layout()
 			{
@@ -94,6 +106,22 @@ namespace GPS_Tracker_App
 			}
 			
 			private Layout()
+			{
+			}
+		}
+		
+		public partial class Menu
+		{
+			
+			// aapt resource value: 0x7f050000
+			public const int OptionsMenu = 2131034112;
+			
+			static Menu()
+			{
+				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
+			}
+			
+			private Menu()
 			{
 			}
 		}
