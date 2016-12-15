@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using Android.App;
 using Android.Widget;
 using Android.OS;
@@ -13,10 +14,15 @@ namespace GPS_Tracker_App
   [Activity(Label = "GPS_Tracker_App", MainLauncher = true, Icon = "@drawable/icon")]
   public class MainActivity : Activity
   {
-    private const int REQUEST_BLUETOOTH = 1;
-    private const int REQUEST_CONNECT = 2;
+    const int REQUEST_BLUETOOTH = 1;
+    const int REQUEST_CONNECT = 2;
+    static ArrayAdapter<string> dataAdpt;
     BluetoothAdapter blueAdpt;
     BluetoothSocket blueSocket;
+    Stream inStream, outStream;
+    ListView lstData;
+    Button btnSend;
+    EditText etSend;
 
     protected override void OnCreate(Bundle bundle)
     {
@@ -24,6 +30,14 @@ namespace GPS_Tracker_App
       SetContentView(Resource.Layout.Main);
 
       blueAdpt = BluetoothAdapter.DefaultAdapter;
+      lstData = FindViewById<ListView>(Resource.Id.lstData);
+      btnSend = FindViewById<Button>(Resource.Id.btnSend);
+      etSend = FindViewById<EditText>(Resource.Id.etSend);
+      dataAdpt = new ArrayAdapter<string>(this, Resource.Layout.DeviceList);
+      lstData.Adapter = dataAdpt;
+
+      btnSend.Click += OnBtnSendClick;
+      btnSend.Enabled = false;
 
       if (blueAdpt == null)
       {
@@ -45,7 +59,7 @@ namespace GPS_Tracker_App
       {
         case REQUEST_BLUETOOTH:
           if (resultCode == Result.Ok)
-            Toast.MakeText(this, "Bluetooth ok!", ToastLength.Short).Show();
+            Toast.MakeText(this, "Bluetooth enabled!", ToastLength.Short).Show();
           else
             Toast.MakeText(this, "Bluetooth not enabled!", ToastLength.Short).Show();
           break;
@@ -56,7 +70,8 @@ namespace GPS_Tracker_App
             BluetoothDevice device = blueAdpt.GetRemoteDevice(address);
             if (device.BondState == Bond.None)
               device.CreateBond();
-            //blueSocket = device.CreateRfcommSocketToServiceRecord();
+            blueSocket = device.CreateRfcommSocketToServiceRecord(Java.Util.UUID.FromString("00001101-0000-1000-8000-00805f9b34fb"));
+            ConnectToBluetoothDevice();
           }
           break;
       }
@@ -78,6 +93,61 @@ namespace GPS_Tracker_App
           return true;
       }
       return false;
+    }
+
+    async void ConnectToBluetoothDevice()
+    {
+      try
+      {
+        await blueSocket.ConnectAsync();
+        inStream = blueSocket.InputStream;
+        outStream = blueSocket.OutputStream;
+        StartListen();
+        btnSend.Enabled = true;
+      }
+      catch (Exception)
+      {
+        Toast.MakeText(this, "Can't connect to device!", ToastLength.Short).Show();
+      }
+    }
+
+    void OnBtnSendClick(object sender, EventArgs e)
+    {
+      if (etSend.Text != "")
+      {
+        string text = etSend.Text;
+        outStream.Write(System.Text.Encoding.ASCII.GetBytes(text), 0, text.Length);
+      }
+    }
+
+    void StartListen()
+    {
+      RunOnUiThread(async () =>
+      {
+        byte[] text = new byte[1024];
+        int bytes;
+        while (true)
+        {
+          try
+          {
+            bytes = await inStream.ReadAsync(text, 0, text.Length);
+            if (bytes > 0)
+            {
+              dataAdpt.Add(System.Text.Encoding.ASCII.GetString(text));
+              lstData.SetSelection(lstData.Count - 1);
+              Toast.MakeText(BaseContext, "ok", ToastLength.Short).Show();
+            }
+            else
+            {
+              Toast.MakeText(BaseContext, "End", ToastLength.Short).Show();
+            }
+          }
+          catch (Exception)
+          {
+            Toast.MakeText(BaseContext, "Input Error", ToastLength.Short).Show();
+          }
+        }
+      });
     }
   }
 }
