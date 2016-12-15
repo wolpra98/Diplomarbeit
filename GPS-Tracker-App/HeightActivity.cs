@@ -1,0 +1,29 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+using Xamarin;
+using Xamarin.Forms;
+
+using Android.App;
+using Android.Content;
+using Android.OS;
+using Android.Runtime;
+using Android.Views;
+using Android.Widget;
+
+namespace GPS_Tracker_App
+{
+  [Activity(Label = "HeightActivity")]
+  public class HeightActivity : Activity
+  {
+    protected override void OnCreate(Bundle savedInstanceState)
+    {
+      base.OnCreate(savedInstanceState);
+
+      Forms.Init(this, bundle);
+      FormsMaps.Init(this, bundle);
+    }
+  }
+}

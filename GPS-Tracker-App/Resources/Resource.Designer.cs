@@ -26,6 +26,7 @@ namespace GPS_Tracker_App
 		
 		public static void UpdateIdValues()
 		{
+			global::Xamarin.Forms.Platform.Android.Resource.Attribute.actionBarSize = global::GPS_Tracker_App.Resource.Attribute.actionBarSize;
 		}
 		
 		public partial class Attribute
@@ -72,6 +73,9 @@ namespace GPS_Tracker_App
 			// aapt resource value: 0x7f060006
 			public const int etSend = 2131099654;
 			
+			// aapt resource value: 0x7f06000b
+			public const int height = 2131099659;
+			
 			// aapt resource value: 0x7f060005
 			public const int linearLayout1 = 2131099653;
 			
@@ -83,6 +87,9 @@ namespace GPS_Tracker_App
 			
 			// aapt resource value: 0x7f060001
 			public const int lstPaired = 2131099649;
+			
+			// aapt resource value: 0x7f06000a
+			public const int map = 2131099658;
 			
 			// aapt resource value: 0x7f060000
 			public const int textView1 = 2131099648;

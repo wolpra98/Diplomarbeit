@@ -33,7 +33,7 @@ namespace GPS_Tracker_App
       lstData = FindViewById<ListView>(Resource.Id.lstData);
       btnSend = FindViewById<Button>(Resource.Id.btnSend);
       etSend = FindViewById<EditText>(Resource.Id.etSend);
-      dataAdpt = new ArrayAdapter<string>(this, Resource.Layout.DeviceList);
+      dataAdpt = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleListItem1);
       lstData.Adapter = dataAdpt;
 
       btnSend.Click += OnBtnSendClick;
@@ -91,6 +91,17 @@ namespace GPS_Tracker_App
           Intent connectBlue = new Intent(this, typeof(ConnectDeviceActivity));
           StartActivityForResult(connectBlue, REQUEST_CONNECT);
           return true;
+        case Resource.Id.map:
+          var geoUri = Android.Net.Uri.Parse("geo:47.091967,15.403134");
+          var mapIntent = new Intent(Intent.ActionView, geoUri);
+          StartActivity(mapIntent);
+          //Intent map = new Intent(this, typeof(ConnectDeviceActivity));
+          //StartActivity(map);
+          return true;
+        case Resource.Id.height:
+          //Intent height = new Intent(this, typeof(ConnectDeviceActivity));
+          //StartActivity(height);
+          return true;
       }
       return false;
     }
@@ -124,22 +135,20 @@ namespace GPS_Tracker_App
     {
       RunOnUiThread(async () =>
       {
-        byte[] text = new byte[1024];
-        int bytes;
+        byte[] byteArr = new byte[1024];
+        int bytes = 0;
         while (true)
         {
           try
           {
-            bytes = await inStream.ReadAsync(text, 0, text.Length);
-            if (bytes > 0)
+            bytes += await inStream.ReadAsync(byteArr, bytes, byteArr.Length-bytes);
+            string text = System.Text.Encoding.UTF8.GetString(byteArr);
+            if (text.IndexOf('\n')>0)
             {
-              dataAdpt.Add(System.Text.Encoding.ASCII.GetString(text));
+              dataAdpt.Add(text);
               lstData.SetSelection(lstData.Count - 1);
-              Toast.MakeText(BaseContext, "ok", ToastLength.Short).Show();
-            }
-            else
-            {
-              Toast.MakeText(BaseContext, "End", ToastLength.Short).Show();
+              Array.Clear(byteArr, 0, byteArr.Length);
+              bytes = 0;
             }
           }
           catch (Exception)
@@ -148,6 +157,15 @@ namespace GPS_Tracker_App
           }
         }
       });
+    }
+
+    protected override void OnDestroy()
+    {
+      base.OnDestroy();
+      inStream.Close();
+      outStream.Close();
+      if (blueSocket.IsConnected)
+        blueSocket.Close();
     }
   }
 }
