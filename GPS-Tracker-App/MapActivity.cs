@@ -15,11 +15,16 @@ namespace GPS_Tracker_App
   [Activity(Label = "MapActivity")]
   public class MapActivity : Activity
   {
+    Button btnZoom, btnCenter;
+
     protected override void OnCreate(Bundle savedInstanceState)
     {
       base.OnCreate(savedInstanceState);
-
-      // Create your application here
+      SetContentView(Resource.Layout.Map);
+      
+      btnCenter = FindViewById<Button>(Resource.Id.btnCenter);
+      btnZoom = FindViewById<Button>(Resource.Id.btnZoom);
+      
     }
   }
 }

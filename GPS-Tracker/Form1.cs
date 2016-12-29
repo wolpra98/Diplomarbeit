@@ -13,6 +13,7 @@ using GMap.NET.WindowsForms.Markers;
 using System.Reflection;
 using System.IO.Ports;
 using System.Threading;
+using System.Diagnostics;
 
 namespace GPS_Tracker
 {
@@ -28,6 +29,7 @@ namespace GPS_Tracker
     HeightData pData;
     SerialPort com;
     Thread import;
+    bool isRunning;
 
     public Form1()
     {
@@ -47,7 +49,6 @@ namespace GPS_Tracker
       heightGraph = new HeightGraph();
       panelHeightprofile.Init();
       com = new SerialPort();
-      import = new Thread(new ThreadStart(GetData));
     }
 
     private void OnBtnSetRouteClick(object sender, EventArgs e)
@@ -125,7 +126,7 @@ namespace GPS_Tracker
       foreach (string line in lines)
       {
         GPSData data = new GPSData(line);
-        pos.Lat = data.Lat;pos.Lng = data.Lng;
+        pos.Lat = data.Lat; pos.Lng = data.Lng;
         route.Points.Add(pos);
       }
       overlay.Routes.Clear();
@@ -140,7 +141,7 @@ namespace GPS_Tracker
 
     private void OnMapZoomChanged()
     {
-      slider.Value = (int) gMap.Zoom;
+      slider.Value = (int)gMap.Zoom;
     }
 
     private void OnValueChanged(object sender, EventArgs e)
@@ -152,7 +153,8 @@ namespace GPS_Tracker
     {
       cbxCOM.Items.Clear();
       cbxCOM.Items.AddRange(SerialPort.GetPortNames());
-      cbxCOM.SelectedItem = cbxCOM.Items[0];
+      if (cbxCOM.Items.Count != 0)
+        cbxCOM.SelectedItem = cbxCOM.Items[0];
     }
 
     private void OnConnectClick(object sender, EventArgs e)
@@ -161,12 +163,13 @@ namespace GPS_Tracker
       {
         com.Close();
         btnConnect.Text = "Connect";
-        import.Abort();
+        isRunning = false;
       }
       else
       {
         try
         {
+          btnConnect.Enabled = false;
           com.PortName = cbxCOM.SelectedItem.ToString();
           if (cbxBaud.SelectedItem != null)
             com.BaudRate = Convert.ToInt32(cbxBaud.SelectedItem);
@@ -174,11 +177,15 @@ namespace GPS_Tracker
             com.BaudRate = 115200;
           com.Open();
           btnConnect.Text = "Disconnect";
+          isRunning = true;
+          import = new Thread(new ThreadStart(GetData));
           import.Start();
+          btnConnect.Enabled = true;
         }
-        catch
+        catch (Exception)
         {
           MessageBox.Show("Failed to connect!");
+          btnConnect.Enabled = true;
         }
       }
     }
@@ -191,28 +198,43 @@ namespace GPS_Tracker
 
     void GetData()
     {
-      com.Write("s");
       heights = new List<HeightData>();
-      while (true)
+      while (isRunning)
       {
-        string[] rData = com.ReadLine().Split(';');
-        if (rData[0]!=null&&rData[1]!=null)
+        try
         {
-          GPSData data = new GPSData(rData[0]);
-          pos.Lat = data.Lat; pos.Lng = data.Lng;
-          route.Points.Add(pos);
-          heights.Add(new HeightData(Convert.ToSingle(rData[1])/100.0f, data.Time));
-          heightGraph.UpdateData(heights);
-          panelHeightprofile.Invalidate();
-          overlay.Routes.Clear();
-          overlay.Routes.Add(route);
+          string[] rData = com.ReadLine().Split(';');
+          if (rData[0] != null && rData[1] != null)
+          {
+            GPSData data = new GPSData(rData[0]);
+            if (data.IsValid)
+            {
+              pos.Lat = data.Lat; pos.Lng = data.Lng;
+              route.Points.Add(pos);
+              heights.Add(new HeightData(Convert.ToSingle(rData[1]) / 100.0f, data.Time));
+              heightGraph.UpdateData(heights);
+              panelHeightprofile.Invalidate();
+              overlay.Routes.Clear();
+              overlay.Routes.Add(route);
+            }
+          }
+        }
+        catch (Exception)
+        {
+          isRunning = false;
+          Debug.WriteLine("Thread crash!");
         }
       }
     }
 
     private void OnFormClosing(object sender, FormClosingEventArgs e)
     {
-      import.Abort();
+      isRunning = false;
+    }
+
+    private void OnBtnCenterMapClick(object sender, EventArgs e)
+    {
+      gMap.Position = pos;
     }
   }
 }

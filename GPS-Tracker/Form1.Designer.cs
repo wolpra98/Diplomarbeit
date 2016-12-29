@@ -41,23 +41,24 @@
       this.btnImport = new System.Windows.Forms.Button();
       this.tabHigh = new System.Windows.Forms.TabPage();
       this.btnHigh = new System.Windows.Forms.Button();
-      this.tabImport = new System.Windows.Forms.TabPage();
-      this.btnRefresh = new System.Windows.Forms.Button();
-      this.cbxCOM = new System.Windows.Forms.ComboBox();
-      this.btnConnect = new System.Windows.Forms.Button();
-      this.cbxBaud = new System.Windows.Forms.ComboBox();
-      this.label3 = new System.Windows.Forms.Label();
       this.panelHeightprofile = new GPS_Tracker.GraphPanel();
       this.lblTime = new System.Windows.Forms.Label();
       this.lblHeight = new System.Windows.Forms.Label();
+      this.tabImport = new System.Windows.Forms.TabPage();
+      this.label3 = new System.Windows.Forms.Label();
+      this.cbxBaud = new System.Windows.Forms.ComboBox();
+      this.btnConnect = new System.Windows.Forms.Button();
+      this.cbxCOM = new System.Windows.Forms.ComboBox();
+      this.btnRefresh = new System.Windows.Forms.Button();
+      this.btnCenterMap = new System.Windows.Forms.Button();
       ((System.ComponentModel.ISupportInitialize)(this.numLat)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.numLng)).BeginInit();
       this.tabCtrl.SuspendLayout();
       this.tabMap.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.slider)).BeginInit();
       this.tabHigh.SuspendLayout();
-      this.tabImport.SuspendLayout();
       this.panelHeightprofile.SuspendLayout();
+      this.tabImport.SuspendLayout();
       this.SuspendLayout();
       // 
       // gMap
@@ -196,6 +197,7 @@
       // 
       // tabMap
       // 
+      this.tabMap.Controls.Add(this.btnCenterMap);
       this.tabMap.Controls.Add(this.slider);
       this.tabMap.Controls.Add(this.btnClear);
       this.tabMap.Controls.Add(this.btnImport);
@@ -243,7 +245,7 @@
       // btnImport
       // 
       this.btnImport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-      this.btnImport.Location = new System.Drawing.Point(699, 152);
+      this.btnImport.Location = new System.Drawing.Point(699, 264);
       this.btnImport.Name = "btnImport";
       this.btnImport.Size = new System.Drawing.Size(145, 50);
       this.btnImport.TabIndex = 8;
@@ -273,84 +275,6 @@
       this.btnHigh.Text = "Höhe hinzufügen";
       this.btnHigh.UseVisualStyleBackColor = true;
       this.btnHigh.Click += new System.EventHandler(this.OnButtonHeightClick);
-      // 
-      // tabImport
-      // 
-      this.tabImport.Controls.Add(this.label3);
-      this.tabImport.Controls.Add(this.cbxBaud);
-      this.tabImport.Controls.Add(this.btnConnect);
-      this.tabImport.Controls.Add(this.cbxCOM);
-      this.tabImport.Controls.Add(this.btnRefresh);
-      this.tabImport.Location = new System.Drawing.Point(4, 22);
-      this.tabImport.Name = "tabImport";
-      this.tabImport.Padding = new System.Windows.Forms.Padding(3);
-      this.tabImport.Size = new System.Drawing.Size(847, 519);
-      this.tabImport.TabIndex = 2;
-      this.tabImport.Text = "Import";
-      this.tabImport.UseVisualStyleBackColor = true;
-      // 
-      // btnRefresh
-      // 
-      this.btnRefresh.Location = new System.Drawing.Point(3, 6);
-      this.btnRefresh.Name = "btnRefresh";
-      this.btnRefresh.Size = new System.Drawing.Size(75, 23);
-      this.btnRefresh.TabIndex = 0;
-      this.btnRefresh.Text = "Refresh";
-      this.btnRefresh.UseVisualStyleBackColor = true;
-      this.btnRefresh.Click += new System.EventHandler(this.OnRefreshClick);
-      // 
-      // cbxCOM
-      // 
-      this.cbxCOM.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-      this.cbxCOM.Location = new System.Drawing.Point(86, 8);
-      this.cbxCOM.Name = "cbxCOM";
-      this.cbxCOM.Size = new System.Drawing.Size(121, 21);
-      this.cbxCOM.Sorted = true;
-      this.cbxCOM.TabIndex = 1;
-      // 
-      // btnConnect
-      // 
-      this.btnConnect.Location = new System.Drawing.Point(213, 6);
-      this.btnConnect.Name = "btnConnect";
-      this.btnConnect.Size = new System.Drawing.Size(75, 23);
-      this.btnConnect.TabIndex = 2;
-      this.btnConnect.Text = "Connect";
-      this.btnConnect.UseVisualStyleBackColor = true;
-      this.btnConnect.Click += new System.EventHandler(this.OnConnectClick);
-      // 
-      // cbxBaud
-      // 
-      this.cbxBaud.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-      this.cbxBaud.Items.AddRange(new object[] {
-            "300",
-            "600",
-            "1200",
-            "2400",
-            "4800",
-            "9600",
-            "14400",
-            "19200",
-            "28800",
-            "38400",
-            "56000",
-            "57600",
-            "115200",
-            "128000",
-            "256000"});
-      this.cbxBaud.Location = new System.Drawing.Point(353, 8);
-      this.cbxBaud.Name = "cbxBaud";
-      this.cbxBaud.Size = new System.Drawing.Size(121, 21);
-      this.cbxBaud.TabIndex = 3;
-      this.cbxBaud.SelectedIndexChanged += new System.EventHandler(this.OnBaudChanged);
-      // 
-      // label3
-      // 
-      this.label3.AutoSize = true;
-      this.label3.Location = new System.Drawing.Point(294, 11);
-      this.label3.Name = "label3";
-      this.label3.Size = new System.Drawing.Size(53, 13);
-      this.label3.TabIndex = 4;
-      this.label3.Text = "Baudrate:";
       // 
       // panelHeightprofile
       // 
@@ -387,6 +311,95 @@
       this.lblHeight.Size = new System.Drawing.Size(0, 19);
       this.lblHeight.TabIndex = 0;
       // 
+      // tabImport
+      // 
+      this.tabImport.Controls.Add(this.label3);
+      this.tabImport.Controls.Add(this.cbxBaud);
+      this.tabImport.Controls.Add(this.btnConnect);
+      this.tabImport.Controls.Add(this.cbxCOM);
+      this.tabImport.Controls.Add(this.btnRefresh);
+      this.tabImport.Location = new System.Drawing.Point(4, 22);
+      this.tabImport.Name = "tabImport";
+      this.tabImport.Padding = new System.Windows.Forms.Padding(3);
+      this.tabImport.Size = new System.Drawing.Size(847, 519);
+      this.tabImport.TabIndex = 2;
+      this.tabImport.Text = "Import";
+      this.tabImport.UseVisualStyleBackColor = true;
+      // 
+      // label3
+      // 
+      this.label3.AutoSize = true;
+      this.label3.Location = new System.Drawing.Point(294, 11);
+      this.label3.Name = "label3";
+      this.label3.Size = new System.Drawing.Size(53, 13);
+      this.label3.TabIndex = 4;
+      this.label3.Text = "Baudrate:";
+      // 
+      // cbxBaud
+      // 
+      this.cbxBaud.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+      this.cbxBaud.Items.AddRange(new object[] {
+            "300",
+            "600",
+            "1200",
+            "2400",
+            "4800",
+            "9600",
+            "14400",
+            "19200",
+            "28800",
+            "38400",
+            "56000",
+            "57600",
+            "115200",
+            "128000",
+            "256000"});
+      this.cbxBaud.Location = new System.Drawing.Point(353, 8);
+      this.cbxBaud.Name = "cbxBaud";
+      this.cbxBaud.Size = new System.Drawing.Size(121, 21);
+      this.cbxBaud.TabIndex = 3;
+      this.cbxBaud.SelectedIndexChanged += new System.EventHandler(this.OnBaudChanged);
+      // 
+      // btnConnect
+      // 
+      this.btnConnect.Location = new System.Drawing.Point(213, 6);
+      this.btnConnect.Name = "btnConnect";
+      this.btnConnect.Size = new System.Drawing.Size(75, 23);
+      this.btnConnect.TabIndex = 2;
+      this.btnConnect.Text = "Connect";
+      this.btnConnect.UseVisualStyleBackColor = true;
+      this.btnConnect.Click += new System.EventHandler(this.OnConnectClick);
+      // 
+      // cbxCOM
+      // 
+      this.cbxCOM.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+      this.cbxCOM.Location = new System.Drawing.Point(86, 8);
+      this.cbxCOM.Name = "cbxCOM";
+      this.cbxCOM.Size = new System.Drawing.Size(121, 21);
+      this.cbxCOM.Sorted = true;
+      this.cbxCOM.TabIndex = 1;
+      // 
+      // btnRefresh
+      // 
+      this.btnRefresh.Location = new System.Drawing.Point(3, 6);
+      this.btnRefresh.Name = "btnRefresh";
+      this.btnRefresh.Size = new System.Drawing.Size(75, 23);
+      this.btnRefresh.TabIndex = 0;
+      this.btnRefresh.Text = "Refresh";
+      this.btnRefresh.UseVisualStyleBackColor = true;
+      this.btnRefresh.Click += new System.EventHandler(this.OnRefreshClick);
+      // 
+      // btnCenterMap
+      // 
+      this.btnCenterMap.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+      this.btnCenterMap.Location = new System.Drawing.Point(699, 152);
+      this.btnCenterMap.Name = "btnCenterMap";
+      this.btnCenterMap.Size = new System.Drawing.Size(145, 50);
+      this.btnCenterMap.TabIndex = 11;
+      this.btnCenterMap.Text = "Center Map";
+      this.btnCenterMap.UseVisualStyleBackColor = true;
+      this.btnCenterMap.Click += new System.EventHandler(this.OnBtnCenterMapClick);
+      // 
       // Form1
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -404,10 +417,10 @@
       this.tabMap.PerformLayout();
       ((System.ComponentModel.ISupportInitialize)(this.slider)).EndInit();
       this.tabHigh.ResumeLayout(false);
-      this.tabImport.ResumeLayout(false);
-      this.tabImport.PerformLayout();
       this.panelHeightprofile.ResumeLayout(false);
       this.panelHeightprofile.PerformLayout();
+      this.tabImport.ResumeLayout(false);
+      this.tabImport.PerformLayout();
       this.ResumeLayout(false);
 
     }
@@ -436,6 +449,7 @@
     private System.Windows.Forms.Button btnRefresh;
     private System.Windows.Forms.Label label3;
     private System.Windows.Forms.ComboBox cbxBaud;
+    private System.Windows.Forms.Button btnCenterMap;
   }
 }
 

@@ -1,13 +1,11 @@
-﻿using System;
-using System.IO;
-using Android.App;
+﻿using Android.App;
 using Android.Widget;
 using Android.OS;
 using Android.Bluetooth;
+using System;
 using Android.Content;
-using Android.Runtime;
-using Android.Util;
 using Android.Views;
+using System.IO;
 
 namespace GPS_Tracker_App
 {
@@ -95,8 +93,6 @@ namespace GPS_Tracker_App
           var geoUri = Android.Net.Uri.Parse("geo:47.091967,15.403134");
           var mapIntent = new Intent(Intent.ActionView, geoUri);
           StartActivity(mapIntent);
-          //Intent map = new Intent(this, typeof(ConnectDeviceActivity));
-          //StartActivity(map);
           return true;
         case Resource.Id.height:
           //Intent height = new Intent(this, typeof(ConnectDeviceActivity));
@@ -141,9 +137,9 @@ namespace GPS_Tracker_App
         {
           try
           {
-            bytes += await inStream.ReadAsync(byteArr, bytes, byteArr.Length-bytes);
+            bytes += await inStream.ReadAsync(byteArr, bytes, byteArr.Length - bytes);
             string text = System.Text.Encoding.UTF8.GetString(byteArr);
-            if (text.IndexOf('\n')>0)
+            if (text.IndexOf('\n') > 0)
             {
               dataAdpt.Add(text);
               lstData.SetSelection(lstData.Count - 1);
@@ -153,7 +149,21 @@ namespace GPS_Tracker_App
           }
           catch (Exception)
           {
-            Toast.MakeText(BaseContext, "Input Error", ToastLength.Short).Show();
+            try
+            {
+              Toast.MakeText(BaseContext, "An Error has occourd! Please reconnect!", ToastLength.Short).Show();
+              inStream.Close();
+              outStream.Close();
+              if (blueSocket.IsConnected)
+                blueSocket.Close();
+              break;
+            }
+            catch (Exception)
+            {
+              Toast.MakeText(BaseContext, "Critical Error!", ToastLength.Short).Show();
+              Finish();
+              throw;
+            }
           }
         }
       });

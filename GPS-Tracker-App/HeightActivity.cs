@@ -3,9 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-using Xamarin;
-using Xamarin.Forms;
-
 using Android.App;
 using Android.Content;
 using Android.OS;
@@ -22,8 +19,7 @@ namespace GPS_Tracker_App
     {
       base.OnCreate(savedInstanceState);
 
-      Forms.Init(this, bundle);
-      FormsMaps.Init(this, bundle);
+      
     }
   }
 }
