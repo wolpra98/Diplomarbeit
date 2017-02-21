@@ -9,7 +9,7 @@ using System.IO;
 
 namespace GPS_Tracker_App
 {
-  [Activity(Label = "GPS_Tracker_App", MainLauncher = true, Icon = "@drawable/icon")]
+  [Activity(Label = "GPS_Tracker", MainLauncher = true, Icon = "@drawable/icon")]
   public class MainActivity : Activity
   {
     const int REQUEST_BLUETOOTH = 1;
