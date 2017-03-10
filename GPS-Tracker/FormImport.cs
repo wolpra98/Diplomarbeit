@@ -33,6 +33,7 @@ namespace GPS_Tracker
         Application.DoEvents();
         Thread.Sleep(1000);
         Close();
+        return;
       }
       else
       {

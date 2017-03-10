@@ -25,7 +25,7 @@ namespace GPS_Tracker
     //GMapMarker marker;
     GMapRoute route;
     PointLatLng pos;
-    List<GPSTrackerData> heights;
+    List<GPSTrackerData> data;
     HeightGraph heightGraph;
     PointF pOffset;
     GPSTrackerData pData;
@@ -38,7 +38,7 @@ namespace GPS_Tracker
 
     void GetData()
     {
-      heights = new List<GPSTrackerData>();
+      data = new List<GPSTrackerData>();
       while (isRunning)
       {
         try
@@ -93,6 +93,8 @@ namespace GPS_Tracker
       byte[] buffer = new byte[100];
       string dir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "GPS-Tracker", "Import");
       string name;
+      if (!Directory.Exists(@dir))
+        Directory.CreateDirectory(@dir);
       foreach (string file in Directory.GetFiles(@dir, "*.gpst"))
       {
         GPSTrackerDataList filedata = new GPSTrackerDataList();
@@ -167,7 +169,8 @@ namespace GPS_Tracker
 
     private void OnBtnImportClick(object sender, EventArgs e)
     {
-
+      GPSTrackerData data = new GPSTrackerData(new byte[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 });
+      /*
       string[] lines = System.IO.File.ReadAllLines(@"C:\Users\Noqq\Documents\Diplomarbeit\GPS-DATA.TXT");
 
       foreach (string line in lines)
@@ -181,7 +184,7 @@ namespace GPS_Tracker
         }
       }
       overlay.Routes.Clear();
-      overlay.Routes.Add(route);
+      overlay.Routes.Add(route);*/
     }
 
     private void OnBtnClearClick(object sender, EventArgs e)
@@ -261,6 +264,14 @@ namespace GPS_Tracker
     {
       var popup = new FormImport();
       popup.ShowDialog();
+    }
+
+    private void OnLbxRoutesSelectedItemIndexChanged(object sender, EventArgs e)
+    {
+      if (lbxRoutes.SelectedItem != null)
+      {
+        data = ((GPSTrackerDataList)lbxRoutes.SelectedItem).ToList();
+      }
     }
 
     private void OnTabChange(object sender, EventArgs e)

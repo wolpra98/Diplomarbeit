@@ -23,13 +23,13 @@ namespace GPS_Tracker
       isValid = false;
       Lat = 0;
       Lng = 0;
-      int time, date;
-      date = BitConverter.ToInt32(parImport, 0);
-      time = BitConverter.ToInt32(parImport, 4);
-      Datetime = DateTime.Now;
+      long date = BitConverter.ToInt32(parImport, 0);
+      int time = BitConverter.ToInt32(parImport, 4);
+      long datetime = date * 1000000 + time;
+      Datetime = DateTime.ParseExact(datetime.ToString("000000000000"), "yyMMddHHmmss", null);
       Height = BitConverter.ToSingle(parImport, 8);
       GPSData(BitConverter.ToString(parImport, 12));
-      Debug.WriteLine("{0} : {1} : {2} : {3}", Datetime, Lat, Lng, Height);
+      Debug.WriteLine("{0} : {1} : {2} : {3}", Datetime.ToString("dd.MM.yyyy HH:mm:ss"), Lat, Lng, Height);
     }
 
     public bool IsValid
@@ -55,9 +55,8 @@ namespace GPS_Tracker
       if (isGGA(parNmea))
       {
         string[] split = parNmea.Split(',');
-        if ((split[2] != "") && (split[2] != "") && (split[2] != "") && (split[2] != ""))
+        if ((split[2] != "") && (split[3] != "") && (split[4] != "") && (split[5] != ""))
         {
-          int time = ((int)Convert.ToSingle(split[1])) / 1000;
           Lat = ((Convert.ToSingle(split[2]) / 10000.0f) % 100) / 60.0f + (int)(Convert.ToSingle(split[2]) / 1000000.0f);
           if (split[3] == "S")
             Lat = -Lat;

@@ -51,13 +51,13 @@
       this.btnConnect = new System.Windows.Forms.Button();
       this.cbxCOM = new System.Windows.Forms.ComboBox();
       this.btnRefresh = new System.Windows.Forms.Button();
+      this.lblLoadData = new System.Windows.Forms.Label();
       this.msCtrl = new System.Windows.Forms.MenuStrip();
       this.msRoute = new System.Windows.Forms.ToolStripMenuItem();
       this.miSave = new System.Windows.Forms.ToolStripMenuItem();
       this.miLoad = new System.Windows.Forms.ToolStripMenuItem();
       this.miDelete = new System.Windows.Forms.ToolStripMenuItem();
       this.msSettings = new System.Windows.Forms.ToolStripMenuItem();
-      this.lblLoadData = new System.Windows.Forms.Label();
       this.panelHeightprofile = new GPS_Tracker.GraphPanel();
       this.lblTime = new System.Windows.Forms.Label();
       this.lblHeight = new System.Windows.Forms.Label();
@@ -348,6 +348,7 @@
       this.lbxRoutes.Name = "lbxRoutes";
       this.lbxRoutes.Size = new System.Drawing.Size(165, 472);
       this.lbxRoutes.TabIndex = 5;
+      this.lbxRoutes.SelectedIndexChanged += new System.EventHandler(this.OnLbxRoutesSelectedItemIndexChanged);
       // 
       // label3
       // 
@@ -412,6 +413,18 @@
       this.btnRefresh.UseVisualStyleBackColor = true;
       this.btnRefresh.Click += new System.EventHandler(this.OnRefreshClick);
       // 
+      // lblLoadData
+      // 
+      this.lblLoadData.BackColor = System.Drawing.Color.White;
+      this.lblLoadData.Font = new System.Drawing.Font("Microsoft Sans Serif", 36F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+      this.lblLoadData.Location = new System.Drawing.Point(0, 0);
+      this.lblLoadData.Name = "lblLoadData";
+      this.lblLoadData.Size = new System.Drawing.Size(845, 547);
+      this.lblLoadData.TabIndex = 9;
+      this.lblLoadData.Text = "Lade Daten ...";
+      this.lblLoadData.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+      this.lblLoadData.UseWaitCursor = true;
+      // 
       // msCtrl
       // 
       this.msCtrl.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -456,18 +469,6 @@
       this.msSettings.Name = "msSettings";
       this.msSettings.Size = new System.Drawing.Size(90, 20);
       this.msSettings.Text = "Einstellungen";
-      // 
-      // lblLoadData
-      // 
-      this.lblLoadData.BackColor = System.Drawing.Color.White;
-      this.lblLoadData.Font = new System.Drawing.Font("Microsoft Sans Serif", 36F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.lblLoadData.Location = new System.Drawing.Point(0, 0);
-      this.lblLoadData.Name = "lblLoadData";
-      this.lblLoadData.Size = new System.Drawing.Size(845, 547);
-      this.lblLoadData.TabIndex = 9;
-      this.lblLoadData.Text = "Lade Daten ...";
-      this.lblLoadData.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-      this.lblLoadData.UseWaitCursor = true;
       // 
       // panelHeightprofile
       // 
