@@ -1,19 +1,36 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Diagnostics;
 
 namespace GPS_Tracker
 {
-  struct GPSData
+  struct GPSTrackerData
   {
     public float Lng;  // N;S
     public float Lat;  // W;E
-    public DateTime DateTime;
+    public DateTime Datetime;
+    public static readonly GPSTrackerData Empty;
+    public float Height;
 
     private bool isValid;
+
+
+    public GPSTrackerData(byte[] parImport)
+    {
+      isValid = false;
+      Lat = 0;
+      Lng = 0;
+      int time, date;
+      date = BitConverter.ToInt32(parImport, 0);
+      time = BitConverter.ToInt32(parImport, 4);
+      Datetime = DateTime.Now;
+      Height = BitConverter.ToSingle(parImport, 8);
+      GPSData(BitConverter.ToString(parImport, 12));
+      Debug.WriteLine("{0} : {1} : {2} : {3}", Datetime, Lat, Lng, Height);
+    }
 
     public bool IsValid
     {
@@ -23,22 +40,18 @@ namespace GPS_Tracker
       }
     }
 
-    public GPSData(float parLng, float parLat, DateTime parTime)
+    public void GPSData(float parLng, float parLat)
     {
       isValid = false;
       Lng = parLng;
       Lat = parLat;
-      DateTime = parTime;
-      if (DateTime != null)
-        isValid = true;
     }
 
-    public GPSData(string parNmea, DateTime parDateTime)
+    public void GPSData(string parNmea)
     {
       isValid = false;
       Lat = 0.0f;
       Lng = 0.0f;
-      DateTime = parDateTime;
       if (isGGA(parNmea))
       {
         string[] split = parNmea.Split(',');
@@ -52,7 +65,6 @@ namespace GPS_Tracker
           if (split[5] == "W")
             Lng = -Lng;
           isValid = true;
-          Debug.WriteLine("{0}: {1} : {2}", DateTime, Lat, Lng);
         }
       }
     }

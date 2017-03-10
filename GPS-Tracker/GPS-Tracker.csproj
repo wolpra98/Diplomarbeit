@@ -68,23 +68,32 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Form1.cs">
+    <Compile Include="FormImport.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="FormImport.Designer.cs">
+      <DependentUpon>FormImport.cs</DependentUpon>
     </Compile>
-    <Compile Include="GPSData.cs" />
+    <Compile Include="FormMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormMain.Designer.cs">
+      <DependentUpon>FormMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GPSTrackerData.cs" />
+    <Compile Include="GPSTrackerDataList.cs" />
     <Compile Include="GraphPanel.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="HeightData.cs" />
     <Compile Include="HeightGraph.cs" />
-    <Compile Include="ImportManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="StatisticCreator.cs" />
+    <EmbeddedResource Include="FormImport.resx">
+      <DependentUpon>FormImport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormMain.resx">
+      <DependentUpon>FormMain.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -95,6 +104,14 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="Properties\DataSources\Form1.datasource" />
+    <None Include="Properties\DataSources\GPSData.datasource" />
+    <None Include="Properties\DataSources\GPS_Tracker.Properties.Resources.datasource" />
+    <None Include="Properties\DataSources\GPS_Tracker.Properties.Settings.datasource" />
+    <None Include="Properties\DataSources\GraphPanel.datasource" />
+    <None Include="Properties\DataSources\HeightData.datasource" />
+    <None Include="Properties\DataSources\HeightGraph.datasource" />
+    <None Include="Properties\DataSources\Program.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

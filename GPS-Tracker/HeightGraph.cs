@@ -12,7 +12,7 @@ namespace GPS_Tracker
   {
     const float PADT = 30f, PADB = 70f, PADL = 50f, PADR = 20, SCAL = 15f;
     #region MemberVariables
-    List<HeightData> _dataList;
+    List<GPSTrackerData> _dataList;
     List<PointF> _dataPoints;
     Graphics _gfx;
     GraphicsPath _path;
@@ -24,7 +24,7 @@ namespace GPS_Tracker
     StringFormat _formatVertical;
     int _multWidth, _multHeight, _nearestPoint, _oldPoint;
     float _maxHeight, _minHeight, _scaleHeight, _scaleMinHeight, _scaleMaxHeight, _scaleWidth;
-    TimeSpan _minTime, _maxTime, _scaleMaxTime, _scaleMinTime;
+    DateTime _minTime, _maxTime, _scaleMaxTime, _scaleMinTime;
     bool _refresh;
     #endregion
 
@@ -89,8 +89,8 @@ namespace GPS_Tracker
         }
 
         // X Axe
-        _maxTime = _dataList.Max(t => t.Time);
-        _minTime = _dataList.Min(t => t.Time);
+        _maxTime = _dataList.Max(t => t.Datetime);
+        _minTime = _dataList.Min(t => t.Datetime);
         _scaleWidth = 0;
         _multWidth = 0;
         while (_scaleWidth <= SCAL * 3)
@@ -101,13 +101,13 @@ namespace GPS_Tracker
             _multWidth += 5;
           else
             _multWidth *= 2;
-          _scaleMinTime = new TimeSpan((int)(_minTime.Ticks / TimeSpan.TicksPerMinute / _multWidth) * _multWidth * TimeSpan.TicksPerMinute);
-          _scaleMaxTime = new TimeSpan((int)(_maxTime.Ticks / TimeSpan.TicksPerMinute / _multWidth) * _multWidth * TimeSpan.TicksPerMinute);
+          _scaleMinTime = new DateTime((int)(_minTime.Ticks / TimeSpan.TicksPerMinute / _multWidth) * _multWidth * TimeSpan.TicksPerMinute);
+          _scaleMaxTime = new DateTime((int)(_maxTime.Ticks / TimeSpan.TicksPerMinute / _multWidth) * _multWidth * TimeSpan.TicksPerMinute);
           if (_scaleMaxTime < _maxTime)
             _scaleMaxTime += new TimeSpan(_multWidth * TimeSpan.TicksPerMinute);
           _scaleWidth = (_size.Width - PADL - PADR) * _multWidth / (int)_scaleMaxTime.Subtract(_scaleMinTime).TotalMinutes;
         }
-        for (int i = 0; _scaleMinTime.TotalMinutes + i * _multWidth <= _scaleMaxTime.TotalMinutes; i++)
+        for (int i = 0; (int)(_scaleMinTime.Ticks/ TimeSpan.TicksPerMinute) + i * _multWidth <= (int)(_scaleMaxTime.Ticks / TimeSpan.TicksPerMinute) ; i++)
         {
           _gfx.DrawLine(_pen, _pZero.X + i * _scaleWidth, _pZero.Y, _pZero.X + i * _scaleWidth, _pZero.Y + SCAL / 2);
           _gfx.DrawString(new TimeSpan(_scaleMinTime.Ticks + i * _multWidth * TimeSpan.TicksPerMinute).ToString(@"hh\:mm"), _font, Brushes.Black, _pZero.X + i * _scaleWidth - 10, _pZero.Y + 10, _formatVertical);
@@ -119,18 +119,18 @@ namespace GPS_Tracker
     {
       _pen.Color = Color.Blue;
       _pen.Width = 5;
-      _dataList = _dataList.OrderBy(o => o.Time).ToList();
+      _dataList = _dataList.OrderBy(o => o.Datetime).ToList();
       if (_dataPoints == null)
         _dataPoints = new List<PointF>();
       _dataPoints.Clear();
-      foreach (HeightData data in _dataList)
+      foreach (GPSTrackerData data in _dataList)
       {
-        _dataPoints.Add(new PointF(Convert.ToSingle(data.Time.Subtract(_scaleMinTime).TotalMinutes * _scaleWidth / _multWidth) + _pZero.X, _pZero.Y - (data.Height - _scaleMinHeight) * _scaleHeight / _multHeight));
+        _dataPoints.Add(new PointF(Convert.ToSingle(data.Datetime.Subtract(_scaleMinTime).TotalMinutes * _scaleWidth / _multWidth) + _pZero.X, _pZero.Y - (data.Height - _scaleMinHeight) * _scaleHeight / _multHeight));
       }
       _gfx.DrawLines(_pen, _dataPoints.ToArray());
     }
 
-    public void UpdateData(List<HeightData> parData)
+    public void UpdateData(List<GPSTrackerData> parData)
     {
       _dataList = parData;
     }
@@ -186,11 +186,11 @@ namespace GPS_Tracker
       return PointF.Empty;
     }
 
-    public HeightData ReturnData()
+    public GPSTrackerData ReturnData()
     {
       if (_dataList != null)
         return _dataList.ElementAt(_oldPoint);
-      return HeightData.Empty;
+      return GPSTrackerData.Empty;
     }
   }
 }

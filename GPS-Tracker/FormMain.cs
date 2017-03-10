@@ -14,24 +14,107 @@ using System.Reflection;
 using System.IO.Ports;
 using System.Threading;
 using System.Diagnostics;
+using System.IO;
 
 namespace GPS_Tracker
 {
-  public partial class Form1 : Form
+  public partial class FormMain : Form
   {
+    #region Vriables
     GMapOverlay overlay;
     //GMapMarker marker;
     GMapRoute route;
     PointLatLng pos;
-    List<HeightData> heights;
+    List<GPSTrackerData> heights;
     HeightGraph heightGraph;
     PointF pOffset;
-    HeightData pData;
+    GPSTrackerData pData;
     SerialPort com;
     Thread import;
-    bool isRunning;
+    bool isRunning, dataLoaded = false;
+    #endregion
 
-    public Form1()
+    #region Functions
+
+    void GetData()
+    {
+      heights = new List<GPSTrackerData>();
+      while (isRunning)
+      {
+        try
+        {
+          string[] rData = com.ReadLine().Split(';');
+          if (rData[0] != null && rData[1] != null)
+          {
+            GPSTrackerData data = new GPSTrackerData();
+            data.GPSData(rData[0]);
+            if (data.IsValid)
+            {
+              pos.Lat = data.Lat; pos.Lng = data.Lng;
+              route.Points.Add(pos);
+              //heights.Add(new HeightData(Convert.ToSingle(rData[1]) / 100.0f, data.DateTime));
+              //heightGraph.UpdateData(heights);
+              panelHeightprofile.Invalidate();
+              overlay.Routes.Clear();
+              overlay.Routes.Add(route);
+            }
+          }
+        }
+        catch (Exception)
+        {
+          isRunning = false;
+          Debug.WriteLine("Thread crash!");
+        }
+      }
+    }
+
+    void RefreshPosData()
+    {
+      pOffset = heightGraph.ReturnOffset();
+      pData = heightGraph.ReturnData();
+      if (pOffset != PointF.Empty)
+      {
+        lblHeight.Text = pData.Height.ToString() + " m";
+        lblTime.Font = lblHeight.Font;
+        lblTime.Text = pData.Datetime.ToString(@"hh\:mm");
+        pOffset.Y = 11;
+        pOffset.X -= lblHeight.Width / 2.0f;
+        lblHeight.Location = panelHeightprofile.Location + (Size)Point.Round(pOffset);
+        pOffset = heightGraph.ReturnOffset();
+        pOffset.Y = panelHeightprofile.Height - 20;
+        pOffset.X -= lblTime.Width / 2.0f;
+        lblTime.Location = panelHeightprofile.Location + (Size)Point.Round(pOffset);
+      }
+    }
+
+    void LoadData()
+    {
+      List<GPSTrackerDataList> list = new List<GPSTrackerDataList>();
+      byte[] buffer = new byte[100];
+      string dir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "GPS-Tracker", "Import");
+      string name;
+      foreach (string file in Directory.GetFiles(@dir, "*.gpst"))
+      {
+        GPSTrackerDataList filedata = new GPSTrackerDataList();
+        using (FileStream fs = new FileStream(file, FileMode.Open))
+        {
+          while (fs.Read(buffer, 0, 100) == 100)
+            filedata.Add(new GPSTrackerData(buffer));
+        }
+        name = file.Replace(dir, "");
+        name = name.Replace(".gpst", "");
+        name = name.Replace("\\", "");
+        name = name.Substring(4, 2) + "." + name.Substring(2, 2) + ".20" + name.Substring(0, 2) + "   " + name.Substring(6, 2) + ":" + name.Substring(8, 2) + " Uhr";
+        filedata.Text = name;
+        list.Add(filedata);
+      }
+      lbxRoutes.DisplayMember = "Text";
+      lbxRoutes.DataSource = list;
+    }
+
+    #endregion
+
+    public FormMain()
     {
       InitializeComponent();
     }
@@ -64,26 +147,9 @@ namespace GPS_Tracker
 
     private void OnButtonHeightClick(object sender, EventArgs e)
     {
-      heights = demoHeights();
-      heightGraph.UpdateData(heights);
-      panelHeightprofile.Invalidate();
-    }
-
-    private List<HeightData> demoHeights()
-    {
-      List<HeightData> demoData = new List<HeightData>();
-      demoData.Add(new HeightData(229f, new TimeSpan(12, 48, 0)));
-      demoData.Add(new HeightData(270f, new TimeSpan(12, 39, 0)));
-      demoData.Add(new HeightData(252f, new TimeSpan(12, 27, 0)));
-      demoData.Add(new HeightData(343f, new TimeSpan(12, 30, 0)));
-      demoData.Add(new HeightData(531f, new TimeSpan(12, 40, 0)));
-      demoData.Add(new HeightData(472f, new TimeSpan(12, 45, 0)));
-      demoData.Add(new HeightData(279f, new TimeSpan(12, 50, 0)));
-      demoData.Add(new HeightData(271.4f, new TimeSpan(12, 52, 0)));
-      demoData.Add(new HeightData(523f, new TimeSpan(12, 55, 0)));
-      demoData.Add(new HeightData(287f, new TimeSpan(12, 57, 0)));
-      demoData.Add(new HeightData(333f, new TimeSpan(12, 43, 0)));
-      return demoData;
+      //heights = demoHeights();
+      //heightGraph.UpdateData(heights);
+      //panelHeightprofile.Invalidate();
     }
 
     private void OnGraphPanelMouseMove(object sender, MouseEventArgs e)
@@ -99,25 +165,6 @@ namespace GPS_Tracker
       RefreshPosData();
     }
 
-    void RefreshPosData()
-    {
-      pOffset = heightGraph.ReturnOffset();
-      pData = heightGraph.ReturnData();
-      if (pOffset != PointF.Empty)
-      {
-        lblHeight.Text = pData.Height.ToString() + " m";
-        lblTime.Font = lblHeight.Font;
-        lblTime.Text = pData.Time.ToString(@"hh\:mm");
-        pOffset.Y = 11;
-        pOffset.X -= lblHeight.Width / 2.0f;
-        lblHeight.Location = panelHeightprofile.Location + (Size)Point.Round(pOffset);
-        pOffset = heightGraph.ReturnOffset();
-        pOffset.Y = panelHeightprofile.Height - 20;
-        pOffset.X -= lblTime.Width / 2.0f;
-        lblTime.Location = panelHeightprofile.Location + (Size)Point.Round(pOffset);
-      }
-    }
-
     private void OnBtnImportClick(object sender, EventArgs e)
     {
 
@@ -125,9 +172,13 @@ namespace GPS_Tracker
 
       foreach (string line in lines)
       {
-        GPSData data = new GPSData(line);
-        pos.Lat = data.Lat; pos.Lng = data.Lng;
-        route.Points.Add(pos);
+        GPSTrackerData data = new GPSTrackerData();
+        data.GPSData(line);
+        if (data.IsValid)
+        {
+          pos.Lat = data.Lat; pos.Lng = data.Lng;
+          route.Points.Add(pos);
+        }
       }
       overlay.Routes.Clear();
       overlay.Routes.Add(route);
@@ -196,37 +247,6 @@ namespace GPS_Tracker
         com.BaudRate = Convert.ToInt32(cbxBaud.SelectedItem);
     }
 
-    void GetData()
-    {
-      heights = new List<HeightData>();
-      while (isRunning)
-      {
-        try
-        {
-          string[] rData = com.ReadLine().Split(';');
-          if (rData[0] != null && rData[1] != null)
-          {
-            GPSData data = new GPSData(rData[0]);
-            if (data.IsValid)
-            {
-              pos.Lat = data.Lat; pos.Lng = data.Lng;
-              route.Points.Add(pos);
-              heights.Add(new HeightData(Convert.ToSingle(rData[1]) / 100.0f, data.Time));
-              heightGraph.UpdateData(heights);
-              panelHeightprofile.Invalidate();
-              overlay.Routes.Clear();
-              overlay.Routes.Add(route);
-            }
-          }
-        }
-        catch (Exception)
-        {
-          isRunning = false;
-          Debug.WriteLine("Thread crash!");
-        }
-      }
-    }
-
     private void OnFormClosing(object sender, FormClosingEventArgs e)
     {
       isRunning = false;
@@ -235,6 +255,24 @@ namespace GPS_Tracker
     private void OnBtnCenterMapClick(object sender, EventArgs e)
     {
       gMap.Position = pos;
+    }
+
+    private void OnBtnImportRoutesClick(object sender, EventArgs e)
+    {
+      var popup = new FormImport();
+      popup.ShowDialog();
+    }
+
+    private void OnTabChange(object sender, EventArgs e)
+    {
+      if (tabCtrl.SelectedTab == tabDataSelect && !dataLoaded)
+      {
+        lblLoadData.BringToFront();
+        Application.DoEvents();
+        LoadData();
+        lblLoadData.Visible = false;
+        dataLoaded = true;
+      }
     }
   }
 }

@@ -10,11 +10,11 @@ namespace GPS_Tracker
   {
     public static readonly HeightData Empty;
     public float Height;
-    public TimeSpan Time;
+    public DateTime DateTime;
 
-    public HeightData(float parHeight, TimeSpan parTime)
+    public HeightData(float parHeight, DateTime parDateTime)
     {
-      Time = parTime;
+      DateTime = parDateTime;
       Height = parHeight;
     }
   }
