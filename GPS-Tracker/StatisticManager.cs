@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GPS_Tracker
 {
-  class StatisticCreator
+  class StatisticManager
   {
     List<GPSTrackerData> data;
     List<GPSTrackerData> dataRaw;
@@ -23,7 +23,8 @@ namespace GPS_Tracker
       {
         dataRaw = value;
         data = filter(value);
-        calculate();
+        if (data.Count != 0)
+          calculate();
       }
     }
     public float Distance;
@@ -34,15 +35,15 @@ namespace GPS_Tracker
     public float HeightMax;
 
 
-    public StatisticCreator() { }
+    public StatisticManager() { }
 
 
     List<GPSTrackerData> filter(List<GPSTrackerData> data)
     {
-      foreach (GPSTrackerData item in data)
+      for (int i = data.Count - 1; i >= 0; i--)
       {
-        if (!item.IsValid)
-          data.Remove(item);
+        if (!data[i].IsValid)
+          data.RemoveAt(i);
       }
       if (data.Count <= 10)
         return data;
@@ -69,6 +70,7 @@ namespace GPS_Tracker
         heigthDif = Math.Abs(data.ElementAt(i).Height - data.ElementAt(i - 1).Height);
         HeightDistance += heigthDif;
         distDif = calcDist(data.ElementAt(i), data.ElementAt(i - 1));
+        Distance += distDif;
       }
     }
 

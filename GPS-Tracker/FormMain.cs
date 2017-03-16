@@ -21,6 +21,7 @@ namespace GPS_Tracker
   public partial class FormMain : Form
   {
     #region Vriables
+    StatisticManager statMgr = new StatisticManager();
     GMapOverlay overlay;
     //GMapMarker marker;
     GMapRoute route;
@@ -31,7 +32,7 @@ namespace GPS_Tracker
     GPSTrackerData pData;
     SerialPort com;
     Thread import;
-    bool isRunning, dataLoaded = false;
+    bool isRunning, dataLoaded = false, dataChanged = false;
     #endregion
 
     #region Functions
@@ -270,7 +271,8 @@ namespace GPS_Tracker
     {
       if (lbxRoutes.SelectedItem != null)
       {
-        data = ((GPSTrackerDataList)lbxRoutes.SelectedItem).ToList();
+        statMgr.Data = ((GPSTrackerDataList)lbxRoutes.SelectedItem).ToList();
+        dataChanged = true;
       }
     }
 
@@ -283,6 +285,20 @@ namespace GPS_Tracker
         LoadData();
         lblLoadData.Visible = false;
         dataLoaded = true;
+      }
+      else if (tabCtrl.SelectedTab == tabDataSelect && dataChanged)
+      {
+        route.Points.Clear();
+        overlay.Routes.Clear();
+        Application.DoEvents();
+        foreach (GPSTrackerData item in statMgr.Data)
+        {
+          pos.Lat = item.Lat;
+          pos.Lng = item.Lng;
+          route.Points.Add(pos);
+        }
+        overlay.Routes.Add(route);
+        dataChanged = false;
       }
     }
   }

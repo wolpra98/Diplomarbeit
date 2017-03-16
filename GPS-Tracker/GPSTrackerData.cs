@@ -23,12 +23,18 @@ namespace GPS_Tracker
       isValid = false;
       Lat = 0;
       Lng = 0;
-      long date = BitConverter.ToInt32(parImport, 0);
+      int date = BitConverter.ToInt32(parImport, 0);
       int time = BitConverter.ToInt32(parImport, 4);
-      long datetime = date * 1000000 + time;
-      Datetime = DateTime.ParseExact(datetime.ToString("000000000000"), "yyMMddHHmmss", null);
+      long datetime = ((long)date) * 1000000 + time;
+      if(date==0||time==0)
+      {
+        isValid = false;
+        Datetime = DateTime.Now;
+      }
+      else
+        Datetime = DateTime.ParseExact(datetime.ToString("000000000000"), "ddMMyyHHmmss", null);
       Height = BitConverter.ToSingle(parImport, 8);
-      GPSData(BitConverter.ToString(parImport, 12));
+      GPSData(Encoding.ASCII.GetString(parImport,12,88));
       Debug.WriteLine("{0} : {1} : {2} : {3}", Datetime.ToString("dd.MM.yyyy HH:mm:ss"), Lat, Lng, Height);
     }
 
