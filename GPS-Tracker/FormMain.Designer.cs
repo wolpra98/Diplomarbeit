@@ -29,46 +29,34 @@
     private void InitializeComponent()
     {
       this.gMap = new GMap.NET.WindowsForms.GMapControl();
-      this.btnSetRoute = new System.Windows.Forms.Button();
-      this.label1 = new System.Windows.Forms.Label();
-      this.label2 = new System.Windows.Forms.Label();
-      this.numLat = new System.Windows.Forms.NumericUpDown();
-      this.numLng = new System.Windows.Forms.NumericUpDown();
       this.tabCtrl = new System.Windows.Forms.TabControl();
       this.tabMap = new System.Windows.Forms.TabPage();
-      this.btnCenterMap = new System.Windows.Forms.Button();
+      this.gbStatistic = new System.Windows.Forms.GroupBox();
+      this.lblDistance = new System.Windows.Forms.Label();
+      this.label6 = new System.Windows.Forms.Label();
+      this.label5 = new System.Windows.Forms.Label();
+      this.lblHeightAbs = new System.Windows.Forms.Label();
+      this.lblHeightDif = new System.Windows.Forms.Label();
+      this.label2 = new System.Windows.Forms.Label();
+      this.lblRealDistance = new System.Windows.Forms.Label();
+      this.label1 = new System.Windows.Forms.Label();
       this.slider = new System.Windows.Forms.TrackBar();
-      this.btnClear = new System.Windows.Forms.Button();
-      this.btnImport = new System.Windows.Forms.Button();
       this.tabHigh = new System.Windows.Forms.TabPage();
-      this.btnHigh = new System.Windows.Forms.Button();
       this.tabDataSelect = new System.Windows.Forms.TabPage();
       this.label4 = new System.Windows.Forms.Label();
       this.btnImportRoutes = new System.Windows.Forms.Button();
       this.lbxRoutes = new System.Windows.Forms.ListBox();
-      this.label3 = new System.Windows.Forms.Label();
-      this.cbxBaud = new System.Windows.Forms.ComboBox();
-      this.btnConnect = new System.Windows.Forms.Button();
-      this.cbxCOM = new System.Windows.Forms.ComboBox();
-      this.btnRefresh = new System.Windows.Forms.Button();
       this.lblLoadData = new System.Windows.Forms.Label();
-      this.msCtrl = new System.Windows.Forms.MenuStrip();
-      this.msRoute = new System.Windows.Forms.ToolStripMenuItem();
-      this.miSave = new System.Windows.Forms.ToolStripMenuItem();
-      this.miLoad = new System.Windows.Forms.ToolStripMenuItem();
-      this.miDelete = new System.Windows.Forms.ToolStripMenuItem();
-      this.msSettings = new System.Windows.Forms.ToolStripMenuItem();
+      this.btnCenterMap = new System.Windows.Forms.Button();
       this.panelHeightprofile = new GPS_Tracker.GraphPanel();
       this.lblTime = new System.Windows.Forms.Label();
       this.lblHeight = new System.Windows.Forms.Label();
-      ((System.ComponentModel.ISupportInitialize)(this.numLat)).BeginInit();
-      ((System.ComponentModel.ISupportInitialize)(this.numLng)).BeginInit();
       this.tabCtrl.SuspendLayout();
       this.tabMap.SuspendLayout();
+      this.gbStatistic.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.slider)).BeginInit();
       this.tabHigh.SuspendLayout();
       this.tabDataSelect.SuspendLayout();
-      this.msCtrl.SuspendLayout();
       this.panelHeightprofile.SuspendLayout();
       this.SuspendLayout();
       // 
@@ -96,101 +84,10 @@
       this.gMap.ScaleMode = GMap.NET.WindowsForms.ScaleModes.Integer;
       this.gMap.SelectedAreaFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
       this.gMap.ShowTileGridLines = false;
-      this.gMap.Size = new System.Drawing.Size(650, 550);
+      this.gMap.Size = new System.Drawing.Size(500, 500);
       this.gMap.TabIndex = 0;
       this.gMap.Zoom = 16D;
       this.gMap.OnMapZoomChanged += new GMap.NET.MapZoomChanged(this.OnMapZoomChanged);
-      // 
-      // btnSetRoute
-      // 
-      this.btnSetRoute.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-      this.btnSetRoute.Location = new System.Drawing.Point(697, 6);
-      this.btnSetRoute.Name = "btnSetRoute";
-      this.btnSetRoute.Size = new System.Drawing.Size(145, 50);
-      this.btnSetRoute.TabIndex = 1;
-      this.btnSetRoute.Text = "Set Route";
-      this.btnSetRoute.UseVisualStyleBackColor = true;
-      this.btnSetRoute.Click += new System.EventHandler(this.OnBtnSetRouteClick);
-      // 
-      // label1
-      // 
-      this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-      this.label1.AutoSize = true;
-      this.label1.Location = new System.Drawing.Point(697, 65);
-      this.label1.Name = "label1";
-      this.label1.Size = new System.Drawing.Size(64, 13);
-      this.label1.TabIndex = 2;
-      this.label1.Text = "Längengrad";
-      // 
-      // label2
-      // 
-      this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-      this.label2.AutoSize = true;
-      this.label2.Location = new System.Drawing.Point(697, 110);
-      this.label2.Name = "label2";
-      this.label2.Size = new System.Drawing.Size(61, 13);
-      this.label2.TabIndex = 3;
-      this.label2.Text = "Breitengrad";
-      // 
-      // numLat
-      // 
-      this.numLat.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-      this.numLat.DecimalPlaces = 6;
-      this.numLat.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-      this.numLat.Increment = new decimal(new int[] {
-            7,
-            0,
-            0,
-            262144});
-      this.numLat.Location = new System.Drawing.Point(697, 126);
-      this.numLat.Maximum = new decimal(new int[] {
-            90,
-            0,
-            0,
-            0});
-      this.numLat.Minimum = new decimal(new int[] {
-            90,
-            0,
-            0,
-            -2147483648});
-      this.numLat.Name = "numLat";
-      this.numLat.Size = new System.Drawing.Size(145, 20);
-      this.numLat.TabIndex = 6;
-      this.numLat.Value = new decimal(new int[] {
-            47092240,
-            0,
-            0,
-            393216});
-      // 
-      // numLng
-      // 
-      this.numLng.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-      this.numLng.DecimalPlaces = 6;
-      this.numLng.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-      this.numLng.Increment = new decimal(new int[] {
-            1,
-            0,
-            0,
-            196608});
-      this.numLng.Location = new System.Drawing.Point(697, 81);
-      this.numLng.Maximum = new decimal(new int[] {
-            180,
-            0,
-            0,
-            0});
-      this.numLng.Minimum = new decimal(new int[] {
-            180,
-            0,
-            0,
-            -2147483648});
-      this.numLng.Name = "numLng";
-      this.numLng.Size = new System.Drawing.Size(145, 20);
-      this.numLng.TabIndex = 7;
-      this.numLng.Value = new decimal(new int[] {
-            15402685,
-            0,
-            0,
-            393216});
       // 
       // tabCtrl
       // 
@@ -200,120 +97,162 @@
       this.tabCtrl.Controls.Add(this.tabMap);
       this.tabCtrl.Controls.Add(this.tabHigh);
       this.tabCtrl.Controls.Add(this.tabDataSelect);
-      this.tabCtrl.Location = new System.Drawing.Point(0, 27);
+      this.tabCtrl.Location = new System.Drawing.Point(0, 0);
       this.tabCtrl.Name = "tabCtrl";
       this.tabCtrl.SelectedIndex = 0;
-      this.tabCtrl.Size = new System.Drawing.Size(853, 576);
+      this.tabCtrl.Size = new System.Drawing.Size(703, 526);
       this.tabCtrl.TabIndex = 8;
       this.tabCtrl.SelectedIndexChanged += new System.EventHandler(this.OnTabChange);
       // 
       // tabMap
       // 
+      this.tabMap.Controls.Add(this.gbStatistic);
       this.tabMap.Controls.Add(this.btnCenterMap);
       this.tabMap.Controls.Add(this.slider);
-      this.tabMap.Controls.Add(this.btnClear);
-      this.tabMap.Controls.Add(this.btnImport);
       this.tabMap.Controls.Add(this.gMap);
-      this.tabMap.Controls.Add(this.label2);
-      this.tabMap.Controls.Add(this.numLng);
-      this.tabMap.Controls.Add(this.btnSetRoute);
-      this.tabMap.Controls.Add(this.numLat);
-      this.tabMap.Controls.Add(this.label1);
       this.tabMap.Location = new System.Drawing.Point(4, 22);
       this.tabMap.Name = "tabMap";
       this.tabMap.Padding = new System.Windows.Forms.Padding(3);
-      this.tabMap.Size = new System.Drawing.Size(845, 550);
+      this.tabMap.Size = new System.Drawing.Size(695, 500);
       this.tabMap.TabIndex = 0;
       this.tabMap.Text = "Map";
       this.tabMap.UseVisualStyleBackColor = true;
       // 
-      // btnCenterMap
+      // gbStatistic
       // 
-      this.btnCenterMap.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-      this.btnCenterMap.Location = new System.Drawing.Point(697, 152);
-      this.btnCenterMap.Name = "btnCenterMap";
-      this.btnCenterMap.Size = new System.Drawing.Size(145, 50);
-      this.btnCenterMap.TabIndex = 11;
-      this.btnCenterMap.Text = "Center Map";
-      this.btnCenterMap.UseVisualStyleBackColor = true;
-      this.btnCenterMap.Click += new System.EventHandler(this.OnBtnCenterMapClick);
+      this.gbStatistic.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+      this.gbStatistic.Controls.Add(this.lblDistance);
+      this.gbStatistic.Controls.Add(this.label6);
+      this.gbStatistic.Controls.Add(this.label5);
+      this.gbStatistic.Controls.Add(this.lblHeightAbs);
+      this.gbStatistic.Controls.Add(this.lblHeightDif);
+      this.gbStatistic.Controls.Add(this.label2);
+      this.gbStatistic.Controls.Add(this.lblRealDistance);
+      this.gbStatistic.Controls.Add(this.label1);
+      this.gbStatistic.Location = new System.Drawing.Point(545, 6);
+      this.gbStatistic.Name = "gbStatistic";
+      this.gbStatistic.Size = new System.Drawing.Size(147, 99);
+      this.gbStatistic.TabIndex = 16;
+      this.gbStatistic.TabStop = false;
+      this.gbStatistic.Text = "Statistik:";
+      // 
+      // lblDistance
+      // 
+      this.lblDistance.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+      this.lblDistance.Location = new System.Drawing.Point(47, 20);
+      this.lblDistance.Name = "lblDistance";
+      this.lblDistance.Size = new System.Drawing.Size(100, 13);
+      this.lblDistance.TabIndex = 14;
+      this.lblDistance.Text = "0 m";
+      this.lblDistance.TextAlign = System.Drawing.ContentAlignment.TopRight;
+      // 
+      // label6
+      // 
+      this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+      this.label6.AutoSize = true;
+      this.label6.Location = new System.Drawing.Point(2, 80);
+      this.label6.Name = "label6";
+      this.label6.Size = new System.Drawing.Size(68, 13);
+      this.label6.TabIndex = 17;
+      this.label6.Text = "Höhenmeter:";
+      // 
+      // label5
+      // 
+      this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+      this.label5.AutoSize = true;
+      this.label5.Location = new System.Drawing.Point(2, 60);
+      this.label5.Name = "label5";
+      this.label5.Size = new System.Drawing.Size(82, 13);
+      this.label5.TabIndex = 16;
+      this.label5.Text = "Höhendifferenz:";
+      // 
+      // lblHeightAbs
+      // 
+      this.lblHeightAbs.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+      this.lblHeightAbs.Location = new System.Drawing.Point(69, 80);
+      this.lblHeightAbs.Name = "lblHeightAbs";
+      this.lblHeightAbs.Size = new System.Drawing.Size(78, 13);
+      this.lblHeightAbs.TabIndex = 19;
+      this.lblHeightAbs.Text = "0 m";
+      this.lblHeightAbs.TextAlign = System.Drawing.ContentAlignment.TopRight;
+      // 
+      // lblHeightDif
+      // 
+      this.lblHeightDif.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+      this.lblHeightDif.Location = new System.Drawing.Point(69, 60);
+      this.lblHeightDif.Name = "lblHeightDif";
+      this.lblHeightDif.Size = new System.Drawing.Size(78, 13);
+      this.lblHeightDif.TabIndex = 18;
+      this.lblHeightDif.Text = "0 m";
+      this.lblHeightDif.TextAlign = System.Drawing.ContentAlignment.TopRight;
+      // 
+      // label2
+      // 
+      this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+      this.label2.AutoSize = true;
+      this.label2.Location = new System.Drawing.Point(2, 40);
+      this.label2.Name = "label2";
+      this.label2.Size = new System.Drawing.Size(78, 13);
+      this.label2.TabIndex = 13;
+      this.label2.Text = "Reale Strecke:";
+      // 
+      // lblRealDistance
+      // 
+      this.lblRealDistance.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+      this.lblRealDistance.Location = new System.Drawing.Point(69, 40);
+      this.lblRealDistance.Name = "lblRealDistance";
+      this.lblRealDistance.Size = new System.Drawing.Size(78, 13);
+      this.lblRealDistance.TabIndex = 15;
+      this.lblRealDistance.Text = "0 m";
+      this.lblRealDistance.TextAlign = System.Drawing.ContentAlignment.TopRight;
+      // 
+      // label1
+      // 
+      this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+      this.label1.AutoSize = true;
+      this.label1.Location = new System.Drawing.Point(2, 20);
+      this.label1.Name = "label1";
+      this.label1.Size = new System.Drawing.Size(47, 13);
+      this.label1.TabIndex = 12;
+      this.label1.Text = "Strecke:";
       // 
       // slider
       // 
       this.slider.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
       this.slider.LargeChange = 1;
-      this.slider.Location = new System.Drawing.Point(646, 0);
+      this.slider.Location = new System.Drawing.Point(496, 0);
       this.slider.Maximum = 20;
       this.slider.Minimum = 1;
       this.slider.Name = "slider";
       this.slider.Orientation = System.Windows.Forms.Orientation.Vertical;
-      this.slider.Size = new System.Drawing.Size(45, 550);
+      this.slider.Size = new System.Drawing.Size(45, 500);
       this.slider.TabIndex = 10;
       this.slider.TickStyle = System.Windows.Forms.TickStyle.Both;
       this.slider.Value = 16;
       this.slider.ValueChanged += new System.EventHandler(this.OnValueChanged);
       // 
-      // btnClear
-      // 
-      this.btnClear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-      this.btnClear.Location = new System.Drawing.Point(697, 208);
-      this.btnClear.Name = "btnClear";
-      this.btnClear.Size = new System.Drawing.Size(145, 50);
-      this.btnClear.TabIndex = 9;
-      this.btnClear.Text = "Clear Route";
-      this.btnClear.UseVisualStyleBackColor = true;
-      this.btnClear.Click += new System.EventHandler(this.OnBtnClearClick);
-      // 
-      // btnImport
-      // 
-      this.btnImport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-      this.btnImport.Location = new System.Drawing.Point(697, 264);
-      this.btnImport.Name = "btnImport";
-      this.btnImport.Size = new System.Drawing.Size(145, 50);
-      this.btnImport.TabIndex = 8;
-      this.btnImport.Text = "Import Route";
-      this.btnImport.UseVisualStyleBackColor = true;
-      this.btnImport.Click += new System.EventHandler(this.OnBtnImportClick);
-      // 
       // tabHigh
       // 
-      this.tabHigh.Controls.Add(this.btnHigh);
       this.tabHigh.Controls.Add(this.panelHeightprofile);
       this.tabHigh.Location = new System.Drawing.Point(4, 22);
       this.tabHigh.Name = "tabHigh";
       this.tabHigh.Padding = new System.Windows.Forms.Padding(3);
-      this.tabHigh.Size = new System.Drawing.Size(845, 550);
+      this.tabHigh.Size = new System.Drawing.Size(695, 500);
       this.tabHigh.TabIndex = 1;
       this.tabHigh.Text = "Höhenprofil";
       this.tabHigh.UseVisualStyleBackColor = true;
-      // 
-      // btnHigh
-      // 
-      this.btnHigh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-      this.btnHigh.Location = new System.Drawing.Point(697, 6);
-      this.btnHigh.Name = "btnHigh";
-      this.btnHigh.Size = new System.Drawing.Size(145, 50);
-      this.btnHigh.TabIndex = 1;
-      this.btnHigh.Text = "Höhe hinzufügen";
-      this.btnHigh.UseVisualStyleBackColor = true;
-      this.btnHigh.Click += new System.EventHandler(this.OnButtonHeightClick);
       // 
       // tabDataSelect
       // 
       this.tabDataSelect.Controls.Add(this.label4);
       this.tabDataSelect.Controls.Add(this.btnImportRoutes);
       this.tabDataSelect.Controls.Add(this.lbxRoutes);
-      this.tabDataSelect.Controls.Add(this.label3);
-      this.tabDataSelect.Controls.Add(this.cbxBaud);
-      this.tabDataSelect.Controls.Add(this.btnConnect);
-      this.tabDataSelect.Controls.Add(this.cbxCOM);
-      this.tabDataSelect.Controls.Add(this.btnRefresh);
       this.tabDataSelect.Controls.Add(this.lblLoadData);
       this.tabDataSelect.Location = new System.Drawing.Point(4, 22);
       this.tabDataSelect.Name = "tabDataSelect";
       this.tabDataSelect.Padding = new System.Windows.Forms.Padding(3);
-      this.tabDataSelect.Size = new System.Drawing.Size(845, 550);
+      this.tabDataSelect.Size = new System.Drawing.Size(695, 500);
       this.tabDataSelect.TabIndex = 2;
       this.tabDataSelect.Text = "Datenauswahl";
       this.tabDataSelect.UseVisualStyleBackColor = true;
@@ -331,7 +270,7 @@
       // btnImportRoutes
       // 
       this.btnImportRoutes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-      this.btnImportRoutes.Location = new System.Drawing.Point(6, 510);
+      this.btnImportRoutes.Location = new System.Drawing.Point(6, 460);
       this.btnImportRoutes.Name = "btnImportRoutes";
       this.btnImportRoutes.Size = new System.Drawing.Size(165, 34);
       this.btnImportRoutes.TabIndex = 6;
@@ -346,72 +285,9 @@
       this.lbxRoutes.FormattingEnabled = true;
       this.lbxRoutes.Location = new System.Drawing.Point(6, 32);
       this.lbxRoutes.Name = "lbxRoutes";
-      this.lbxRoutes.Size = new System.Drawing.Size(165, 472);
+      this.lbxRoutes.Size = new System.Drawing.Size(165, 420);
       this.lbxRoutes.TabIndex = 5;
       this.lbxRoutes.SelectedIndexChanged += new System.EventHandler(this.OnLbxRoutesSelectedItemIndexChanged);
-      // 
-      // label3
-      // 
-      this.label3.AutoSize = true;
-      this.label3.Location = new System.Drawing.Point(541, 58);
-      this.label3.Name = "label3";
-      this.label3.Size = new System.Drawing.Size(53, 13);
-      this.label3.TabIndex = 4;
-      this.label3.Text = "Baudrate:";
-      // 
-      // cbxBaud
-      // 
-      this.cbxBaud.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-      this.cbxBaud.Items.AddRange(new object[] {
-            "300",
-            "600",
-            "1200",
-            "2400",
-            "4800",
-            "9600",
-            "14400",
-            "19200",
-            "28800",
-            "38400",
-            "56000",
-            "57600",
-            "115200",
-            "128000",
-            "256000"});
-      this.cbxBaud.Location = new System.Drawing.Point(600, 55);
-      this.cbxBaud.Name = "cbxBaud";
-      this.cbxBaud.Size = new System.Drawing.Size(121, 21);
-      this.cbxBaud.TabIndex = 3;
-      this.cbxBaud.SelectedIndexChanged += new System.EventHandler(this.OnBaudChanged);
-      // 
-      // btnConnect
-      // 
-      this.btnConnect.Location = new System.Drawing.Point(751, 16);
-      this.btnConnect.Name = "btnConnect";
-      this.btnConnect.Size = new System.Drawing.Size(75, 23);
-      this.btnConnect.TabIndex = 2;
-      this.btnConnect.Text = "Connect";
-      this.btnConnect.UseVisualStyleBackColor = true;
-      this.btnConnect.Click += new System.EventHandler(this.OnConnectClick);
-      // 
-      // cbxCOM
-      // 
-      this.cbxCOM.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-      this.cbxCOM.Location = new System.Drawing.Point(624, 18);
-      this.cbxCOM.Name = "cbxCOM";
-      this.cbxCOM.Size = new System.Drawing.Size(121, 21);
-      this.cbxCOM.Sorted = true;
-      this.cbxCOM.TabIndex = 1;
-      // 
-      // btnRefresh
-      // 
-      this.btnRefresh.Location = new System.Drawing.Point(541, 16);
-      this.btnRefresh.Name = "btnRefresh";
-      this.btnRefresh.Size = new System.Drawing.Size(75, 23);
-      this.btnRefresh.TabIndex = 0;
-      this.btnRefresh.Text = "Refresh";
-      this.btnRefresh.UseVisualStyleBackColor = true;
-      this.btnRefresh.Click += new System.EventHandler(this.OnRefreshClick);
       // 
       // lblLoadData
       // 
@@ -425,50 +301,17 @@
       this.lblLoadData.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
       this.lblLoadData.UseWaitCursor = true;
       // 
-      // msCtrl
+      // btnCenterMap
       // 
-      this.msCtrl.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.msRoute,
-            this.msSettings});
-      this.msCtrl.Location = new System.Drawing.Point(0, 0);
-      this.msCtrl.Name = "msCtrl";
-      this.msCtrl.Size = new System.Drawing.Size(853, 24);
-      this.msCtrl.TabIndex = 9;
-      this.msCtrl.Text = "msCtrl";
-      // 
-      // msRoute
-      // 
-      this.msRoute.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.miSave,
-            this.miLoad,
-            this.miDelete});
-      this.msRoute.Name = "msRoute";
-      this.msRoute.Size = new System.Drawing.Size(50, 20);
-      this.msRoute.Text = "Route";
-      // 
-      // miSave
-      // 
-      this.miSave.Name = "miSave";
-      this.miSave.Size = new System.Drawing.Size(126, 22);
-      this.miSave.Text = "Speichern";
-      // 
-      // miLoad
-      // 
-      this.miLoad.Name = "miLoad";
-      this.miLoad.Size = new System.Drawing.Size(126, 22);
-      this.miLoad.Text = "Laden";
-      // 
-      // miDelete
-      // 
-      this.miDelete.Name = "miDelete";
-      this.miDelete.Size = new System.Drawing.Size(126, 22);
-      this.miDelete.Text = "Löschen";
-      // 
-      // msSettings
-      // 
-      this.msSettings.Name = "msSettings";
-      this.msSettings.Size = new System.Drawing.Size(90, 20);
-      this.msSettings.Text = "Einstellungen";
+      this.btnCenterMap.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+      this.btnCenterMap.FlatAppearance.BorderSize = 0;
+      this.btnCenterMap.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+      this.btnCenterMap.Location = new System.Drawing.Point(545, 111);
+      this.btnCenterMap.Name = "btnCenterMap";
+      this.btnCenterMap.Size = new System.Drawing.Size(147, 47);
+      this.btnCenterMap.TabIndex = 11;
+      this.btnCenterMap.Text = "Fokus";
+      this.btnCenterMap.Click += new System.EventHandler(this.OnBtnCenterMapClick);
       // 
       // panelHeightprofile
       // 
@@ -480,7 +323,7 @@
       this.panelHeightprofile.Controls.Add(this.lblHeight);
       this.panelHeightprofile.Location = new System.Drawing.Point(0, 0);
       this.panelHeightprofile.Name = "panelHeightprofile";
-      this.panelHeightprofile.Size = new System.Drawing.Size(691, 550);
+      this.panelHeightprofile.Size = new System.Drawing.Size(541, 500);
       this.panelHeightprofile.TabIndex = 0;
       this.panelHeightprofile.Paint += new System.Windows.Forms.PaintEventHandler(this.OnGraphPanelPaint);
       this.panelHeightprofile.MouseMove += new System.Windows.Forms.MouseEventHandler(this.OnGraphPanelMouseMove);
@@ -509,67 +352,53 @@
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-      this.ClientSize = new System.Drawing.Size(853, 601);
+      this.ClientSize = new System.Drawing.Size(703, 524);
       this.Controls.Add(this.tabCtrl);
-      this.Controls.Add(this.msCtrl);
-      this.MainMenuStrip = this.msCtrl;
       this.Name = "FormMain";
+      this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
       this.Text = "GPS-Tracker";
       this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.OnFormClosing);
       this.Load += new System.EventHandler(this.OnFormLoad);
-      ((System.ComponentModel.ISupportInitialize)(this.numLat)).EndInit();
-      ((System.ComponentModel.ISupportInitialize)(this.numLng)).EndInit();
       this.tabCtrl.ResumeLayout(false);
       this.tabMap.ResumeLayout(false);
       this.tabMap.PerformLayout();
+      this.gbStatistic.ResumeLayout(false);
+      this.gbStatistic.PerformLayout();
       ((System.ComponentModel.ISupportInitialize)(this.slider)).EndInit();
       this.tabHigh.ResumeLayout(false);
       this.tabDataSelect.ResumeLayout(false);
       this.tabDataSelect.PerformLayout();
-      this.msCtrl.ResumeLayout(false);
-      this.msCtrl.PerformLayout();
       this.panelHeightprofile.ResumeLayout(false);
       this.panelHeightprofile.PerformLayout();
       this.ResumeLayout(false);
-      this.PerformLayout();
 
     }
 
     #endregion
 
     private GMap.NET.WindowsForms.GMapControl gMap;
-    private System.Windows.Forms.Button btnSetRoute;
-    private System.Windows.Forms.Label label1;
-    private System.Windows.Forms.Label label2;
-    private System.Windows.Forms.NumericUpDown numLat;
-    private System.Windows.Forms.NumericUpDown numLng;
     private System.Windows.Forms.TabControl tabCtrl;
     private System.Windows.Forms.TabPage tabMap;
     private System.Windows.Forms.TabPage tabHigh;
-    private System.Windows.Forms.Button btnHigh;
     private GraphPanel panelHeightprofile;
     private System.Windows.Forms.Label lblTime;
     private System.Windows.Forms.Label lblHeight;
-    private System.Windows.Forms.Button btnClear;
-    private System.Windows.Forms.Button btnImport;
     private System.Windows.Forms.TrackBar slider;
     private System.Windows.Forms.TabPage tabDataSelect;
-    private System.Windows.Forms.Button btnConnect;
-    private System.Windows.Forms.ComboBox cbxCOM;
-    private System.Windows.Forms.Button btnRefresh;
-    private System.Windows.Forms.Label label3;
-    private System.Windows.Forms.ComboBox cbxBaud;
-    private System.Windows.Forms.Button btnCenterMap;
-    private System.Windows.Forms.MenuStrip msCtrl;
-    private System.Windows.Forms.ToolStripMenuItem msRoute;
-    private System.Windows.Forms.ToolStripMenuItem msSettings;
-    private System.Windows.Forms.ToolStripMenuItem miSave;
-    private System.Windows.Forms.ToolStripMenuItem miLoad;
-    private System.Windows.Forms.ToolStripMenuItem miDelete;
     private System.Windows.Forms.ListBox lbxRoutes;
     private System.Windows.Forms.Button btnImportRoutes;
     private System.Windows.Forms.Label label4;
     private System.Windows.Forms.Label lblLoadData;
+    private System.Windows.Forms.Label label2;
+    private System.Windows.Forms.Label label1;
+    private System.Windows.Forms.Label lblRealDistance;
+    private System.Windows.Forms.Label lblDistance;
+    private System.Windows.Forms.GroupBox gbStatistic;
+    private System.Windows.Forms.Label label6;
+    private System.Windows.Forms.Label label5;
+    private System.Windows.Forms.Label lblHeightAbs;
+    private System.Windows.Forms.Label lblHeightDif;
+    private System.Windows.Forms.Button btnCenterMap;
   }
 }
 

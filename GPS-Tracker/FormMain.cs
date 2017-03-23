@@ -13,7 +13,6 @@ using GMap.NET.WindowsForms.Markers;
 using System.Reflection;
 using System.IO.Ports;
 using System.Threading;
-using System.Diagnostics;
 using System.IO;
 
 namespace GPS_Tracker
@@ -23,7 +22,6 @@ namespace GPS_Tracker
     #region Vriables
     StatisticManager statMgr = new StatisticManager();
     GMapOverlay overlay;
-    //GMapMarker marker;
     GMapRoute route;
     PointLatLng pos;
     List<GPSTrackerData> data;
@@ -64,7 +62,6 @@ namespace GPS_Tracker
         catch (Exception)
         {
           isRunning = false;
-          Debug.WriteLine("Thread crash!");
         }
       }
     }
@@ -75,7 +72,7 @@ namespace GPS_Tracker
       pData = heightGraph.ReturnData();
       if (pOffset != PointF.Empty)
       {
-        lblHeight.Text = pData.Height.ToString() + " m";
+        lblHeight.Text = pData.Height.ToString("F0") + " m";
         lblTime.Font = lblHeight.Font;
         lblTime.Text = pData.Datetime.ToString(@"hh\:mm");
         pOffset.Y = 11;
@@ -137,24 +134,6 @@ namespace GPS_Tracker
       com = new SerialPort();
     }
 
-    private void OnBtnSetRouteClick(object sender, EventArgs e)
-    {
-      pos.Lat = Convert.ToDouble(numLat.Value);
-      pos.Lng = Convert.ToDouble(numLng.Value);
-      //marker = new GMarkerGoogle(pos, GMarkerGoogleType.black_small);
-      route.Points.Add(pos);
-      //overlay.Markers.Add(marker);
-      overlay.Routes.Clear();
-      overlay.Routes.Add(route);
-    }
-
-    private void OnButtonHeightClick(object sender, EventArgs e)
-    {
-      //heights = demoHeights();
-      //heightGraph.UpdateData(heights);
-      //panelHeightprofile.Invalidate();
-    }
-
     private void OnGraphPanelMouseMove(object sender, MouseEventArgs e)
     {
       heightGraph.MovePosData(e.Location);
@@ -168,32 +147,6 @@ namespace GPS_Tracker
       RefreshPosData();
     }
 
-    private void OnBtnImportClick(object sender, EventArgs e)
-    {
-      GPSTrackerData data = new GPSTrackerData(new byte[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 });
-      /*
-      string[] lines = System.IO.File.ReadAllLines(@"C:\Users\Noqq\Documents\Diplomarbeit\GPS-DATA.TXT");
-
-      foreach (string line in lines)
-      {
-        GPSTrackerData data = new GPSTrackerData();
-        data.GPSData(line);
-        if (data.IsValid)
-        {
-          pos.Lat = data.Lat; pos.Lng = data.Lng;
-          route.Points.Add(pos);
-        }
-      }
-      overlay.Routes.Clear();
-      overlay.Routes.Add(route);*/
-    }
-
-    private void OnBtnClearClick(object sender, EventArgs e)
-    {
-      route.Points.Clear();
-      overlay.Routes.Clear();
-    }
-
     private void OnMapZoomChanged()
     {
       slider.Value = (int)gMap.Zoom;
@@ -202,53 +155,6 @@ namespace GPS_Tracker
     private void OnValueChanged(object sender, EventArgs e)
     {
       gMap.Zoom = slider.Value;
-    }
-
-    private void OnRefreshClick(object sender, EventArgs e)
-    {
-      cbxCOM.Items.Clear();
-      cbxCOM.Items.AddRange(SerialPort.GetPortNames());
-      if (cbxCOM.Items.Count != 0)
-        cbxCOM.SelectedItem = cbxCOM.Items[0];
-    }
-
-    private void OnConnectClick(object sender, EventArgs e)
-    {
-      if (com.IsOpen)
-      {
-        com.Close();
-        btnConnect.Text = "Connect";
-        isRunning = false;
-      }
-      else
-      {
-        try
-        {
-          btnConnect.Enabled = false;
-          com.PortName = cbxCOM.SelectedItem.ToString();
-          if (cbxBaud.SelectedItem != null)
-            com.BaudRate = Convert.ToInt32(cbxBaud.SelectedItem);
-          else
-            com.BaudRate = 115200;
-          com.Open();
-          btnConnect.Text = "Disconnect";
-          isRunning = true;
-          import = new Thread(new ThreadStart(GetData));
-          import.Start();
-          btnConnect.Enabled = true;
-        }
-        catch (Exception)
-        {
-          MessageBox.Show("Failed to connect!");
-          btnConnect.Enabled = true;
-        }
-      }
-    }
-
-    private void OnBaudChanged(object sender, EventArgs e)
-    {
-      if (cbxBaud.SelectedItem != null)
-        com.BaudRate = Convert.ToInt32(cbxBaud.SelectedItem);
     }
 
     private void OnFormClosing(object sender, FormClosingEventArgs e)
@@ -286,18 +192,45 @@ namespace GPS_Tracker
         lblLoadData.Visible = false;
         dataLoaded = true;
       }
-      else if (tabCtrl.SelectedTab == tabDataSelect && dataChanged)
+      else if(tabCtrl.SelectedTab == tabHigh || tabCtrl.SelectedTab == tabMap)
+      {
+        gbStatistic.Parent = tabCtrl.SelectedTab;
+      }
+      else if (dataChanged)
       {
         route.Points.Clear();
         overlay.Routes.Clear();
+        overlay.Markers.Clear();
         Application.DoEvents();
+        GMapMarker marker = new GMarkerGoogle(pos, GMarkerGoogleType.black_small);
         foreach (GPSTrackerData item in statMgr.Data)
         {
           pos.Lat = item.Lat;
           pos.Lng = item.Lng;
           route.Points.Add(pos);
+          marker.ToolTipText = item.Datetime.ToString(@"hh\:mm");
+          overlay.Markers.Add(marker);
         }
+        marker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
+        marker.ToolTip.Fill = Brushes.Black;
+        marker.ToolTip.Foreground = Brushes.White;
+        marker.IsVisible = true;
         overlay.Routes.Add(route);
+        heightGraph = new HeightGraph();
+        heightGraph.UpdateData(statMgr.Data);
+        panelHeightprofile.Invalidate();
+        if (statMgr.Distance > 1000.0f)
+        {
+          lblDistance.Text = (statMgr.Distance / 1000).ToString("N2") + " km";
+          lblRealDistance.Text = (statMgr.RealDistence / 1000).ToString("N2") + " km";
+        }
+        else
+        {
+          lblDistance.Text = statMgr.Distance.ToString("N0") + " m";
+          lblRealDistance.Text = statMgr.RealDistence.ToString("N0") + " m";
+        }
+        lblHeightDif.Text = statMgr.HeightDifference.ToString("N0") + " m";
+        lblHeightAbs.Text = statMgr.HeightDistance.ToString("N0") + " m";
         dataChanged = false;
       }
     }

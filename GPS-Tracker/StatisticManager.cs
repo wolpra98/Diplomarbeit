@@ -21,18 +21,22 @@ namespace GPS_Tracker
 
       set
       {
+        reset();
         dataRaw = value;
         data = filter(value);
         if (data.Count != 0)
           calculate();
       }
     }
+    public const int sample = 10;
     public float Distance;
     public float RealDistence;
     public float HeightDifference;
     public float HeightDistance;
     public float HeightMin;
     public float HeightMax;
+    private float oldHeight = 0;
+    private float offset;
 
 
     public StatisticManager() { }
@@ -45,11 +49,12 @@ namespace GPS_Tracker
         if (!data[i].IsValid)
           data.RemoveAt(i);
       }
-      if (data.Count <= 10)
+      offset = data.Average(t => t.Offset);
+      if (data.Count <= sample)
         return data;
       List<GPSTrackerData> dataFiltered = new List<GPSTrackerData>();
-      List<GPSTrackerData> buffer = data.GetRange(0, 9);
-      for (int i = 9; i < data.Count; i++)
+      List<GPSTrackerData> buffer = data.GetRange(0, sample - 1);
+      for (int i = sample - 1; i < data.Count; i++)
       {
         buffer.Add(data.ElementAt(i));
         dataFiltered.Add(calcMid(buffer));
@@ -71,6 +76,7 @@ namespace GPS_Tracker
         HeightDistance += heigthDif;
         distDif = calcDist(data.ElementAt(i), data.ElementAt(i - 1));
         Distance += distDif;
+        RealDistence += Convert.ToSingle(Math.Sqrt(distDif * distDif + heigthDif * heigthDif));
       }
     }
 
@@ -78,15 +84,14 @@ namespace GPS_Tracker
     {
       GPSTrackerData midPoint = new GPSTrackerData();
       float height = 0, lat = 0, lng = 0;
-      foreach (GPSTrackerData item in buffer)
-      {
-        height += item.Height;
-        lat += item.Lat;
-        lng += item.Lng;
-      }
-      midPoint.Height = height / 10.0f;
-      midPoint.GPSData(lng / 10.0f, lat / 10.0f);
-      midPoint.Datetime = buffer.Last().Datetime;
+      height = buffer.Average(t => t.Height) + offset;
+      lat = buffer.Average(t => t.Lat);
+      lng = buffer.Average(t => t.Lng);
+      if ((int)(height + 0.75f) < oldHeight || (int)(height + 0.25f) > oldHeight)
+        oldHeight = (int)(height + 0.5f);
+      midPoint.Height = oldHeight;
+      midPoint.GPSData(lng, lat);
+      midPoint.Datetime = new DateTime(Convert.ToInt64(buffer.Average(t => t.Datetime.Ticks) + 0.5));
       return midPoint;
     }
 
@@ -101,6 +106,18 @@ namespace GPS_Tracker
       double a = Math.Sin(dp / 2) * Math.Sin(dp / 2) + Math.Cos(p1) * Math.Cos(p2) * Math.Sin(dl / 2) * Math.Sin(dl / 2);
       double c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
       return Convert.ToSingle(r * c);
+    }
+
+    void reset()
+    {
+      Distance = 0;
+      RealDistence = 0;
+      HeightDifference = 0;
+      HeightDistance = 0;
+      HeightMin = 0;
+      HeightMax = 0;
+      oldHeight = 0;
+      offset = 0;
     }
   }
 }

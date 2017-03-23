@@ -119,7 +119,7 @@ namespace GPS_Tracker
     {
       _pen.Color = Color.Blue;
       _pen.Width = 5;
-      _dataList = _dataList.OrderBy(o => o.Datetime).ToList();
+      //_dataList = _dataList.OrderBy(o => o.Datetime).ToList();
       if (_dataPoints == null)
         _dataPoints = new List<PointF>();
       _dataPoints.Clear();
