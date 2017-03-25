@@ -40,24 +40,24 @@
       this.label2 = new System.Windows.Forms.Label();
       this.lblRealDistance = new System.Windows.Forms.Label();
       this.label1 = new System.Windows.Forms.Label();
+      this.btnCenterMap = new System.Windows.Forms.Button();
       this.slider = new System.Windows.Forms.TrackBar();
       this.tabHigh = new System.Windows.Forms.TabPage();
+      this.panelHeightprofile = new GPS_Tracker.GraphPanel();
+      this.lblTime = new System.Windows.Forms.Label();
+      this.lblHeight = new System.Windows.Forms.Label();
       this.tabDataSelect = new System.Windows.Forms.TabPage();
       this.label4 = new System.Windows.Forms.Label();
       this.btnImportRoutes = new System.Windows.Forms.Button();
       this.lbxRoutes = new System.Windows.Forms.ListBox();
       this.lblLoadData = new System.Windows.Forms.Label();
-      this.btnCenterMap = new System.Windows.Forms.Button();
-      this.panelHeightprofile = new GPS_Tracker.GraphPanel();
-      this.lblTime = new System.Windows.Forms.Label();
-      this.lblHeight = new System.Windows.Forms.Label();
       this.tabCtrl.SuspendLayout();
       this.tabMap.SuspendLayout();
       this.gbStatistic.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.slider)).BeginInit();
       this.tabHigh.SuspendLayout();
-      this.tabDataSelect.SuspendLayout();
       this.panelHeightprofile.SuspendLayout();
+      this.tabDataSelect.SuspendLayout();
       this.SuspendLayout();
       // 
       // gMap
@@ -88,6 +88,7 @@
       this.gMap.TabIndex = 0;
       this.gMap.Zoom = 16D;
       this.gMap.OnMapZoomChanged += new GMap.NET.MapZoomChanged(this.OnMapZoomChanged);
+      this.gMap.MouseMove += new System.Windows.Forms.MouseEventHandler(this.OnMapMouseMove);
       // 
       // tabCtrl
       // 
@@ -216,6 +217,18 @@
       this.label1.TabIndex = 12;
       this.label1.Text = "Strecke:";
       // 
+      // btnCenterMap
+      // 
+      this.btnCenterMap.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+      this.btnCenterMap.FlatAppearance.BorderSize = 0;
+      this.btnCenterMap.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+      this.btnCenterMap.Location = new System.Drawing.Point(545, 111);
+      this.btnCenterMap.Name = "btnCenterMap";
+      this.btnCenterMap.Size = new System.Drawing.Size(147, 58);
+      this.btnCenterMap.TabIndex = 11;
+      this.btnCenterMap.Text = "Route zentrieren";
+      this.btnCenterMap.Click += new System.EventHandler(this.OnBtnCenterMapClick);
+      // 
       // slider
       // 
       this.slider.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -242,6 +255,41 @@
       this.tabHigh.TabIndex = 1;
       this.tabHigh.Text = "Höhenprofil";
       this.tabHigh.UseVisualStyleBackColor = true;
+      // 
+      // panelHeightprofile
+      // 
+      this.panelHeightprofile.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+      this.panelHeightprofile.BackColor = System.Drawing.Color.Transparent;
+      this.panelHeightprofile.Controls.Add(this.lblTime);
+      this.panelHeightprofile.Controls.Add(this.lblHeight);
+      this.panelHeightprofile.Location = new System.Drawing.Point(0, 0);
+      this.panelHeightprofile.Name = "panelHeightprofile";
+      this.panelHeightprofile.Size = new System.Drawing.Size(541, 500);
+      this.panelHeightprofile.TabIndex = 0;
+      this.panelHeightprofile.Paint += new System.Windows.Forms.PaintEventHandler(this.OnGraphPanelPaint);
+      this.panelHeightprofile.MouseMove += new System.Windows.Forms.MouseEventHandler(this.OnGraphPanelMouseMove);
+      // 
+      // lblTime
+      // 
+      this.lblTime.AutoSize = true;
+      this.lblTime.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+      this.lblTime.ForeColor = System.Drawing.Color.Red;
+      this.lblTime.Location = new System.Drawing.Point(346, 253);
+      this.lblTime.Name = "lblTime";
+      this.lblTime.Size = new System.Drawing.Size(0, 19);
+      this.lblTime.TabIndex = 1;
+      // 
+      // lblHeight
+      // 
+      this.lblHeight.AutoSize = true;
+      this.lblHeight.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+      this.lblHeight.ForeColor = System.Drawing.Color.Red;
+      this.lblHeight.Location = new System.Drawing.Point(437, 30);
+      this.lblHeight.Name = "lblHeight";
+      this.lblHeight.Size = new System.Drawing.Size(0, 19);
+      this.lblHeight.TabIndex = 0;
       // 
       // tabDataSelect
       // 
@@ -301,53 +349,6 @@
       this.lblLoadData.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
       this.lblLoadData.UseWaitCursor = true;
       // 
-      // btnCenterMap
-      // 
-      this.btnCenterMap.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-      this.btnCenterMap.FlatAppearance.BorderSize = 0;
-      this.btnCenterMap.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.btnCenterMap.Location = new System.Drawing.Point(545, 111);
-      this.btnCenterMap.Name = "btnCenterMap";
-      this.btnCenterMap.Size = new System.Drawing.Size(147, 47);
-      this.btnCenterMap.TabIndex = 11;
-      this.btnCenterMap.Text = "Fokus";
-      this.btnCenterMap.Click += new System.EventHandler(this.OnBtnCenterMapClick);
-      // 
-      // panelHeightprofile
-      // 
-      this.panelHeightprofile.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-      this.panelHeightprofile.BackColor = System.Drawing.Color.Transparent;
-      this.panelHeightprofile.Controls.Add(this.lblTime);
-      this.panelHeightprofile.Controls.Add(this.lblHeight);
-      this.panelHeightprofile.Location = new System.Drawing.Point(0, 0);
-      this.panelHeightprofile.Name = "panelHeightprofile";
-      this.panelHeightprofile.Size = new System.Drawing.Size(541, 500);
-      this.panelHeightprofile.TabIndex = 0;
-      this.panelHeightprofile.Paint += new System.Windows.Forms.PaintEventHandler(this.OnGraphPanelPaint);
-      this.panelHeightprofile.MouseMove += new System.Windows.Forms.MouseEventHandler(this.OnGraphPanelMouseMove);
-      // 
-      // lblTime
-      // 
-      this.lblTime.AutoSize = true;
-      this.lblTime.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.lblTime.ForeColor = System.Drawing.Color.Red;
-      this.lblTime.Location = new System.Drawing.Point(346, 253);
-      this.lblTime.Name = "lblTime";
-      this.lblTime.Size = new System.Drawing.Size(0, 19);
-      this.lblTime.TabIndex = 1;
-      // 
-      // lblHeight
-      // 
-      this.lblHeight.AutoSize = true;
-      this.lblHeight.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.lblHeight.ForeColor = System.Drawing.Color.Red;
-      this.lblHeight.Location = new System.Drawing.Point(437, 30);
-      this.lblHeight.Name = "lblHeight";
-      this.lblHeight.Size = new System.Drawing.Size(0, 19);
-      this.lblHeight.TabIndex = 0;
-      // 
       // FormMain
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -366,10 +367,10 @@
       this.gbStatistic.PerformLayout();
       ((System.ComponentModel.ISupportInitialize)(this.slider)).EndInit();
       this.tabHigh.ResumeLayout(false);
-      this.tabDataSelect.ResumeLayout(false);
-      this.tabDataSelect.PerformLayout();
       this.panelHeightprofile.ResumeLayout(false);
       this.panelHeightprofile.PerformLayout();
+      this.tabDataSelect.ResumeLayout(false);
+      this.tabDataSelect.PerformLayout();
       this.ResumeLayout(false);
 
     }

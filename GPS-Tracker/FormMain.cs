@@ -14,17 +14,39 @@ using System.Reflection;
 using System.IO.Ports;
 using System.Threading;
 using System.IO;
+using System.Diagnostics;
 
 namespace GPS_Tracker
 {
   public partial class FormMain : Form
   {
     #region Vriables
+    static readonly float[] zoomScales = {  0.0f,
+                                            591657550.5f,
+                                            295828775.3f,
+                                            147914387.6f,
+                                            73957193.82f,
+                                            36978596.91f,
+                                            18489298.45f,
+                                            9244649.227f,
+                                            4622324.614f,
+                                            2311162.307f,
+                                            1155581.153f,
+                                            577790.5767f,
+                                            288895.2884f,
+                                            144447.6442f,
+                                            72223.82209f,
+                                            36111.91104f,
+                                            18055.95552f,
+                                            9027.977761f,
+                                            4513.98888f,
+                                            2256.99444f,
+                                            1128.49722f };
     StatisticManager statMgr = new StatisticManager();
     GMapOverlay overlay;
     GMapRoute route;
-    PointLatLng pos;
-    List<GPSTrackerData> data;
+    GMapMarker marker;
+    PointLatLng pos, mPos;
     HeightGraph heightGraph;
     PointF pOffset;
     GPSTrackerData pData;
@@ -37,7 +59,6 @@ namespace GPS_Tracker
 
     void GetData()
     {
-      data = new List<GPSTrackerData>();
       while (isRunning)
       {
         try
@@ -164,13 +185,45 @@ namespace GPS_Tracker
 
     private void OnBtnCenterMapClick(object sender, EventArgs e)
     {
-      gMap.Position = pos;
+      gMap.ZoomAndCenterRoute(route);
     }
 
     private void OnBtnImportRoutesClick(object sender, EventArgs e)
     {
       var popup = new FormImport();
       popup.ShowDialog();
+    }
+
+    private void OnMapMouseMove(object sender, MouseEventArgs e)
+    {
+      if (statMgr.Data != null)
+      {
+        overlay.Markers.Clear();
+        pos = PointLatLng.Empty;
+        mPos = gMap.FromLocalToLatLng(e.X, e.Y);
+        double dist, nDist = (zoomScales[(int)gMap.Zoom]/20000000)* (zoomScales[(int)gMap.Zoom] / 20000000);
+        string posText = "";
+        foreach (GPSTrackerData item in statMgr.Data)
+        {
+          dist = (item.Lat - mPos.Lat) * (item.Lat - mPos.Lat) + (item.Lng - mPos.Lng) * (item.Lng - mPos.Lng);
+          if (nDist > dist)
+          {
+            nDist = dist;
+            pos.Lat = item.Lat; pos.Lng = item.Lng;
+            posText = item.Datetime.ToString(@"hh\:mm") + "\n" + item.Height.ToString("F0") + " m";
+          }
+        }
+        if (!pos.IsEmpty)
+        {
+          marker = new GMarkerGoogle(pos, GMarkerGoogleType.black_small);
+          overlay.Markers.Add(marker);
+          marker.ToolTipText = posText;
+          marker.ToolTipMode = MarkerTooltipMode.Always;
+          marker.ToolTip.Fill = Brushes.Black;
+          marker.ToolTip.Foreground = Brushes.White;
+
+        }
+      }
     }
 
     private void OnLbxRoutesSelectedItemIndexChanged(object sender, EventArgs e)
@@ -192,30 +245,23 @@ namespace GPS_Tracker
         lblLoadData.Visible = false;
         dataLoaded = true;
       }
-      else if(tabCtrl.SelectedTab == tabHigh || tabCtrl.SelectedTab == tabMap)
+      else if (tabCtrl.SelectedTab == tabHigh || tabCtrl.SelectedTab == tabMap)
       {
         gbStatistic.Parent = tabCtrl.SelectedTab;
       }
-      else if (dataChanged)
+      if (dataChanged)
       {
         route.Points.Clear();
         overlay.Routes.Clear();
-        overlay.Markers.Clear();
         Application.DoEvents();
-        GMapMarker marker = new GMarkerGoogle(pos, GMarkerGoogleType.black_small);
         foreach (GPSTrackerData item in statMgr.Data)
         {
           pos.Lat = item.Lat;
           pos.Lng = item.Lng;
           route.Points.Add(pos);
-          marker.ToolTipText = item.Datetime.ToString(@"hh\:mm");
-          overlay.Markers.Add(marker);
         }
-        marker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
-        marker.ToolTip.Fill = Brushes.Black;
-        marker.ToolTip.Foreground = Brushes.White;
-        marker.IsVisible = true;
         overlay.Routes.Add(route);
+        gMap.ZoomAndCenterRoute(route);
         heightGraph = new HeightGraph();
         heightGraph.UpdateData(statMgr.Data);
         panelHeightprofile.Invalidate();
