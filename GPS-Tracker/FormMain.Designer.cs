@@ -47,10 +47,15 @@
       this.lblTime = new System.Windows.Forms.Label();
       this.lblHeight = new System.Windows.Forms.Label();
       this.tabDataSelect = new System.Windows.Forms.TabPage();
+      this.lblMaxDay = new System.Windows.Forms.Label();
+      this.lblMinDay = new System.Windows.Forms.Label();
+      this.DtpMax = new System.Windows.Forms.DateTimePicker();
+      this.DtpMin = new System.Windows.Forms.DateTimePicker();
       this.label4 = new System.Windows.Forms.Label();
       this.btnImportRoutes = new System.Windows.Forms.Button();
       this.lbxRoutes = new System.Windows.Forms.ListBox();
       this.lblLoadData = new System.Windows.Forms.Label();
+      this.label3 = new System.Windows.Forms.Label();
       this.tabCtrl.SuspendLayout();
       this.tabMap.SuspendLayout();
       this.gbStatistic.SuspendLayout();
@@ -293,6 +298,11 @@
       // 
       // tabDataSelect
       // 
+      this.tabDataSelect.Controls.Add(this.label3);
+      this.tabDataSelect.Controls.Add(this.lblMaxDay);
+      this.tabDataSelect.Controls.Add(this.lblMinDay);
+      this.tabDataSelect.Controls.Add(this.DtpMax);
+      this.tabDataSelect.Controls.Add(this.DtpMin);
       this.tabDataSelect.Controls.Add(this.label4);
       this.tabDataSelect.Controls.Add(this.btnImportRoutes);
       this.tabDataSelect.Controls.Add(this.lbxRoutes);
@@ -304,6 +314,45 @@
       this.tabDataSelect.TabIndex = 2;
       this.tabDataSelect.Text = "Datenauswahl";
       this.tabDataSelect.UseVisualStyleBackColor = true;
+      // 
+      // lblMaxDay
+      // 
+      this.lblMaxDay.AutoSize = true;
+      this.lblMaxDay.Location = new System.Drawing.Point(306, 37);
+      this.lblMaxDay.Name = "lblMaxDay";
+      this.lblMaxDay.Size = new System.Drawing.Size(27, 13);
+      this.lblMaxDay.TabIndex = 13;
+      this.lblMaxDay.Text = "Max";
+      // 
+      // lblMinDay
+      // 
+      this.lblMinDay.AutoSize = true;
+      this.lblMinDay.Location = new System.Drawing.Point(205, 37);
+      this.lblMinDay.Name = "lblMinDay";
+      this.lblMinDay.Size = new System.Drawing.Size(24, 13);
+      this.lblMinDay.TabIndex = 12;
+      this.lblMinDay.Text = "Min";
+      // 
+      // DtpMax
+      // 
+      this.DtpMax.Format = System.Windows.Forms.DateTimePickerFormat.Time;
+      this.DtpMax.Location = new System.Drawing.Point(309, 53);
+      this.DtpMax.Name = "DtpMax";
+      this.DtpMax.ShowUpDown = true;
+      this.DtpMax.Size = new System.Drawing.Size(66, 20);
+      this.DtpMax.TabIndex = 11;
+      this.DtpMax.ValueChanged += new System.EventHandler(this.OnDtpMax);
+      // 
+      // DtpMin
+      // 
+      this.DtpMin.Format = System.Windows.Forms.DateTimePickerFormat.Time;
+      this.DtpMin.Location = new System.Drawing.Point(208, 53);
+      this.DtpMin.Name = "DtpMin";
+      this.DtpMin.ShowUpDown = true;
+      this.DtpMin.Size = new System.Drawing.Size(67, 20);
+      this.DtpMin.TabIndex = 10;
+      this.DtpMin.Value = new System.DateTime(2017, 3, 26, 0, 0, 0, 0);
+      this.DtpMin.ValueChanged += new System.EventHandler(this.OnDtpMin);
       // 
       // label4
       // 
@@ -343,11 +392,21 @@
       this.lblLoadData.Font = new System.Drawing.Font("Microsoft Sans Serif", 36F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
       this.lblLoadData.Location = new System.Drawing.Point(0, 0);
       this.lblLoadData.Name = "lblLoadData";
-      this.lblLoadData.Size = new System.Drawing.Size(845, 547);
+      this.lblLoadData.Size = new System.Drawing.Size(699, 504);
       this.lblLoadData.TabIndex = 9;
       this.lblLoadData.Text = "Lade Daten ...";
       this.lblLoadData.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
       this.lblLoadData.UseWaitCursor = true;
+      // 
+      // label3
+      // 
+      this.label3.AutoSize = true;
+      this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+      this.label3.Location = new System.Drawing.Point(205, 8);
+      this.label3.Name = "label3";
+      this.label3.Size = new System.Drawing.Size(95, 18);
+      this.label3.TabIndex = 14;
+      this.label3.Text = "Zeitspanne:";
       // 
       // FormMain
       // 
@@ -400,6 +459,11 @@
     private System.Windows.Forms.Label lblHeightAbs;
     private System.Windows.Forms.Label lblHeightDif;
     private System.Windows.Forms.Button btnCenterMap;
+    private System.Windows.Forms.DateTimePicker DtpMin;
+    private System.Windows.Forms.DateTimePicker DtpMax;
+    private System.Windows.Forms.Label lblMaxDay;
+    private System.Windows.Forms.Label lblMinDay;
+    private System.Windows.Forms.Label label3;
   }
 }
 

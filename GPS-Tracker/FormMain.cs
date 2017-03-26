@@ -52,7 +52,7 @@ namespace GPS_Tracker
     GPSTrackerData pData;
     SerialPort com;
     Thread import;
-    bool isRunning, dataLoaded = false, dataChanged = false;
+    bool isRunning, dataLoaded = false, dataChanged = false, rangeChanged;
     #endregion
 
     #region Functions
@@ -194,6 +194,20 @@ namespace GPS_Tracker
       popup.ShowDialog();
     }
 
+    private void OnDtpMin(object sender, EventArgs e)
+    {
+      DtpMax.MinDate = DtpMin.Value;
+      lblMinDay.Text=DtpMin.Value.ToString(@"dd.MM.yyyy");
+      rangeChanged = true;
+    }
+
+    private void OnDtpMax(object sender, EventArgs e)
+    {
+      DtpMin.MaxDate = DtpMax.Value;
+      lblMaxDay.Text = DtpMax.Value.ToString(@"dd.MM.yyyy");
+      rangeChanged = true;
+    }
+
     private void OnMapMouseMove(object sender, MouseEventArgs e)
     {
       if (statMgr.Data != null)
@@ -231,6 +245,12 @@ namespace GPS_Tracker
       if (lbxRoutes.SelectedItem != null)
       {
         statMgr.Data = ((GPSTrackerDataList)lbxRoutes.SelectedItem).ToList();
+        DtpMin.MinDate = statMgr.Data.First().Datetime;
+        DtpMin.MaxDate = statMgr.Data.Last().Datetime;
+        DtpMax.MaxDate = DtpMin.MaxDate;
+        DtpMax.MinDate = DtpMin.MinDate;
+        DtpMin.Value = DtpMin.MinDate;
+        DtpMax.Value = DtpMin.MaxDate;
         dataChanged = true;
       }
     }
@@ -248,6 +268,12 @@ namespace GPS_Tracker
       else if (tabCtrl.SelectedTab == tabHigh || tabCtrl.SelectedTab == tabMap)
       {
         gbStatistic.Parent = tabCtrl.SelectedTab;
+      }
+      if (rangeChanged)
+      {
+        statMgr.SetRange(DtpMin.Value, DtpMax.Value);
+        dataChanged = true;
+        rangeChanged = false;
       }
       if (dataChanged)
       {

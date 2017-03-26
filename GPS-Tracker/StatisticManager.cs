@@ -9,7 +9,8 @@ namespace GPS_Tracker
   class StatisticManager
   {
     List<GPSTrackerData> data;
-    List<GPSTrackerData> dataRaw;
+    List<GPSTrackerData> dataAll;
+    List<int> dataOutOfRange;
 
 
     public List<GPSTrackerData> Data
@@ -22,8 +23,9 @@ namespace GPS_Tracker
       set
       {
         reset();
-        dataRaw = value;
         data = filter(value);
+        dataAll = data;
+        dataOutOfRange = new List<int>();
         if (data.Count != 0)
           calculate();
       }
@@ -41,6 +43,23 @@ namespace GPS_Tracker
 
     public StatisticManager() { }
 
+    public void SetRange(DateTime minTime, DateTime maxTime)
+    {
+      data = dataAll;
+      dataOutOfRange.Clear();
+      for (int i = 0; i < data.Count - 1; i++)
+      {
+        if (data[i].Datetime < minTime)
+          dataOutOfRange.Add(i);
+        if (data[i].Datetime > maxTime)
+          dataOutOfRange.Add(i);
+      }
+      dataOutOfRange.Sort();
+      dataOutOfRange.Reverse();
+      if (dataOutOfRange.Count != 0)
+        foreach (int id in dataOutOfRange)
+          data.RemoveAt(id);
+    }
 
     List<GPSTrackerData> filter(List<GPSTrackerData> data)
     {
