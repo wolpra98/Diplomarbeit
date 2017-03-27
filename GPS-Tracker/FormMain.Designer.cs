@@ -28,6 +28,7 @@
     /// </summary>
     private void InitializeComponent()
     {
+      System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
       this.gMap = new GMap.NET.WindowsForms.GMapControl();
       this.tabCtrl = new System.Windows.Forms.TabControl();
       this.tabMap = new System.Windows.Forms.TabPage();
@@ -47,6 +48,7 @@
       this.lblTime = new System.Windows.Forms.Label();
       this.lblHeight = new System.Windows.Forms.Label();
       this.tabDataSelect = new System.Windows.Forms.TabPage();
+      this.label3 = new System.Windows.Forms.Label();
       this.lblMaxDay = new System.Windows.Forms.Label();
       this.lblMinDay = new System.Windows.Forms.Label();
       this.DtpMax = new System.Windows.Forms.DateTimePicker();
@@ -55,7 +57,6 @@
       this.btnImportRoutes = new System.Windows.Forms.Button();
       this.lbxRoutes = new System.Windows.Forms.ListBox();
       this.lblLoadData = new System.Windows.Forms.Label();
-      this.label3 = new System.Windows.Forms.Label();
       this.tabCtrl.SuspendLayout();
       this.tabMap.SuspendLayout();
       this.gbStatistic.SuspendLayout();
@@ -121,7 +122,7 @@
       this.tabMap.Padding = new System.Windows.Forms.Padding(3);
       this.tabMap.Size = new System.Drawing.Size(695, 500);
       this.tabMap.TabIndex = 0;
-      this.tabMap.Text = "Map";
+      this.tabMap.Text = "Karte";
       this.tabMap.UseVisualStyleBackColor = true;
       // 
       // gbStatistic
@@ -315,6 +316,16 @@
       this.tabDataSelect.Text = "Datenauswahl";
       this.tabDataSelect.UseVisualStyleBackColor = true;
       // 
+      // label3
+      // 
+      this.label3.AutoSize = true;
+      this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+      this.label3.Location = new System.Drawing.Point(205, 8);
+      this.label3.Name = "label3";
+      this.label3.Size = new System.Drawing.Size(95, 18);
+      this.label3.TabIndex = 14;
+      this.label3.Text = "Zeitspanne:";
+      // 
       // lblMaxDay
       // 
       this.lblMaxDay.AutoSize = true;
@@ -398,22 +409,13 @@
       this.lblLoadData.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
       this.lblLoadData.UseWaitCursor = true;
       // 
-      // label3
-      // 
-      this.label3.AutoSize = true;
-      this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.label3.Location = new System.Drawing.Point(205, 8);
-      this.label3.Name = "label3";
-      this.label3.Size = new System.Drawing.Size(95, 18);
-      this.label3.TabIndex = 14;
-      this.label3.Text = "Zeitspanne:";
-      // 
       // FormMain
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.ClientSize = new System.Drawing.Size(703, 524);
       this.Controls.Add(this.tabCtrl);
+      this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
       this.Name = "FormMain";
       this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
       this.Text = "GPS-Tracker";

@@ -51,7 +51,7 @@ namespace GPS_Tracker
     PointF pOffset;
     GPSTrackerData pData;
     SerialPort com;
-    Thread import;
+    //Thread import;
     bool isRunning, dataLoaded = false, dataChanged = false, rangeChanged;
     #endregion
 
@@ -245,6 +245,11 @@ namespace GPS_Tracker
       if (lbxRoutes.SelectedItem != null)
       {
         statMgr.Data = ((GPSTrackerDataList)lbxRoutes.SelectedItem).ToList();
+        DtpMin.MinDate = DateTimePicker.MinimumDateTime;
+        DtpMin.MaxDate = DateTimePicker.MaximumDateTime;
+        DtpMax.MaxDate = DateTimePicker.MaximumDateTime;
+        DtpMax.MinDate = DateTimePicker.MinimumDateTime;
+        DtpMin.MaxDate = statMgr.Data.Last().Datetime;
         DtpMin.MinDate = statMgr.Data.First().Datetime;
         DtpMin.MaxDate = statMgr.Data.Last().Datetime;
         DtpMax.MaxDate = DtpMin.MaxDate;

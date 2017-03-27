@@ -25,7 +25,6 @@ namespace GPS_Tracker
         reset();
         data = filter(value);
         dataAll = data;
-        dataOutOfRange = new List<int>();
         if (data.Count != 0)
           calculate();
       }
@@ -45,6 +44,7 @@ namespace GPS_Tracker
 
     public void SetRange(DateTime minTime, DateTime maxTime)
     {
+      reset();
       data = dataAll;
       dataOutOfRange.Clear();
       for (int i = 0; i < data.Count - 1; i++)
@@ -59,6 +59,8 @@ namespace GPS_Tracker
       if (dataOutOfRange.Count != 0)
         foreach (int id in dataOutOfRange)
           data.RemoveAt(id);
+      if (data.Count != 0)
+        calculate();
     }
 
     List<GPSTrackerData> filter(List<GPSTrackerData> data)
@@ -137,6 +139,7 @@ namespace GPS_Tracker
       HeightMax = 0;
       oldHeight = 0;
       offset = 0;
+      dataOutOfRange = new List<int>();
     }
   }
 }

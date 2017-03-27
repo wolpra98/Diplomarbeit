@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GPS-Tracker", "GPS-Tracker\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GPS-Tracker-App", "GPS-Tracker-App\GPS-Tracker-App.csproj", "{294EA942-62DF-4741-A4ED-472CC1FD7DA2}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "GPS-Tracker-Setup", "GPS-Tracker-Setup\GPS-Tracker-Setup.vdproj", "{9A9351FB-8F32-4F1A-9463-19F5DEAD9795}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,6 +25,8 @@ Global
 		{294EA942-62DF-4741-A4ED-472CC1FD7DA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{294EA942-62DF-4741-A4ED-472CC1FD7DA2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{294EA942-62DF-4741-A4ED-472CC1FD7DA2}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{9A9351FB-8F32-4F1A-9463-19F5DEAD9795}.Debug|Any CPU.ActiveCfg = Debug
+		{9A9351FB-8F32-4F1A-9463-19F5DEAD9795}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
